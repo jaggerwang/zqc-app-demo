@@ -6,24 +6,24 @@
     "start": "node node_modules/react-native/local-cli/cli.js start"
   },
   "dependencies": {
-    "coordtransform": "^2.0.2",
-    "geolib": "^2.0.21",
-    "react": "^15.3.2",
-    "react-native": "^0.35.0",
+    "coordtransform": "^2.1.1",
+    "geolib": "^2.0.22",
+    "react": "^15.4.1",
+    "react-native": "^0.38.1",
     "react-native-amap-location": "0.0.4",
-    "react-native-animatable": "^0.6.1",
-    "react-native-device-info": "^0.9.5",
-    "react-native-image-picker": "^0.22.9",
-    "react-native-image-resizer": "^0.0.11",
-    "react-native-router-flux": "^3.36.0",
-    "react-native-vector-icons": "^2.1.0",
-    "react-redux": "^4.4.5",
+    "react-native-animatable": "^1.1.0",
+    "react-native-device-info": "^0.9.7",
+    "react-native-image-picker": "^0.24.1",
+    "react-native-image-resizer": "^0.0.12",
+    "react-native-router-flux": "^3.37.0",
+    "react-native-vector-icons": "^3.0.0",
+    "react-redux": "^4.4.6",
     "redux": "^3.5.2",
-    "redux-logger": "^2.7.0",
+    "redux-logger": "^2.7.4",
     "redux-persist": "^3.5.0",
     "redux-thunk": "^2.1.0",
     "url": "^0.11.0",
-    "validate.js": "^0.10.0"
+    "validate.js": "^0.11.1"
   },
   "devDependencies": {}
 }
