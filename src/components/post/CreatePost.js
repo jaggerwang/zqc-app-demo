@@ -8,8 +8,6 @@ import {StyleSheet, View, Text, TextInput, Image, TouchableOpacity,
   ScrollView, Platform} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {Actions} from 'react-native-router-flux';
-import ImagePicker from 'react-native-image-picker';
-import MultipleImagePicker from 'react-native-multiple-image-picker';
 import dismissKeyboard from 'dismissKeyboard';
 
 import {COLOR, SCREEN_WIDTH, SCREEN_HEIGHT} from '../../config';

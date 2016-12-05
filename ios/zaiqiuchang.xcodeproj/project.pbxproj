@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -28,8 +29,6 @@
 		37BB7DC07CF14BF98E5363FF /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8A9C0C510AB844AE9CF2A09A /* Octicons.ttf */; };
 		5789959C391D4850923E0E58 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AD48E75BD7154F9B8A9070B2 /* FontAwesome.ttf */; };
 		688CE9133AA945289FFF9D22 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A41D7DE8E83A40368B869C17 /* Zocial.ttf */; };
-		704694A61D7EB6DD00EBD1AA /* libRCTMultipleImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 704694A51D7EB65600EBD1AA /* libRCTMultipleImagePicker.a */; };
-		704694A81D7EB75300EBD1AA /* TZImagePickerController.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 704694A71D7EB75300EBD1AA /* TZImagePickerController.bundle */; };
 		704694CD1D7FC84900EBD1AA /* libRCTCameraRoll.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 704694BE1D7FC83500EBD1AA /* libRCTCameraRoll.a */; };
 		7CD21FDF3A3F45BFB7F566E6 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 05FBBA5E090A468D8EE140FB /* EvilIcons.ttf */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
@@ -131,13 +130,6 @@
 			remoteGlobalIDString = 5DBEB1501B18CEA900B34395;
 			remoteInfo = RNVectorIcons;
 		};
-		704694A41D7EB65600EBD1AA /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 704694A01D7EB65600EBD1AA /* RCTMultipleImagePicker.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 9F94BEEB1D18A40000602E33;
-			remoteInfo = RCTMultipleImagePicker;
-		};
 		704694BD1D7FC83500EBD1AA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 704694B81D7FC83500EBD1AA /* RCTCameraRoll.xcodeproj */;
@@ -187,8 +179,6 @@
 		32F69FE29B2B4A0CBED8BCF1 /* libRCTImageResizer.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTImageResizer.a; sourceTree = "<group>"; };
 		45DC2BC6136A4DE1BC5B3F7E /* libRNImagePicker.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNImagePicker.a; sourceTree = "<group>"; };
 		4CC6CB70D28E4C5DA9261D77 /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
-		704694A01D7EB65600EBD1AA /* RCTMultipleImagePicker.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTMultipleImagePicker.xcodeproj; path = "../node_modules/react-native-multiple-image-picker/ios/RCTMultipleImagePicker.xcodeproj"; sourceTree = "<group>"; };
-		704694A71D7EB75300EBD1AA /* TZImagePickerController.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = TZImagePickerController.bundle; path = "../node_modules/react-native-multiple-image-picker/ios/TZImagePickerController/TZImagePickerController/TZImagePickerController/TZImagePickerController.bundle"; sourceTree = "<group>"; };
 		704694B81D7FC83500EBD1AA /* RCTCameraRoll.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTCameraRoll.xcodeproj; path = "../node_modules/react-native/Libraries/CameraRoll/RCTCameraRoll.xcodeproj"; sourceTree = "<group>"; };
 		70E5B8551DB37F40001EF08E /* zaiqiuchang.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = zaiqiuchang.entitlements; path = zaiqiuchang/zaiqiuchang.entitlements; sourceTree = "<group>"; };
 		755BDC87D9C24B169FA90DB0 /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
@@ -219,7 +209,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				704694CD1D7FC84900EBD1AA /* libRCTCameraRoll.a in Frameworks */,
-				704694A61D7EB6DD00EBD1AA /* libRCTMultipleImagePicker.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
 				00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */,
@@ -339,7 +328,6 @@
 		45684DEEC23F407D984E9D7C /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				704694A71D7EB75300EBD1AA /* TZImagePickerController.bundle */,
 				AC9BD76CAD0E4244AD3D173E /* Entypo.ttf */,
 				05FBBA5E090A468D8EE140FB /* EvilIcons.ttf */,
 				AD48E75BD7154F9B8A9070B2 /* FontAwesome.ttf */,
@@ -384,14 +372,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		704694A11D7EB65600EBD1AA /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				704694A51D7EB65600EBD1AA /* libRCTMultipleImagePicker.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		704694B91D7FC83500EBD1AA /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -419,7 +399,6 @@
 			isa = PBXGroup;
 			children = (
 				704694B81D7FC83500EBD1AA /* RCTCameraRoll.xcodeproj */,
-				704694A01D7EB65600EBD1AA /* RCTMultipleImagePicker.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
 				00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */,
 				00C302B51ABCB90400DB3ED1 /* RCTGeolocation.xcodeproj */,
@@ -576,10 +555,6 @@
 					ProjectRef = 78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */;
 				},
 				{
-					ProductGroup = 704694A11D7EB65600EBD1AA /* Products */;
-					ProjectRef = 704694A01D7EB65600EBD1AA /* RCTMultipleImagePicker.xcodeproj */;
-				},
-				{
 					ProductGroup = 00C302D41ABCB9D200DB3ED1 /* Products */;
 					ProjectRef = 00C302D31ABCB9D200DB3ED1 /* RCTNetwork.xcodeproj */;
 				},
@@ -709,13 +684,6 @@
 			remoteRef = 704694791D7EB2EA00EBD1AA /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		704694A51D7EB65600EBD1AA /* libRCTMultipleImagePicker.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRCTMultipleImagePicker.a;
-			remoteRef = 704694A41D7EB65600EBD1AA /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		704694BE1D7FC83500EBD1AA /* libRCTCameraRoll.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -755,7 +723,6 @@
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				D180DA67DA7640B79515B8B3 /* Entypo.ttf in Resources */,
 				7CD21FDF3A3F45BFB7F566E6 /* EvilIcons.ttf in Resources */,
-				704694A81D7EB75300EBD1AA /* TZImagePickerController.bundle in Resources */,
 				5789959C391D4850923E0E58 /* FontAwesome.ttf in Resources */,
 				F8F0A62428604C43B6A9BE8A /* Foundation.ttf in Resources */,
 				135B01777BFB414F8105334A /* Ionicons.ttf in Resources */,

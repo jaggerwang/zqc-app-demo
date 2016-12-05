@@ -135,10 +135,9 @@ android {
 }
 
 dependencies {
-    compile project(':react-native-vector-icons')
-    compile project(':react-native-multiple-image-picker')
-    compile project(':react-native-image-resizer')
     compile project(':react-native-image-picker')
+    compile project(':react-native-vector-icons')
+    compile project(':react-native-image-resizer')
     compile project(':react-native-device-info')
     compile project(':reactamaplocation')
     compile fileTree(dir: "libs", include: ["*.jar"])

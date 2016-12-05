@@ -4,10 +4,9 @@ import android.app.Application;
 import android.util.Log;
 
 import com.facebook.react.ReactApplication;
-import com.oblador.vectoricons.VectorIconsPackage;
-import io.liaoyuan.reactnative.multipleimagepicker.MultipleImagePickerPackage;
-import fr.bamlab.rnimageresizer.ImageResizerPackage;
 import com.imagepicker.ImagePickerPackage;
+import com.oblador.vectoricons.VectorIconsPackage;
+import fr.bamlab.rnimageresizer.ImageResizerPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.xiaobu.amap.AMapLocationReactPackage;
 import com.facebook.react.ReactInstanceManager;
@@ -30,8 +29,8 @@ public class MainApplication extends Application implements ReactApplication {
         protected List<ReactPackage> getPackages() {
             return Arrays.<ReactPackage>asList(
                 new MainReactPackage(),
+            new ImagePickerPackage(),
                 new VectorIconsPackage(),
-                new MultipleImagePickerPackage(),
                 new ImageResizerPackage(),
                 new ImagePickerPackage(),
                 new RNDeviceInfo(),
