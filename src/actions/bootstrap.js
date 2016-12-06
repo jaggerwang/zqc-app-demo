@@ -4,14 +4,16 @@
  */
 
 import {Alert, Keyboard, NetInfo, Platform} from 'react-native';
-import {Actions, ActionConst} from 'react-native-router-flux';
 import AMapLocation from 'react-native-amap-location';
 
 import {DEBUG, HOT_CITIES, SPORTS} from '../config';
 import logger from '../logger';
+import {navToTab} from '../navigation';
 import * as apis from '../apis';
 import * as utils from '../utils';
 import * as actions from './';
+
+let {geolocation} = navigator;
 
 export const RESET = 'reset';
 
@@ -23,7 +25,7 @@ export function reset() {
 
 let booted = false;
 
-export function bootstrap() {
+export function bootstrap({navigator}) {
   return (dispatch, getState) => {
     if (!booted) {
       if (Platform.OS != 'ios') {
@@ -69,8 +71,8 @@ export function bootstrap() {
           httpTimeOut: 5000,
         });
       } else {
-        navigator.geolocation.getCurrentPosition(getPositionSuccess, getPositionError, getPositionOptions);
-        navigator.geolocation.watchPosition(getPositionSuccess, getPositionError, getPositionOptions);
+        geolocation.getCurrentPosition(getPositionSuccess, getPositionError, getPositionOptions);
+        geolocation.watchPosition(getPositionSuccess, getPositionError, getPositionOptions);
       }
 
       let keyboardShowListener = Keyboard.addListener('keyboardDidShow', (event) => {
@@ -86,21 +88,17 @@ export function bootstrap() {
     dispatch(actions.processingTask('正在检测网络和位置'));
     utils.waitingFor({
       condition: () => {
-        let {location, store, network} = getState();
-        return (store.isReady && network.isConnected !== undefined 
-          && location.position);
+        let {location, network} = getState();
+        return (network.isConnected !== undefined && location.position);
       },
       cbOk: () => {
         dispatch(actions.processingTask(''));
-        login(dispatch, getState);
+        login({navigator, dispatch, getState});
       },
       cbFail: () => {
         dispatch(actions.processingTask(''));
-        let {location, store, network} = getState();
+        let {location, network} = getState();
         let errors = [];
-        if (!store.isReady) {
-          errors.push('访问本地存储失败。');
-        }
         if (network.isConnected === undefined) {
          errors.push('获取网络状态失败。'); 
         }
@@ -112,7 +110,7 @@ export function bootstrap() {
             '检测网络和位置出错',
             errors.join(''),
             [
-              {text: '重试', onPress: () => dispatch(bootstrap())},
+              {text: '重试', onPress: () => dispatch(bootstrap({navigator}))},
             ],
           );
         } else if (!network.isConnected) {
@@ -121,7 +119,7 @@ export function bootstrap() {
             '请打开WIFI或移动网络后重试。',
             [
               {text: '重试', onPress: () => {
-                dispatch(bootstrap());
+                dispatch(bootstrap({navigator}));
               }},
             ],
           );
@@ -132,16 +130,16 @@ export function bootstrap() {
   };
 }
 
-function login(dispatch, getState) {
+function login({navigator, dispatch, getState}) {
   let cbFail = (error) => {
     Alert.alert(
       '启动出错',
       error.message,
       [
-        {text: '重试', onPress: () => dispatch(bootstrap())},
+        {text: '重试', onPress: () => dispatch(bootstrap({navigator}))},
         {text: '清缓存', onPress: () => {
           dispatch(reset());
-          dispatch(bootstrap());
+          dispatch(bootstrap({navigator}));
         }},
       ],
     );
@@ -154,15 +152,15 @@ function login(dispatch, getState) {
           user, 
           cbOk: () => {
             if (user.nickname && user.avatarType && user.gender) {
-              Actions.Nearby();
+              navToTab();
             } else {
-              Actions.RegisterProfile();
+              navigator.resetTo({screen: 'zqc.RegisterProfile'});
             }
           }, 
           cbFail,
         }));
       } else {
-        Actions.PreLogin();
+        navigator.resetTo({screen: 'zqc.PreLogin'});
       }
     })
     .catch((error) => {

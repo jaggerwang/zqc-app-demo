@@ -3,39 +3,22 @@
  * zaiqiuchang.com
  */
 
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
 import {StyleSheet, View} from 'react-native';
-import {Actions} from 'react-native-router-flux';
 
-import {COLOR, NAV_BAR_HEIGHT, TAB_BAR_HEIGHT} from '../../config';
+import {COLOR} from '../../config';
 import * as components from '../';
 
 export default class Layout extends Component {
-  componentDidMount() {
-    let {hideNavBar=false, navigationBarStyle, renderTitle, renderBackButton, 
-      renderRightButton} = this.props;
-    navigationBarStyle = navigationBarStyle ? [styles.navBar, navigationBarStyle] : styles.navBar;
-    renderBackButton = renderBackButton || components.NavBarBack;
-    Actions.refresh({hideNavBar, navigationBarStyle, renderTitle, 
-      renderBackButton, renderRightButton});
-  }
-
   render() {
-    let {sceneKey, loading, processing, error, children, containerStyle} = this.props;
-    let {hideStatusBar=false, statusBarStyle, hideNavBar=false, hideTabBar=true, 
-      currentTab, refresh} = this.props;
-    let paddingTop = (hideNavBar ? 0 : NAV_BAR_HEIGHT);
-    let paddingBottom = (hideTabBar ? 0 : TAB_BAR_HEIGHT);
-
+    let {loading, processing, errorFlash, errorInput, children, containerStyle} = this.props;
     return (
-      <View style={[styles.container, {paddingTop, paddingBottom}, containerStyle]}>
-        <components.StatusBar hidden={hideStatusBar} barStyle={statusBarStyle} />
+      <View style={[styles.container, containerStyle]}>
         {processing ? <components.Processing processing={processing} /> : null}
-        {error && sceneKey ? <components.ErrorInput sceneKey={sceneKey} error={error.input} /> : null}
+        {errorInput ? <components.ErrorInput error={errorInput} /> : null}
         {children}
         {loading ? <components.Loading loading={loading} /> : null}
-        {error ? <components.ErrorFlash error={error.flash} /> : null}
-        {hideTabBar ? null : <components.TabBar currentTab={currentTab} refresh={refresh} />}
+        {errorFlash ? <components.ErrorFlash error={errorFlash} /> : null}
       </View>
     );
   }
@@ -51,6 +34,6 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0,
   },
   tabBar: {
-    backgroundColor: COLOR.backgroundDarker
+    backgroundColor: COLOR.backgroundDarker,
   },
 });

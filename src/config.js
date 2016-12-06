@@ -37,6 +37,20 @@ export const COLOR = {
   lineEmpha: '#929292',
 };
 
+export const DEFAULT_NAV_BAR_STYLE = {
+  navBarTextColor: COLOR.textLightNormal,
+  navBarBackgroundColor: COLOR.theme,
+  navBarButtonColor: COLOR.textLightPrompt,
+  navBarNoBorder: true,
+  statusBarHideWithNavBar: true,
+  statusBarTextColorScheme: 'light',
+};
+
+export const HIDDEN_NAV_BAR_STYLE = {
+  navBarHidden: true,
+  statusBarHideWithNavBar: true,
+};
+
 export const RES_USER_AVATARS = new Map([
   ['american-football-player-1', require('zaiqiuchang/res/img/avatar/american-football-player-1.png')],
   ['american-football-player', require('zaiqiuchang/res/img/avatar/american-football-player.png')],

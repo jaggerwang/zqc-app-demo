@@ -5,33 +5,31 @@
 
 import React, {Component} from 'react';
 import {StyleSheet, View, Text} from 'react-native';
-import {Actions} from 'react-native-router-flux';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import dismissKeyboard from 'dismissKeyboard';
 
-import {COLOR} from '../../config';
+import {COLOR, DEFAULT_NAV_BAR_STYLE} from '../../config';
 import * as components from '../';
 
 export default class Login extends Component {
+  static navigatorStyle = DEFAULT_NAV_BAR_STYLE;
+
   componentDidMount() {
-    let {sceneKey, input, submit, autoLogin, cbOk} = this.props;
-    let {account, password} = input[sceneKey];
+    let {input, submit, autoLogin, cbOk} = this.props;
+    let {account, password} = input['Login'];
     if (autoLogin && account && password) {
-      submit(sceneKey, cbOk);
+      submit('Login', cbOk);
     }
   }
   
   render() {
-    let {sceneKey, loading, processing, error, input, saveInput, submit} = this.props;
-    let {account, password} = input[sceneKey];
-
+    let {loading, processing, error, input, saveInput, submit} = this.props;
+    let {account, password} = input['Login'];
     return (
-      <components.Layout 
-        sceneKey={sceneKey} 
-        loading={loading} 
-        processing={processing} 
-        error={error}
-        renderTitle={() => components.NavBarTitle({title: '登录'})}
+      <components.Layout
+        loading={loading}
+        processing={processing}
+        errorFlash={error.flash}
+        errorInput={error.input['Login']}
       >
         <components.Form>
           <components.FormItem iconName='user' containerStyle={{borderTopWidth: 0}}>
@@ -40,7 +38,7 @@ export default class Login extends Component {
               returnKeyType='next'
               defaultValue={account}
               autoFocus={true}
-              onChangeText={(text) => saveInput(sceneKey, {account: text.trim()})}
+              onChangeText={(text) => saveInput('Login', {account: text.trim()})}
               onSubmitEditing={() => this.refPassword.focus()}
             />
           </components.FormItem>
@@ -51,14 +49,14 @@ export default class Login extends Component {
               secureTextEntry={true}
               defaultValue={password}
               onRef={(ref) => this.refPassword = ref}
-              onChangeText={(text) => saveInput(sceneKey, {password: text.trim()})}
-              onSubmitEditing={() => {dismissKeyboard(); submit(sceneKey);}}
+              onChangeText={(text) => saveInput('Login', {password: text.trim()})}
+              onSubmitEditing={() => {dismissKeyboard(); submit('Login');}}
             />
           </components.FormItem>
         </components.Form>
         <components.ButtonWithBg
           text='登录'
-          onPress={() => {dismissKeyboard(); submit(sceneKey);}}
+          onPress={() => {dismissKeyboard(); submit('Login');}}
           textStyle={{fontSize: 16}}
         />
       </components.Layout>

@@ -11,8 +11,8 @@ import * as Animatable from 'react-native-animatable';
 
 import {COLOR, NAV_BAR_HEIGHT} from '../../config';
 
-export default ({sceneKey, error, containerStyle}) => {
-  error = (error[sceneKey] || {});
+export default ({error, containerStyle}) => {
+  error = error || {};
   if (Object.values(error).every(v => v.length == 0)) {
     return null;
   } else {

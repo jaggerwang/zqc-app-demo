@@ -15,6 +15,11 @@ import * as components from './';
 import * as helpers from './helpers';
 
 export default class Nearby extends Component {
+  static navigatorStyle = {
+    navBarHidden: true,
+    statusBarHideWithNavBar: true,
+  };
+  
   componentWillMount() {
     this.refreshing = false;
     this.ds = new ListView.DataSource({

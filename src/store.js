@@ -13,7 +13,6 @@ import {IN_DEBUGGER} from './config';
 import reducers from './reducers';
 
 let middlewares = [thunk];
-
 if (IN_DEBUGGER) {
   middlewares.push(createLogger({
     duration: true,
@@ -21,33 +20,30 @@ if (IN_DEBUGGER) {
   }));
 }
 
-export const createZqcStore = compose(
+export const createAppStore = compose(
   applyMiddleware(...middlewares),
 )(createStore);
 
-export function createPersistStore(onOk, onFail) {
-  let store = createZqcStore(reducers, undefined, autoRehydrate());
-  persistStore(
-    store,
-    {
-      storage: AsyncStorage, 
-      blacklist: ['navigation', 'loading', 'processing', 'error', 'network', 
-        'location', 'store'],
-    },
-    (error, state) => {
-      if (error) {
-        if (onFail) {
-          onFail(error);
-        }
-      } else {
-        if (onOk) {
-          onOk(store);
-        }
-      }
+export default function createPersistAppStore() {
+  return new Promise((resolve, reject) => {
+    let store = createAppStore(reducers, undefined, autoRehydrate());
+    if (IN_DEBUGGER) {
+      window.store = store;
     }
-  );
-  if (IN_DEBUGGER) {
-    window.store = store;
-  }
-  return store;
+
+    persistStore(
+      store,
+      {
+        storage: AsyncStorage, 
+        blacklist: ['loading', 'processing', 'error', 'network', 'location'],
+      },
+      (error, state) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(store);
+        }
+      },
+    );
+  });
 }

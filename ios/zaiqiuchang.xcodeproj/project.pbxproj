@@ -31,6 +31,7 @@
 		688CE9133AA945289FFF9D22 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A41D7DE8E83A40368B869C17 /* Zocial.ttf */; };
 		704694CD1D7FC84900EBD1AA /* libRCTCameraRoll.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 704694BE1D7FC83500EBD1AA /* libRCTCameraRoll.a */; };
 		70826AC21DF56AEB0013E069 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 70826A9C1DF56AB50013E069 /* libRCTAnimation.a */; };
+		709043C71DF57D950074ECFA /* libReactNativeNavigation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 709043C31DF57D6C0074ECFA /* libReactNativeNavigation.a */; };
 		7CD21FDF3A3F45BFB7F566E6 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 05FBBA5E090A468D8EE140FB /* EvilIcons.ttf */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		98F27E4BAD0B48679A6A65C2 /* libRCTImageResizer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 32F69FE29B2B4A0CBED8BCF1 /* libRCTImageResizer.a */; };
@@ -202,6 +203,13 @@
 			remoteGlobalIDString = 2D2A28131D9B038B00D4039D;
 			remoteInfo = "React-tvOS";
 		};
+		709043C21DF57D6C0074ECFA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 709043A91DF57D6C0074ECFA /* ReactNativeNavigation.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D8AFADBD1BEE6F3F00A4592D;
+			remoteInfo = ReactNativeNavigation;
+		};
 		78C398B81ACF4ADC00677621 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */;
@@ -247,6 +255,7 @@
 		4CC6CB70D28E4C5DA9261D77 /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		704694B81D7FC83500EBD1AA /* RCTCameraRoll.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTCameraRoll.xcodeproj; path = "../node_modules/react-native/Libraries/CameraRoll/RCTCameraRoll.xcodeproj"; sourceTree = "<group>"; };
 		70826A951DF56AB50013E069 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
+		709043A91DF57D6C0074ECFA /* ReactNativeNavigation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeNavigation.xcodeproj; path = "../node_modules/react-native-navigation/ios/ReactNativeNavigation.xcodeproj"; sourceTree = "<group>"; };
 		70E5B8551DB37F40001EF08E /* zaiqiuchang.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = zaiqiuchang.entitlements; path = zaiqiuchang/zaiqiuchang.entitlements; sourceTree = "<group>"; };
 		755BDC87D9C24B169FA90DB0 /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
 		76DF03BD54BE4623A8C8A589 /* RNImagePicker.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNImagePicker.xcodeproj; path = "../node_modules/react-native-image-picker/ios/RNImagePicker.xcodeproj"; sourceTree = "<group>"; };
@@ -275,6 +284,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				709043C71DF57D950074ECFA /* libReactNativeNavigation.a in Frameworks */,
 				70826AC21DF56AEB0013E069 /* libRCTAnimation.a in Frameworks */,
 				704694CD1D7FC84900EBD1AA /* libRCTCameraRoll.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
@@ -463,6 +473,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		709043AA1DF57D6C0074ECFA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				709043C31DF57D6C0074ECFA /* libReactNativeNavigation.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		70E5B8561DB37FF3001EF08E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -482,6 +500,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				709043A91DF57D6C0074ECFA /* ReactNativeNavigation.xcodeproj */,
 				70826A951DF56AB50013E069 /* RCTAnimation.xcodeproj */,
 				704694B81D7FC83500EBD1AA /* RCTCameraRoll.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
@@ -669,6 +688,10 @@
 					ProjectRef = 146833FF1AC3E56700842450 /* React.xcodeproj */;
 				},
 				{
+					ProductGroup = 709043AA1DF57D6C0074ECFA /* Products */;
+					ProjectRef = 709043A91DF57D6C0074ECFA /* ReactNativeNavigation.xcodeproj */;
+				},
+				{
 					ProductGroup = 704693EE1D7EB25A00EBD1AA /* Products */;
 					ProjectRef = 0ADA09CF21C34761A179F05B /* RNDeviceInfo.xcodeproj */;
 				},
@@ -844,6 +867,13 @@
 			remoteRef = 70826ABD1DF56AB50013E069 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		709043C31DF57D6C0074ECFA /* libReactNativeNavigation.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libReactNativeNavigation.a;
+			remoteRef = 709043C21DF57D6C0074ECFA /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		78C398B91ACF4ADC00677621 /* libRCTLinking.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -997,6 +1027,7 @@
 					"$(SRCROOT)/../node_modules/react-native-image-picker/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-image-resizer/ios/RCTImageResizer",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
+					"$(SRCROOT)/../node_modules/react-native-navigation/ios/**",
 				);
 				INFOPLIST_FILE = zaiqiuchang/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -1028,6 +1059,7 @@
 					"$(SRCROOT)/../node_modules/react-native-image-picker/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-image-resizer/ios/RCTImageResizer",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
+					"$(SRCROOT)/../node_modules/react-native-navigation/ios/**",
 				);
 				INFOPLIST_FILE = zaiqiuchang/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;

@@ -5,30 +5,28 @@
 
 import React, {Component} from 'react';
 import {StyleSheet, View, Text, Image, TouchableOpacity} from 'react-native';
-import {Actions} from 'react-native-router-flux';
 
-import {COLOR} from '../config';
+import {COLOR, HIDDEN_NAV_BAR_STYLE} from '../config';
 import * as components from './';
 
 export default class Bootstrap extends Component {
+  static navigatorStyle = HIDDEN_NAV_BAR_STYLE;
+
   componentDidMount() {
-    let {isReset=false, reset, bootstrap} = this.props;
+    let {isReset=false, navigator, reset, bootstrap} = this.props;
     if (isReset) {
       reset();
     }
-    bootstrap();
+    bootstrap({navigator});
   }
 
   render() {
-    let {sceneKey, loading, processing, error} = this.props;
+    let {loading, processing, error} = this.props;
     return (
       <components.Layout
-        sceneKey={sceneKey}
         loading={loading}
         processing={processing}
-        error={error}
-        hideStatusBar={true}
-        hideNavBar={true}
+        errorFlash={error.flash}
       >
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
           <components.Image
