@@ -9,7 +9,7 @@ import * as actions from './';
 
 export const RESET_NETWORK = 'reset_network';
 export const SET_NETWORK = 'set_network';
-export const SET_SCENE_LAST_REFRESH_TIME = 'set_scene_last_refresh_time';
+export const SET_SCREEN_LAST_REFRESH_TIME = 'set_screen_last_refresh_time';
 
 export function resetNetwork() {
   return {
@@ -24,11 +24,11 @@ export function setNetwork({isConnected}) {
   };
 }
 
-export function setSceneLastRefreshTime({sceneKey, lastRefreshTime, objectId=''}) {
+export function setScreenLastRefreshTime({screen, lastRefreshTime, objectId=''}) {
   lastRefreshTime = lastRefreshTime || new Date();
   return {
-    type: SET_SCENE_LAST_REFRESH_TIME,
-    sceneKey,
+    type: SET_SCREEN_LAST_REFRESH_TIME,
+    screen,
     lastRefreshTime,
     objectId,
   };

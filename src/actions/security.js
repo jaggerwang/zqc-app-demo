@@ -3,8 +3,6 @@
  * zaiqiuchang.com
  */
 
-import {Actions} from 'react-native-router-flux';
-
 import logger from '../logger';
 import * as apis from '../apis';
 import * as actions from './';

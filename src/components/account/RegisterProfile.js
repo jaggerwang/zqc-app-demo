@@ -5,28 +5,27 @@
 
 import React, {Component} from 'react';
 import {StyleSheet, View, Text, ScrollView} from 'react-native';
-import {Actions} from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-import {COLOR} from '../../config';
+import {COLOR, DEFAULT_NAV_BAR_STYLE} from '../../config';
 import * as components from '../';
 
 export default class RegisterProfile extends Component {
+  static navigatorStyle = DEFAULT_NAV_BAR_STYLE;
+
   render() {
-    let {sceneKey, loading, processing, error, submit, ...otherProps} = this.props;
+    let {loading, processing, error, submit, ...otherProps} = this.props;
     return (
-      <components.Layout 
-        sceneKey={sceneKey} 
-        loading={loading} 
-        processing={processing} 
-        error={error}
-        renderTitle={() => components.NavBarTitle({title: '完善资料'})}
+      <components.Layout
+        loading={loading}
+        processing={processing}
+        errorFlash={error.flash}
+        errorInput={error.input['RegisterProfile']}
       >
         <ScrollView>
           <components.TextNotice>帐号注册成功，请完善资料。</components.TextNotice>
           <components.Profile
-            sceneKey={sceneKey}
-            error={error}
+            screenName='RegisterProfile'
             {...otherProps}
           />
           <components.ButtonWithBg

@@ -8,7 +8,7 @@ import loading from './loading';
 import processing from './processing';
 import error from './error';
 import input from './input';
-import sceneState from './sceneState';
+import screen from './screen';
 import location from './location';
 import object from './object';
 import keyboard from './keyboard';
@@ -22,7 +22,7 @@ export default combineReducers({
   processing,
   error,
   input,
-  sceneState,
+  screen,
   location,
   object,
   keyboard,

@@ -5,7 +5,6 @@
 
 import React from 'react';
 import {StyleSheet, View, Text, TextInput, Platform} from 'react-native';
-import {Actions} from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import flattenStyle from 'flattenStyle';
 

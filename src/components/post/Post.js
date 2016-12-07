@@ -6,7 +6,6 @@
 import React, {Component, PropTypes} from 'react';
 import {StyleSheet, View, Text, Image, ListView, ScrollView, RefreshControl, 
   TouchableOpacity, InteractionManager} from 'react-native';
-import {Actions} from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import {COLOR, SCREEN_WIDTH, SCREEN_HEIGHT} from '../../config';

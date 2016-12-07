@@ -8,7 +8,7 @@ import {Navigation} from 'react-native-navigation';
 
 import logger from './logger';
 import createPersistAppStore from './store';
-import loadIconImages from './iconImages';
+import {loadIconImages} from './iconImages';
 import {registerScreens, navToBootstrap} from './navigation';
 
 export let store = null;

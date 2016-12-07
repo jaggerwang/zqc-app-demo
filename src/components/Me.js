@@ -6,21 +6,16 @@
 import React, {Component} from 'react';
 import {StyleSheet, View, Text, Image, ListView, ScrollView, RefreshControl, 
   TouchableOpacity, InteractionManager} from 'react-native';
-import {Actions} from 'react-native-router-flux';
 
-import {COLOR, SCREEN_WIDTH, SCREEN_HEIGHT} from '../config';
+import {COLOR} from '../config';
 import logger from '../logger';
 import * as utils from '../utils';
 import * as components from './';
 import * as helpers from './helpers';
 
 export default class Me extends Component {
-  _refresh() {
-
-  }
-  
   render() {
-    let {sceneKey, loading, processing, error, location, object, 
+    let {navigator, loading, processing, error, location, object, 
       disableLoading, enableLoading, errorFlash} = this.props;
     let {account, logoutRequest} = this.props;
 
@@ -30,16 +25,10 @@ export default class Me extends Component {
     }
 
     return (
-      <components.Layout 
-        sceneKey={sceneKey} 
-        loading={loading} 
-        processing={processing} 
-        error={error}
-        hideTabBar={false}
-        currentTab={2}
-        renderTitle={() => components.NavBarTitle({title: '我'})}
-        renderBackButton={() => null}
-        refresh={() => this._refresh()}
+      <components.Layout
+        loading={loading}
+        processing={processing}
+        errorFlash={error.flash}
       >
         <ScrollView>
           <components.Block containerStyle={{flexDirection: 'row'}}>
@@ -57,7 +46,7 @@ export default class Me extends Component {
                 />
                 <components.Button
                   text='编辑资料'
-                  onPress={() => Actions.EditProfile()}
+                  onPress={() => navigator.push({screen: 'zqc.EditProfile', title: '编辑资料'})}
                   containerStyle={{margin: 0, padding: 5}}
                   textStyle={{fontSize: 12}}
                 />
@@ -85,7 +74,7 @@ export default class Me extends Component {
               leftIcon='info-circle'
               leftText='关于'
               rightIcon='angle-right'
-              onPress={() => Actions.About()}
+              onPress={() => navigator.push({screen: 'zqc.About', title: '关于'})}
               leftIconStyle={{color: COLOR.theme}}
               containerStyle={{borderTopWidth: 0}}
             />

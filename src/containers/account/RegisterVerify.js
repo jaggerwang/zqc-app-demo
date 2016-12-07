@@ -10,13 +10,13 @@ import * as components from '../../components';
 import * as actions from '../../actions';
 
 function mapStateToProps(state) {
-  let {loading, processing, error, input, sceneState} = state;
+  let {loading, processing, error, input, screen} = state;
   return {
     loading,
     processing,
     error,
     input,
-    sceneState,
+    screen,
   };
 }
 
@@ -24,7 +24,7 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     errorFlash: actions.errorFlash,
     saveInput: actions.saveInput,
-    setSceneState: actions.setSceneState,
+    setScreenState: actions.setScreenState,
     sendVerifyCode: actions.sendVerifyCode,
     submit: actions.registerVerifySubmit,
   }, dispatch);

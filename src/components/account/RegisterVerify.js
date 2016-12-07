@@ -5,7 +5,6 @@
 
 import React, {Component} from 'react';
 import {StyleSheet, View, Text} from 'react-native';
-import {Actions} from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import dismissKeyboard from 'dismissKeyboard';
 
@@ -14,17 +13,15 @@ import * as components from '../';
 
 export default class RegisterVerify extends Component {
   componentWillMount() {
-    let {sceneKey, saveInput, setSceneState} = this.props;
-    let {mobile, password} = this.props;
-    saveInput(sceneKey, {mobile, password});
-    setSceneState(sceneKey, {secondsToSend: 30});
+    let {setScreenState} = this.props;
+    setScreenState('RegisterVerify', {secondsToSend: 30});
 
     this.timerSend = setInterval(
       () => {
-        let {sceneKey, sceneState, setSceneState} = this.props;
-        let {secondsToSend} = sceneState[sceneKey];
+        let {screen, setScreenState} = this.props;
+        let {secondsToSend} = screen['RegisterVerify'];
         if (secondsToSend > 0) {
-          setSceneState(sceneKey, {secondsToSend: secondsToSend - 1});
+          setScreenState('RegisterVerify', {secondsToSend: secondsToSend - 1});
         }
       },
       1000,
@@ -36,19 +33,18 @@ export default class RegisterVerify extends Component {
   }
 
   render() {
-    let {sceneKey, loading, processing, error, input, sceneState, errorFlash, 
-      saveInput, setSceneState} = this.props;
-    let {sendVerifyCode, submit} = this.props;
-    let {mobile} = input[sceneKey];
-    let {secondsToSend} = sceneState[sceneKey];
+    let {navigator, loading, processing, error, input, screen, saveInput, 
+      setScreenState, sendVerifyCode, submit} = this.props;
+    let {mobile} = input['RegisterMobile'];
+    let {code} = input['RegisterVerify'];
+    let {secondsToSend} = screen['RegisterVerify'];
 
     return (
-      <components.Layout 
-        sceneKey={sceneKey} 
-        loading={loading} 
-        processing={processing} 
-        error={error}
-        renderTitle={() => components.NavBarTitle({title: '手机号验证'})}
+      <components.Layout
+        loading={loading}
+        processing={processing}
+        errorFlash={error.flash}
+        errorInput={error.input['RegisterVerify']}
       >
         <components.TextNotice>验证码短信已发送，请注意查收。</components.TextNotice>
         <components.Form>
@@ -57,10 +53,10 @@ export default class RegisterVerify extends Component {
               placeholder='输入验证码'
               maxLength={4}
               keyboardType='numeric'
-              defaultValue={input[sceneKey].code}
+              defaultValue={code}
               autoFocus={true}
-              onChangeText={(text) => saveInput(sceneKey, {code: text.trim()})}
-              onSubmitEditing={() => {dismissKeyboard(); submit(sceneKey);}}
+              onChangeText={(text) => saveInput('RegisterVerify', {code: text.trim()})}
+              onSubmitEditing={() => {dismissKeyboard(); submit('RegisterVerify', navigator);}}
             />
           </components.FormItem>
         </components.Form>
@@ -75,7 +71,7 @@ export default class RegisterVerify extends Component {
                 dismissKeyboard();
                 let cbOk = () => {
                   errorFlash('发送成功。');
-                  setSceneState(sceneKey, {secondsToSend: 30});
+                  setScreenState('RegisterVerify', {secondsToSend: 30});
                 };
                 sendVerifyCode({by: "mobile", mobile, cbOk});
               } : 
@@ -86,7 +82,7 @@ export default class RegisterVerify extends Component {
             text='下一步'
             textStyle={{fontSize: 16}}
             containerStyle={{flex: 2}}
-            onPress={() => {dismissKeyboard(); submit(sceneKey);}}
+            onPress={() => {dismissKeyboard(); submit('RegisterVerify', navigator);}}
           />
         </View>
       </components.Layout>

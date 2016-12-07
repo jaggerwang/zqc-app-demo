@@ -12,17 +12,9 @@ import * as components from '../';
 
 export default class Login extends Component {
   static navigatorStyle = DEFAULT_NAV_BAR_STYLE;
-
-  componentDidMount() {
-    let {input, submit, autoLogin, cbOk} = this.props;
-    let {account, password} = input['Login'];
-    if (autoLogin && account && password) {
-      submit('Login', cbOk);
-    }
-  }
   
   render() {
-    let {loading, processing, error, input, saveInput, submit} = this.props;
+    let {navigator, loading, processing, error, input, saveInput, submit} = this.props;
     let {account, password} = input['Login'];
     return (
       <components.Layout
@@ -50,13 +42,13 @@ export default class Login extends Component {
               defaultValue={password}
               onRef={(ref) => this.refPassword = ref}
               onChangeText={(text) => saveInput('Login', {password: text.trim()})}
-              onSubmitEditing={() => {dismissKeyboard(); submit('Login');}}
+              onSubmitEditing={() => {dismissKeyboard(); submit('Login', navigator);}}
             />
           </components.FormItem>
         </components.Form>
         <components.ButtonWithBg
           text='登录'
-          onPress={() => {dismissKeyboard(); submit('Login');}}
+          onPress={() => {dismissKeyboard(); submit('Login', navigator);}}
           textStyle={{fontSize: 16}}
         />
       </components.Layout>

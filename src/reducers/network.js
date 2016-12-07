@@ -18,13 +18,13 @@ export default (state = initialState, action) => {
       ...state,
       isConnected,
     };
-  } else if (action.type == actions.SET_SCENE_LAST_REFRESH_TIME) {
-    let {sceneKey, lastRefreshTime, objectId} = action;
-    let sceneLastRefreshTime = state.lastRefreshTime[sceneKey] || {};
-    sceneLastRefreshTime = Object.assign({}, sceneLastRefreshTime, {[objectId]: lastRefreshTime})
+  } else if (action.type == actions.SET_SCREEN_LAST_REFRESH_TIME) {
+    let {screen, lastRefreshTime, objectId} = action;
+    let screenLastRefreshTime = state.lastRefreshTime[screen] || {};
+    screenLastRefreshTime = Object.assign({}, screenLastRefreshTime, {[objectId]: lastRefreshTime})
     return {
       ...state,
-      lastRefreshTime: Object.assign({}, state.lastRefreshTime, {[sceneKey]: sceneLastRefreshTime}),
+      lastRefreshTime: Object.assign({}, state.lastRefreshTime, {[screen]: screenLastRefreshTime}),
     };
   } else if (action.type == actions.RESET) {
     return {

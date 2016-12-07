@@ -154,7 +154,7 @@ function login({navigator, dispatch, getState}) {
             if (user.nickname && user.avatarType && user.gender) {
               navToTab();
             } else {
-              navigator.resetTo({screen: 'zqc.RegisterProfile'});
+              navigator.resetTo({screen: 'zqc.RegisterProfile', title: '完善资料'});
             }
           }, 
           cbFail,

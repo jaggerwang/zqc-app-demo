@@ -5,7 +5,8 @@
 
 import {Navigation} from 'react-native-navigation';
 
-import {COLOR} from './config';
+import {COLOR, DEFAULT_NAV_BAR_STYLE} from './config';
+import iconImages from './iconImages';
 import * as containers from './containers';
 
 export function registerScreens(store, Provider) {
@@ -32,11 +33,12 @@ export function registerScreens(store, Provider) {
 	reg('zqc.About', () => containers.About, store, Provider);
 }
 
-export function navToBootstrap() {
+export function navToBootstrap({passProps}={}) {
   Navigation.startSingleScreenApp({
     screen: {
       screen: 'zqc.Bootstrap',
     },
+    passProps
   });
 }
 
@@ -45,21 +47,24 @@ export function navToTab() {
     tabs: [
       {
         label: '附近',
-        screen: 'zqc.Bootstrap',
+        screen: 'zqc.Nearby',
         icon: iconImages['tabbar-nearby'],
         navigatorStyle: DEFAULT_NAV_BAR_STYLE,
+        title: '附近',
       },
       {
         label: '在球场',
         screen: 'zqc.AtCourt',
         icon: iconImages['tabbar-atcourt'],
         navigatorStyle: DEFAULT_NAV_BAR_STYLE,
+        title: '在球场',
       },
       {
         label: '我',
         screen: 'zqc.Me',
         icon: iconImages['tabbar-me'],
         navigatorStyle: DEFAULT_NAV_BAR_STYLE,
+        title: '我',
       },
     ],
     tabsStyle: {

@@ -6,7 +6,6 @@
 import React, {Component} from 'react';
 import {StyleSheet, View, Text, Image, ListView, ScrollView, RefreshControl, 
   TouchableOpacity, InteractionManager, Platform} from 'react-native';
-import {Actions} from 'react-native-router-flux';
 
 import {COLOR, VERSION} from '../../config';
 import * as components from '../';
@@ -14,15 +13,12 @@ import * as helpers from '../helpers';
 
 export default class About extends Component {
   render() {
-    let {sceneKey, loading, processing, error} = this.props;
-
+    let {loading, processing, error} = this.props;
     return (
-      <components.Layout 
-        sceneKey={sceneKey} 
-        loading={loading} 
-        processing={processing} 
-        error={error}
-        renderTitle={() => components.NavBarTitle({title: '关于'})}
+      <components.Layout
+        loading={loading}
+        processing={processing}
+        errorFlash={error.flash}
       >
         <ScrollView>
           <components.Image
@@ -31,7 +27,7 @@ export default class About extends Component {
           />
           <components.Block>
             <components.BlockItem
-              leftText='在球场Demo版'
+              leftText='在球场Lite版'
               rightText={VERSION}
               containerStyle={{borderTopWidth: 0}}
             />
@@ -43,7 +39,7 @@ export default class About extends Component {
             null
             }
           </components.Block>
-          <components.TextNotice>在球场Demo版仅限于学习使用，严禁用于商业目的。</components.TextNotice>
+          <components.TextNotice>在球场Lite版仅限于学习使用，严禁用于商业目的。</components.TextNotice>
           <components.TextNotice>Copyright © 在球场 zaiqiuchang.com All Rights Reserved.</components.TextNotice>
         </ScrollView>
       </components.Layout>

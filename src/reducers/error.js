@@ -13,13 +13,13 @@ const initialState = {
 
 export default (state = initialState, action) => {
   if (action.type == actions.ERROR_INPUT) {
-    let {scene, error} = action;
+    let {screen, error} = action;
     return {
       ...state,
       input: {
         ...state.input,
-        [scene]: {
-          ...(state.input[scene] === undefined ? {} : state.input[scene]),
+        [screen]: {
+          ...(state.input[screen] === undefined ? {} : state.input[screen]),
           ...error,
         },
       },

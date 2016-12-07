@@ -7,6 +7,7 @@ import React, {Component} from 'react';
 import {StyleSheet, View, Text, Image, TouchableOpacity} from 'react-native';
 
 import {COLOR, HIDDEN_NAV_BAR_STYLE} from '../config';
+import * as navigation from '../navigation';
 import * as components from './';
 
 export default class Bootstrap extends Component {

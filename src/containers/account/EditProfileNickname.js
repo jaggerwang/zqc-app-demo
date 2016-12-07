@@ -10,13 +10,13 @@ import * as components from '../../components';
 import * as actions from '../../actions';
 
 function mapStateToProps(state) {
-  let {loading, processing, error, input, sceneState, object, account} = state;
+  let {loading, processing, error, input, screen, object, account} = state;
   return {
     loading,
     processing,
     error,
     input,
-    sceneState,
+    screen,
     object,
     account,
   };
@@ -25,7 +25,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     saveInput: actions.saveInput,
-    setSceneState: actions.setSceneState,
+    setScreenState: actions.setScreenState,
     submit: actions.editProfileNicknameSubmit,
   }, dispatch);
 }

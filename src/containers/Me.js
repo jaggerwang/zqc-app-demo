@@ -10,7 +10,7 @@ import * as components from '../components';
 import * as actions from '../actions';
 
 function mapStateToProps(state) {
-  let {loading, processing, error, input, sceneState, location, object, 
+  let {loading, processing, error, input, screen, location, object, 
     network} = state;
   let {account} = state;
   return {
@@ -18,7 +18,7 @@ function mapStateToProps(state) {
     processing,
     error,
     input,
-    sceneState,
+    screen,
     location,
     object,
     network,

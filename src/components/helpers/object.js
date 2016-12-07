@@ -6,7 +6,7 @@
 export function userFromCache(object, userId) {
   let user = object.users[userId];
   if (!user) {
-    console.warn(`user ${userId} not in cache`);
+    console.debug(`user ${userId} not in cache`);
     return null;
   }
   let avatarFile = null;
@@ -26,7 +26,7 @@ export function userFromCache(object, userId) {
 export function postFromCache(object, postId) {
   let post = object.posts[postId];
   if (!post) {
-    console.warn(`post ${postId} not in cache`);
+    console.debug(`post ${postId} not in cache`);
     return null;
   }
   let creator = userFromCache(object, post.creatorId);
@@ -50,7 +50,7 @@ export function postFromCache(object, postId) {
 export function courtFromCache(object, courtId) {
   let court = object.courts[courtId];
   if (!court) {
-    console.warn(`court ${courtId} not in cache`);
+    console.debug(`court ${courtId} not in cache`);
     return null;
   }
   let stat = courtStatFromCache(object, court.id);
@@ -63,7 +63,7 @@ export function courtFromCache(object, courtId) {
 export function fileFromCache(object, fileId) {
   let file = object.files[fileId];
   if (!file) {
-    console.warn(`file ${fileId} not in cache`);
+    console.debug(`file ${fileId} not in cache`);
     return null;
   }
   return file;
@@ -72,7 +72,7 @@ export function fileFromCache(object, fileId) {
 export function userStatFromCache(object, userId) {
   let userStat = object.userStats[userId];
   if (!userStat) {
-    console.warn(`userStat ${userId} not in cache`);
+    console.debug(`userStat ${userId} not in cache`);
     return null;
   }
   return userStat;
@@ -81,7 +81,7 @@ export function userStatFromCache(object, userId) {
 export function postStatFromCache(object, postId) {
   let postStat = object.postStats[postId];
   if (!postStat) {
-    console.warn(`postStat ${postId} not in cache`);
+    console.debug(`postStat ${postId} not in cache`);
     return null;
   }
   return postStat;
@@ -90,7 +90,7 @@ export function postStatFromCache(object, postId) {
 export function courtStatFromCache(object, courtId) {
   let courtStat = object.courtStats[courtId];
   if (!courtStat) {
-    console.warn(`courtStat ${courtId} not in cache`);
+    console.debug(`courtStat ${courtId} not in cache`);
     return null;
   }
   return courtStat;

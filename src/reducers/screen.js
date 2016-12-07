@@ -20,20 +20,20 @@ const initialState = {
 };
 
 export default (state = initialState, action) => {
-  if (action.type == actions.SET_SCENE_STATE) {
-    let {sceneKey, state: sceneState} = action;
+  if (action.type == actions.SET_SCREEN_STATE) {
+    let {screen, state: screenState} = action;
     return {
       ...state,
-      [sceneKey]: Object.assign({}, state[sceneKey], sceneState),
+      [screen]: Object.assign({}, state[screen], screenState),
     };
-  } else if (action.type == actions.RESET_SCENE_STATE) {
-    let {sceneKey} = action;
-    if (sceneKey === undefined) {
+  } else if (action.type == actions.RESET_SCREEN_STATE) {
+    let {screen} = action;
+    if (screen === undefined) {
       return initialState;
     } else {
       return {
         ...initialState,
-        [sceneKey]: initialState[sceneKey],
+        [screen]: initialState[screen],
       };
     }
   } else if (action.type == actions.RESET) {

@@ -16,7 +16,6 @@
     "react-native-image-picker": "^0.24.1",
     "react-native-image-resizer": "^0.0.12",
     "react-native-navigation": "next",
-    "react-native-router-flux": "^3.37.0",
     "react-native-vector-icons": "^3.0.0",
     "react-redux": "^4.4.6",
     "redux": "^3.5.2",

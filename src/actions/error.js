@@ -3,7 +3,7 @@
  * zaiqiuchang.com
  */
 
-import {Actions} from 'react-native-router-flux';
+import {navToBootstrap} from '../navigation';
 import * as apis from '../apis';
 
 export const RESET_ERROR = 'reset_error';
@@ -16,10 +16,10 @@ export function resetError() {
   };
 }
 
-export function errorInput(scene, error) {
+export function errorInput(screen, error) {
   return {
     type: ERROR_INPUT,
-    scene: scene,
+    screen: screen,
     error,
   };
 }
@@ -43,7 +43,7 @@ export function handleApiError(error) {
   return (dispatch, getState) => {
     if (error instanceof apis.HttpError) {
       if (error.code == 401) {
-        Actions.Login();
+        navToBootstrap();
         return;
       }
     }

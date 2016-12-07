@@ -3,8 +3,6 @@
  * zaiqiuchang.com
  */
 
-import {Actions} from 'react-native-router-flux';
-
 import logger from '../logger';
 import * as utils from '../utils';
 import * as apis from '../apis';
@@ -13,44 +11,38 @@ import * as actions from './';
 export const RESET_INPUT = 'reset_input';
 export const INPUT = 'input';
 
-export function resetInput(scene) {
+export function resetInput(screen) {
   return {
     type: RESET_INPUT,
-    scene,
+    screen,
   };
 }
 
-export function saveInput(scene, input) {
+export function saveInput(screen, input) {
   return dispatch => {
     dispatch({
       type: INPUT,
-      scene,
+      screen,
       input,
     });
-    dispatch(validateInput(scene, input));
+    dispatch(validateInput(screen, input));
   };
 }
 
-export function cancelInput(scene) {
-  return dispatch => {
-    dispatch(resetInput(scene));
-    Actions.pop();
-  };
-}
-
-export function validateInput(scene, input, cbOk) {
-  return dispatch => {
+export function validateInput(screen, input, cbOk) {
+  return (dispatch, getState) => {
     let error = {};
     Object.entries(input).forEach(([k, v]) => {
-      if (constraints[scene] && constraints[scene][k]) {
-        error[k] = utils.validateSingle(v, constraints[scene][k]);
+      if (constraints[screen] && constraints[screen][k]) {
+        error[k] = utils.validateSingle(v, constraints[screen][k]);
       } else {
         error[k] = [];
       }
     });
-    dispatch(actions.errorInput(scene, error));
 
-    if (cbOk !== undefined && Object.values(error).every(v => v.length == 0)) {
+    dispatch(actions.errorInput(screen, error));
+
+    if (cbOk && Object.values(error).every(v => v.length == 0)) {
       cbOk();
     }
   };

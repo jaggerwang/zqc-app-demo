@@ -3,10 +3,10 @@
  * zaiqiuchang.com
  */
 
-import {Actions, ActionConst} from 'react-native-router-flux';
 import ImageResizer from 'react-native-image-resizer';
 
 import logger from '../logger';
+import {navToBootstrap, navToTab} from '../navigation';
 import * as utils from '../utils';
 import * as apis from '../apis';
 import * as actions from './';
@@ -20,26 +20,27 @@ export function resetAccount() {
   };
 }
 
-export function registerMobileSubmit(sceneKey) {
+export function registerMobileSubmit(screen, navigator) {
   return (dispatch, getState) => {
     let {input} = getState();
-    dispatch(actions.validateInput(sceneKey, input[sceneKey], () => {
-      let {mobile, password} = input[sceneKey];
-      let cbOk = () => Actions.RegisterVerify({mobile, password});
+    dispatch(actions.validateInput(screen, input[screen], () => {
+      let {mobile, password} = input[screen];
+      let cbOk = () => navigator.push({screen: 'zqc.RegisterVerify', title: '验证'});
       dispatch(actions.sendVerifyCode({by: "mobile", mobile, cbOk}));
     }));
   };
 }
 
-export function registerVerifySubmit(sceneKey) {
+export function registerVerifySubmit(screen, navigator) {
   return (dispatch, getState) => {
-    let {input, sceneState} = getState();
-    dispatch(actions.validateInput(sceneKey, input[sceneKey], () => {
-      let {mobile, password, code} = input[sceneKey];
+    let {input} = getState();
+    dispatch(actions.validateInput(screen, input[screen], () => {
+      let {mobile, password} = input['RegisterMobile'];
+      let {code} = input[screen];
       apis.register({mobile, password, code})
         .then((response) => {
           dispatch(actions.loginRequest(
-            {mobile, password}, () => Actions.RegisterProfile()
+            {mobile, password}, () => navigator.push({screen: 'zqc.RegisterProfile', title: '完善资料'})
           ));
         })
         .catch(error => {
@@ -58,32 +59,30 @@ export function registerVerifySubmit(sceneKey) {
   };
 }
 
-export function registerProfileSubmit(sceneKey) {
+export function registerProfileSubmit(screen) {
   return (dispatch, getState) => {
     let {object, account} = getState();
     let user = object.users[account.userId];
     if (user.nickname && user.avatarType && user.gender) {
-      Actions.Nearby();
+      navToTab();
     } else {
       dispatch(actions.errorFlash("请填写完基本资料。"));
     }
   };
 }
 
-export function loginSubmit(sceneKey, cbOk) {
+export function loginSubmit(screen, navigator) {
   return (dispatch, getState) => {
     let {input} = getState();
-    dispatch(actions.validateInput(sceneKey, input[sceneKey], () => {
-      if (!cbOk) {
-        cbOk = (user) => {
-          if (user.nickname && user.avatarType && user.gender) {
-            Actions.Nearby();
-          } else {
-            Actions.RegisterProfile();
-          }
-        };
-      }
-      let {account, password} = input[sceneKey];
+    dispatch(actions.validateInput(screen, input[screen], () => {
+      let cbOk = (user) => {
+        if (user.nickname && user.avatarType && user.gender) {
+          navToTab()
+        } else {
+          navigator.push({screen: 'zqc.RegisterProfile', title: '完善资料'});
+        }
+      };
+      let {account, password} = input[screen];
       let username, mobile, email;
       if (account.match(/^\d+$/) !== null) {
         mobile = account;
@@ -140,43 +139,43 @@ export function login({user, cbOk, cbFail}) {
 export function logoutRequest() {
   return (dispatch, getState) => {
     apis.logout()
-      .then((response) => Actions.Bootstrap({isReset: true}))
+      .then((response) => navToBootstrap({passProps: {isReset: true}}))
       .catch((error) => dispatch(actions.handleApiError(error)));
   };
 }
 
-export function editProfileNicknameSubmit(sceneKey) {
+export function editProfileNicknameSubmit(screen, navigator) {
   return (dispatch, getState) => {
     let {input} = getState();
-    dispatch(actions.validateInput(sceneKey, input[sceneKey], () => {
-      apis.editAccount(input[sceneKey])
+    dispatch(actions.validateInput(screen, input[screen], () => {
+      apis.editAccount(input[screen])
         .then((response) => {
           let {data: {user}} = response;
-          dispatch(login({user, cbOk: () => Actions.pop()}));
+          dispatch(login({user, cbOk: () => navigator.pop()}));
         })
         .catch((error) => dispatch(actions.handleApiError(error)));
     }));
   }
 }
 
-export function selectCustomAvatar(sceneKey, picker) {
+export function selectCustomAvatar(screen, picker) {
   return (dispatch) => {
     if (picker.error) {
       dispatch(actions.errorFlash(picker.error));
     } else if (!picker.didCancel && !picker.customButton) {
-      dispatch(actions.saveInput(sceneKey, {avatarType: 'custom', avatarUri: picker.uri}));
+      dispatch(actions.saveInput(screen, {avatarType: 'custom', avatarUri: picker.uri}));
     }
   };
 }
 
-export function editProfileAvatarSubmit(sceneKey) {
+export function editProfileAvatarSubmit(screen, navigator) {
   return (dispatch, getState) => {
     let {input} = getState();
-    dispatch(actions.validateInput(sceneKey, input[sceneKey], () => {
-      let {avatarType, avatarName, avatarUri} = input[sceneKey];
+    dispatch(actions.validateInput(screen, input[screen], () => {
+      let {avatarType, avatarName, avatarUri} = input[screen];
       let cbOk = (response) => {
         let {data: {user}} = response;
-        dispatch(login({user, cbOk: () => Actions.pop()}));
+        dispatch(login({user, cbOk: () => navigator.pop()}));
       };
       if (avatarType == 'builtin') {
         apis.editAccount({avatarType, avatarName})
@@ -184,7 +183,7 @@ export function editProfileAvatarSubmit(sceneKey) {
           .catch((error) => dispatch(actions.handleApiError(error)));
       } else if (avatarType == 'custom') {
         if (utils.isUrl(avatarUri)) {
-          Actions.pop();
+          navigator.pop();
           return;
         }
 
@@ -201,13 +200,13 @@ export function editProfileAvatarSubmit(sceneKey) {
   };
 }
 
-export function editProfileGenderSubmit(sceneKey) {
+export function editProfileGenderSubmit(screen) {
   return (dispatch, getState) => {
     let {input} = getState();
-    dispatch(actions.setSceneState(sceneKey, {genderPickerVisible: false}));
+    dispatch(actions.setScreenState(screen, {genderPickerVisible: false}));
     
-    dispatch(actions.validateInput(sceneKey, input[sceneKey], () => {
-      let {gender} = input[sceneKey];
+    dispatch(actions.validateInput(screen, input[screen], () => {
+      let {gender} = input[screen];
       apis.editAccount({gender})
         .then((response) => {
           let {data: {user}} = response;

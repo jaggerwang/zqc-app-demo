@@ -3,7 +3,6 @@
  * zaiqiuchang.com
  */
 
-import {Actions} from 'react-native-router-flux';
 import ImageResizer from 'react-native-image-resizer';
 
 import logger from '../logger';

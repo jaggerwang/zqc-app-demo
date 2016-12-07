@@ -7,7 +7,7 @@ export * from './loading';
 export * from './processing';
 export * from './error';
 export * from './input';
-export * from './sceneState';
+export * from './screen';
 export * from './location';
 export * from './object';
 export * from './keyboard';

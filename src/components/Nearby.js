@@ -6,7 +6,6 @@
 import React, {Component} from 'react';
 import {StyleSheet, View, Text, Image, ListView, ScrollView, RefreshControl, 
   TouchableOpacity, InteractionManager} from 'react-native';
-import {Actions} from 'react-native-router-flux';
 
 import {COLOR, SCREEN_WIDTH, SCREEN_HEIGHT} from '../config';
 import logger from '../logger';
@@ -15,11 +14,6 @@ import * as components from './';
 import * as helpers from './helpers';
 
 export default class Nearby extends Component {
-  static navigatorStyle = {
-    navBarHidden: true,
-    statusBarHideWithNavBar: true,
-  };
-  
   componentWillMount() {
     this.refreshing = false;
     this.ds = new ListView.DataSource({
@@ -53,11 +47,9 @@ export default class Nearby extends Component {
 
   componentDidMount() {
     InteractionManager.runAfterInteractions(() => {
-      let {sceneKey, network} = this.props;
+      let {network} = this.props;
 
-      this._refreshNavBar();
-
-      if (network.isConnected && helpers.isNeedRefresh({sceneKey, network})) {
+      if (network.isConnected && helpers.isNeedRefresh({screen: 'Nearby', network})) {
         this._refresh();
       }
     });
@@ -65,10 +57,10 @@ export default class Nearby extends Component {
 
   _refresh({props, cbFinish}={}) {
     props = props || this.props;
-    let {sceneKey, location, setSceneLastRefreshTime} = props;
+    let {location, setScreenLastRefreshTime} = props;
     let {account, postsOfCity} = props;
 
-    setSceneLastRefreshTime({sceneKey});
+    setScreenLastRefreshTime({screen: 'Nearby'});
 
     let finished = 0;
     postsOfCity({
@@ -81,36 +73,18 @@ export default class Nearby extends Component {
     });
   }
 
-  _refreshNavBar(props) {
-    props = props || this.props;
-    let {sceneKey} = props;
-    let {account} = props;
-    Actions.refresh({
-      renderBackButton: () => components.NavBarCityAndSport({
-        city: account.city,
-        sport: account.sport,
-      }),
-    });
-  }
-
   render() {
-    let {sceneKey, loading, processing, error, location, network, sport, object, 
-      sceneState, enableLoading, disableLoading, errorFlash} = this.props;
+    let {loading, processing, error, location, network, sport, object, 
+      enableLoading, disableLoading, errorFlash} = this.props;
     let {account, post, postsOfCity} = this.props;
 
     let posts = this._getRows();
 
     return (
-      <components.Layout 
-        sceneKey={sceneKey} 
-        loading={loading} 
-        processing={processing} 
-        error={error}
-        hideTabBar={false}
-        currentTab={0}
-        renderTitle={() => components.NavBarTitle({title: '附近'})}
-        renderBackButton={() => null}
-        refresh={() => this._refresh()}
+      <components.Layout
+        loading={loading}
+        processing={processing}
+        errorFlash={error.flash}
       >
         {posts.length > 0 ?
         <ListView

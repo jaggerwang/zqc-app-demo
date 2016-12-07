@@ -7,7 +7,6 @@ import React, {Component} from 'react';
 import {StyleSheet, View, Text, Image, TouchableOpacity, InteractionManager,
   ScrollView, RefreshControl} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {Actions} from 'react-native-router-flux';
 
 import {COLOR, SCREEN_WIDTH, SCREEN_HEIGHT} from '../config';
 import * as components from './';
@@ -21,18 +20,18 @@ export default class AtCourt extends Component {
 
   componentDidMount() {
     InteractionManager.runAfterInteractions(() => {
-      let {sceneKey, network} = this.props;
-      if (network.isConnected && helpers.isNeedRefresh({sceneKey, network})) {
+      let {network} = this.props;
+      if (network.isConnected && helpers.isNeedRefresh({screen: 'AtCourt', network})) {
         this._refresh();
       }
     });
   }
 
   _refresh(cbFinish) {
-    let {sceneKey, setSceneLastRefreshTime} = this.props;
+    let {setScreenLastRefreshTime} = this.props;
     let {nearbyUsers} = this.props;
 
-    setSceneLastRefreshTime({sceneKey});
+    setScreenLastRefreshTime({screen: 'AtCourt'});
 
     let finished = 0;
     nearbyUsers({cbFinish: () => finished++});
@@ -43,7 +42,7 @@ export default class AtCourt extends Component {
   }
 
   render() {
-    let {sceneKey, loading, processing, error, object, disableLoading, 
+    let {navigator, loading, processing, error, object, disableLoading, 
       enableLoading} = this.props;
     let {account, user} = this.props;
     let nearbyUsers = user.nearby
@@ -52,16 +51,10 @@ export default class AtCourt extends Component {
       .slice(0, 10);
 
     return (
-      <components.Layout 
-        sceneKey={sceneKey} 
-        loading={loading} 
-        processing={processing} 
-        error={error}
-        hideTabBar={false}
-        currentTab={1}
-        renderTitle={() => components.NavBarTitle({title: '在球场'})}
-        renderBackButton={() => null}
-        refresh={() => this._refresh()}
+      <components.Layout
+        loading={loading}
+        processing={processing}
+        errorFlash={error.flash}
       >
         <ScrollView
           refreshControl={
@@ -81,7 +74,7 @@ export default class AtCourt extends Component {
         >
           <components.Icon
             name='plus-square-o' 
-            onPress={() => Actions.CreatePost()} 
+            onPress={() => navigator.push({screen: 'zqc.CreatePost', title: '发动态'})} 
             style={styles.postIcon} 
             containerStyle={{marginVertical: Math.floor((SCREEN_HEIGHT / 2 - 200) / 2)}}
           />

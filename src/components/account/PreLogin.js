@@ -27,13 +27,13 @@ export default class Prelogin extends Component {
         />
         <components.Button
           text='登录'
-          onPress={() => navigator.push({screen: 'zqc.Login'})}
+          onPress={() => navigator.push({screen: 'zqc.Login', title: '登录'})}
           containerStyle={{marginTop: 100}}
           textStyle={{fontSize: 16}}
         />
         <components.Button
           text='注册'
-          onPress={() => navigator.push({screen: 'zqc.RegisterMobile'})}
+          onPress={() => navigator.push({screen: 'zqc.RegisterMobile', title: '注册'})}
           containerStyle={{marginTop: 30}}
           textStyle={{fontSize: 16}}
         />

@@ -5,7 +5,6 @@
 
 import React from 'react';
 import {StyleSheet, Platform, View, Text, TouchableOpacity} from 'react-native';
-import {Actions} from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import {COLOR, SCREEN_WIDTH, SCREEN_HEIGHT} from '../../config';

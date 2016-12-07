@@ -7,7 +7,7 @@ import {Platform, Dimensions} from 'react-native';
 export const DEBUG = __DEV__;
 export const IN_DEBUGGER = DEBUG && !!window.navigator.userAgent;
 
-export const VERSION = '1.0.2';
+export const VERSION = '1.0';
 
 let {width, height} = Dimensions.get('window');
 export const SCREEN_WIDTH = width;
@@ -41,8 +41,6 @@ export const DEFAULT_NAV_BAR_STYLE = {
   navBarTextColor: COLOR.textLightNormal,
   navBarBackgroundColor: COLOR.theme,
   navBarButtonColor: COLOR.textLightPrompt,
-  navBarNoBorder: true,
-  statusBarHideWithNavBar: true,
   statusBarTextColorScheme: 'light',
 };
 
