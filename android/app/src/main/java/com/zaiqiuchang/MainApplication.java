@@ -1,12 +1,11 @@
 package com.zaiqiuchang;
 
-import android.support.annotation.NonNull;
-
-import com.facebook.react.ReactPackage;
-
 import java.util.Arrays;
 import java.util.List;
 
+import android.support.annotation.Nullable;
+
+import com.facebook.react.ReactPackage;
 import com.imagepicker.ImagePickerPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import fr.bamlab.rnimageresizer.ImageResizerPackage;
@@ -21,7 +20,7 @@ public class MainApplication extends NavigationApplication {
     return BuildConfig.DEBUG;
   }
 
-  @NonNull
+  @Nullable
   @Override
   public List<ReactPackage> createAdditionalReactPackages() {
     return Arrays.<ReactPackage>asList(
