@@ -3,7 +3,22 @@
 Zaiqiuchang is a mobile app developed using React Native(RN for short), both iOS and Android are supported. For business reasons, this open source project is just the lite version of the business one. Full feature app can be downloaded at [在球场](https://www.zaiqiuchang.com) , and you can see the full power of RN.
 
 ### Screenshot
+
 <img alt="Nearby screenshot" src="https://zqc.cdn.zaiqiuchang.com/screenshot/ios/screenshot-nearby-720.jpg" width="360" height="640" />
+
+### Features
+
+|Feature|Description|
+|-------|-----------|
+|[react-native](https://github.com/facebook/react-native)|Bridge to native.|
+|[react](https://github.com/facebook/react)|Build ui component.|
+|[redux](http://redux.js.org/)|Manage ui state.|
+|[react-native-navigation](https://github.com/wix/react-native-navigation)|Screen navigation.|
+|[react-native-vector-icons](https://github.com/oblador/react-native-vector-icons)|Display icon.|
+|[validate.js](https://validatejs.org/)|Validate input.|
+|[react-native-image-picker](https://github.com/marcshilling/react-native-image-picker)|Pick image from camera or album.|
+|[react-native-image-resizer](https://github.com/bamlab/react-native-image-resizer)|Compress image.|
+|[react-native-amap-location](https://github.com/xiaobuu/react-native-amap-location)|Locate on Android.|
 
 ### How to run
 
