@@ -2,9 +2,14 @@
 
 Zaiqiuchang is a mobile app developed using React Native(RN for short), both iOS and Android are supported. For business reasons, this open source project is just the lite version of the business one. Full feature app can be downloaded at [在球场](https://www.zaiqiuchang.com) , and you can see the full power of RN.
 
-### Screenshot
+### Screenshots
 
-<img alt="Nearby screenshot" src="https://zqc.cdn.zaiqiuchang.com/screenshot/ios/screenshot-nearby-720.jpg" width="240" />
+<img src="https://zqc.cdn.zaiqiuchang.com/screenshot/demo/Snip20161207_8.jpg" width="240" />
+<img src="https://zqc.cdn.zaiqiuchang.com/screenshot/demo/Snip20161207_3.png" width="240" />
+<img src="https://zqc.cdn.zaiqiuchang.com/screenshot/demo/Snip20161207_5.png" width="240" />
+<img src="https://zqc.cdn.zaiqiuchang.com/screenshot/demo/Snip20161207_6.png" width="240" />
+<img src="https://zqc.cdn.zaiqiuchang.com/screenshot/demo/Snip20161207_7.png" width="240" />
+<img src="https://zqc.cdn.zaiqiuchang.com/screenshot/demo/Snip20161207_9.jpg" width="240" />
 
 ### Features
 
