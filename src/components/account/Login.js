@@ -14,14 +14,15 @@ export default class Login extends Component {
   static navigatorStyle = DEFAULT_NAV_BAR_STYLE;
   
   render() {
-    let {navigator, loading, processing, error, input, saveInput, submit} = this.props;
-    let {account, password} = input['Login'];
+    let {navigator, loading, processing, error, screenId=this.constructor.name, 
+      input, saveInput, submit} = this.props;
+    let {account, password} = input[screenId];
     return (
       <components.Layout
         loading={loading}
         processing={processing}
         errorFlash={error.flash}
-        errorInput={error.input['Login']}
+        errorInput={error.input[screenId]}
       >
         <components.Form>
           <components.FormItem iconName='user' containerStyle={{borderTopWidth: 0}}>
@@ -30,7 +31,7 @@ export default class Login extends Component {
               returnKeyType='next'
               defaultValue={account}
               autoFocus={true}
-              onChangeText={(text) => saveInput('Login', {account: text.trim()})}
+              onChangeText={(text) => saveInput(screenId, {account: text.trim()})}
               onSubmitEditing={() => this.refPassword.focus()}
             />
           </components.FormItem>
@@ -41,14 +42,14 @@ export default class Login extends Component {
               secureTextEntry={true}
               defaultValue={password}
               onRef={(ref) => this.refPassword = ref}
-              onChangeText={(text) => saveInput('Login', {password: text.trim()})}
-              onSubmitEditing={() => {dismissKeyboard(); submit('Login', navigator);}}
+              onChangeText={(text) => saveInput(screenId, {password: text.trim()})}
+              onSubmitEditing={() => {dismissKeyboard(); submit(screenId, navigator);}}
             />
           </components.FormItem>
         </components.Form>
         <components.ButtonWithBg
           text='登录'
-          onPress={() => {dismissKeyboard(); submit('Login', navigator);}}
+          onPress={() => {dismissKeyboard(); submit(screenId, navigator);}}
           textStyle={{fontSize: 16}}
         />
       </components.Layout>

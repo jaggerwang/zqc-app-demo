@@ -38,19 +38,19 @@ const initialState = {
 
 export default (state = initialState, action) => {
   if (action.type == actions.INPUT) {
-    let {screen, input} = action;
+    let {screenId, input} = action;
     return {
       ...state,
-      [screen]: Object.assign({}, state[screen], input),
+      [screenId]: Object.assign({}, state[screenId], input),
     };
   } else if (action.type == actions.RESET_INPUT) {
-    let {screen} = action;
-    if (screen === undefined) {
+    let {screenId} = action;
+    if (screenId === undefined) {
       return initialState;
     } else {
       return {
         ...initialState,
-        [screen]: initialState[screen],
+        [screenId]: initialState[screenId],
       };
     }
   } else if (action.type == actions.RESET) {

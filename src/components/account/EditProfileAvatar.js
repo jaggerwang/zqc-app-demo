@@ -34,14 +34,14 @@ export default class EditProfileAvatar extends Component {
 
   constructor(props) {
     super(props);
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+    this.props.navigator.setOnNavigatorEvent(() => this.onNavigatorEvent());
   }
 
   onNavigatorEvent(event) {
-    let {navigator, submit} = this.props;
+    let {navigator, screenId=this.constructor.name, submit} = this.props;
     if (event.type == 'NavBarButtonPress') {
       if (event.id == 'done') {
-        submit('EditProfileAvatar', navigator);
+        submit(screenId, navigator);
       } else if (event.id == 'cancel') {
         navigator.pop();
       }
@@ -49,13 +49,14 @@ export default class EditProfileAvatar extends Component {
   }
 
   componentDidMount() {
-    let {object, account, saveInput} = this.props;
+    let {screenId=this.constructor.name, object, account, saveInput} = this.props;
     let {avatarType, avatarName, avatarFile} = helpers.userFromCache(object, account.userId);
-    saveInput('EditProfileAvatar', {avatarType, avatarName, avatarUri: (avatarFile ? avatarFile.url : '')});
+    saveInput(screenId, {avatarType, avatarName, avatarUri: (avatarFile ? avatarFile.url : '')});
   }
 
   render() {
-    let {navigator, loading, processing, error, input, saveInput} = this.props;
+    let {navigator, loading, processing, error, screenId=this.constructor.name, 
+      input, saveInput} = this.props;
     let {selectCustomAvatar, submit} = this.props;
     
     return (
@@ -65,7 +66,7 @@ export default class EditProfileAvatar extends Component {
         errorFlash={error.flash}
       >
         <ScrollView>
-          <components.Image source={helpers.userAvatarSource(input['EditProfileAvatar'], 'middle')} style={styles.avatar} />
+          <components.Image source={helpers.userAvatarSource(input[screenId], 'middle')} style={styles.avatar} />
           <components.TextNotice>从内置里选取</components.TextNotice>
           <View style={{flexDirection: 'row', flexWrap: 'wrap', alignItems: 'flex-start', padding: 5}}>
             {Array.from(
@@ -73,7 +74,7 @@ export default class EditProfileAvatar extends Component {
               ([k, v]) => <components.Image
                 key={k}
                 source={v}
-                onPress={() => saveInput('EditProfileAvatar', {avatarType: 'builtin', avatarName: k})}
+                onPress={() => saveInput(screenId, {avatarType: 'builtin', avatarName: k})}
                 containerStyle={{margin: 5}}
                 style={styles.avatarBuiltin}
               />
@@ -94,7 +95,7 @@ export default class EditProfileAvatar extends Component {
                   noData: true,
                   storageOptions: {},
                 },
-                (picker) => selectCustomAvatar('EditProfileAvatar', picker),
+                (picker) => selectCustomAvatar(screenId, picker),
               );
             }}
             textStyle={{fontSize: 16}}

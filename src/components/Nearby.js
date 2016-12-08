@@ -49,9 +49,9 @@ export default class Nearby extends Component {
 
   componentDidMount() {
     InteractionManager.runAfterInteractions(() => {
-      let {network} = this.props;
+      let {screenId=this.constructor.name, network} = this.props;
 
-      if (network.isConnected && helpers.isNeedRefresh({screen: 'Nearby', network})) {
+      if (network.isConnected && helpers.isNeedRefresh({screenId, network})) {
         this._refresh();
       }
     });
@@ -59,10 +59,10 @@ export default class Nearby extends Component {
 
   _refresh({props, cbFinish}={}) {
     props = props || this.props;
-    let {location, setScreenLastRefreshTime} = props;
-    let {account, postsOfCity} = props;
+    let {screenId=this.constructor.name, location, setScreenLastRefreshTime, 
+      account, postsOfCity} = props;
 
-    setScreenLastRefreshTime({screen: 'Nearby'});
+    setScreenLastRefreshTime({screenId});
 
     let finished = 0;
     postsOfCity({

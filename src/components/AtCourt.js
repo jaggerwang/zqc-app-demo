@@ -22,18 +22,18 @@ export default class AtCourt extends Component {
 
   componentDidMount() {
     InteractionManager.runAfterInteractions(() => {
-      let {network} = this.props;
-      if (network.isConnected && helpers.isNeedRefresh({screen: 'AtCourt', network})) {
+      let {screenId=this.constructor.name, network} = this.props;
+      if (network.isConnected && helpers.isNeedRefresh({screenId, network})) {
         this._refresh();
       }
     });
   }
 
   _refresh(cbFinish) {
-    let {setScreenLastRefreshTime} = this.props;
+    let {screenId=this.constructor.name, setScreenLastRefreshTime} = this.props;
     let {nearbyUsers} = this.props;
 
-    setScreenLastRefreshTime({screen: 'AtCourt'});
+    setScreenLastRefreshTime({screenId});
 
     let finished = 0;
     nearbyUsers({cbFinish: () => finished++});

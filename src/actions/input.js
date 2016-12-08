@@ -11,36 +11,36 @@ import * as actions from './';
 export const RESET_INPUT = 'reset_input';
 export const INPUT = 'input';
 
-export function resetInput(screen) {
+export function resetInput(screenId) {
   return {
     type: RESET_INPUT,
-    screen,
+    screenId,
   };
 }
 
-export function saveInput(screen, input) {
+export function saveInput(screenId, input) {
   return dispatch => {
     dispatch({
       type: INPUT,
-      screen,
+      screenId,
       input,
     });
-    dispatch(validateInput(screen, input));
+    dispatch(validateInput(screenId, input));
   };
 }
 
-export function validateInput(screen, input, cbOk) {
+export function validateInput(screenId, input, cbOk) {
   return (dispatch, getState) => {
     let error = {};
     Object.entries(input).forEach(([k, v]) => {
-      if (constraints[screen] && constraints[screen][k]) {
-        error[k] = utils.validateSingle(v, constraints[screen][k]);
+      if (constraints[screenId] && constraints[screenId][k]) {
+        error[k] = utils.validateSingle(v, constraints[screenId][k]);
       } else {
         error[k] = [];
       }
     });
 
-    dispatch(actions.errorInput(screen, error));
+    dispatch(actions.errorInput(screenId, error));
 
     if (cbOk && Object.values(error).every(v => v.length == 0)) {
       cbOk();

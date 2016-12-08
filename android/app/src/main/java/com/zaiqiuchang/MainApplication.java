@@ -6,6 +6,7 @@ import java.util.List;
 import android.support.annotation.Nullable;
 
 import com.facebook.react.ReactPackage;
+
 import com.imagepicker.ImagePickerPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import fr.bamlab.rnimageresizer.ImageResizerPackage;

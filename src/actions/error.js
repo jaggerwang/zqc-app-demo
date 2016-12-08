@@ -16,10 +16,10 @@ export function resetError() {
   };
 }
 
-export function errorInput(screen, error) {
+export function errorInput(screenId, error) {
   return {
     type: ERROR_INPUT,
-    screen: screen,
+    screenId,
     error,
   };
 }

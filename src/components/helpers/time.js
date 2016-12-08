@@ -40,7 +40,7 @@ export function dayTimeText(date) {
   return utils.lpad((hour), 2, '0') + ':' + utils.lpad(minute, 2, '0');
 }
 
-export function isNeedRefresh({screen, network, minInterval=600, objectId=''}) {
-  let lastRefreshTime = network.lastRefreshTime[screen] || {};
+export function isNeedRefresh({screenId, network, minInterval=600, objectId=''}) {
+  let lastRefreshTime = network.lastRefreshTime[screenId] || {};
   return (!lastRefreshTime[objectId] || (new Date() - new Date(lastRefreshTime[objectId]) > minInterval * 1000));
 }

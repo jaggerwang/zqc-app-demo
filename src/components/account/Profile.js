@@ -14,7 +14,7 @@ import * as helpers from '../helpers';
 
 export default class Profile extends Component {
   render() {
-    let {navigator, input, screen, object, account, screenName, saveInput, setScreenState, 
+    let {navigator, input, screen, object, account, screenId, saveInput, setScreenState, 
       submitGender} = this.props;
     let user = helpers.userFromCache(object, account.userId);
     return (
@@ -40,17 +40,17 @@ export default class Profile extends Component {
             leftText='性别'
             rightText={user.gender ? (user.gender == 'm' ? '男' : '女') : '未选择'}
             rightIcon='angle-right'
-            onPress={() => setScreenState(screenName, {genderPickerVisible: true})}
+            onPress={() => setScreenState(screenId, {genderPickerVisible: true})}
           />
         </components.Block>
         <components.GenderPicker
-          visible={screen[screenName].genderPickerVisible}
-          setVisible={(visible) => setScreenState(screenName, {genderPickerVisible: visible})}
+          visible={screen[screenId].genderPickerVisible}
+          setVisible={(visible) => setScreenState(screenId, {genderPickerVisible: visible})}
           items={GENDERS}
-          selectedValue={input[screenName].gender}
-          onShow={() => saveInput(screenName, {gender: user.gender})}
-          onValueChange={(value, index) => saveInput(screenName, {gender: value})}
-          submit={() => submitGender(screenName)}
+          selectedValue={input[screenId].gender}
+          onShow={() => saveInput(screenId, {gender: user.gender})}
+          onValueChange={(value, index) => saveInput(screenId, {gender: value})}
+          submit={() => submitGender(screenId)}
         />
       </View>
     );

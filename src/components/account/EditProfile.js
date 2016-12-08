@@ -14,18 +14,19 @@ export default class EditProfile extends Component {
   static navigatorStyle = DEFAULT_NAV_BAR_STYLE;
 
   render() {
-    let {loading, processing, error, ...otherProps} = this.props;
+    let {loading, processing, error, screenId=this.constructor.name, 
+      ...otherProps} = this.props;
     return (
       <components.Layout
         loading={loading}
         processing={processing}
         errorFlash={error.flash}
-        errorInput={error.input['EditProfile']}
+        errorInput={error.input[screenId]}
       >
         <ScrollView>
           <components.TextNotice>完善的资料有助于结交到更多球友。</components.TextNotice>
           <components.Profile
-            screenName='EditProfile'
+            screenId={screenId}
             {...otherProps}
           />
         </ScrollView>

@@ -24,11 +24,11 @@ export function setNetwork({isConnected}) {
   };
 }
 
-export function setScreenLastRefreshTime({screen, lastRefreshTime, objectId=''}) {
+export function setScreenLastRefreshTime({screenId, lastRefreshTime, objectId=''}) {
   lastRefreshTime = lastRefreshTime || new Date();
   return {
     type: SET_SCREEN_LAST_REFRESH_TIME,
-    screen,
+    screenId,
     lastRefreshTime,
     objectId,
   };

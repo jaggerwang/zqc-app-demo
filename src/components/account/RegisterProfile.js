@@ -14,18 +14,19 @@ export default class RegisterProfile extends Component {
   static navigatorStyle = DEFAULT_NAV_BAR_STYLE;
 
   render() {
-    let {loading, processing, error, submit, ...otherProps} = this.props;
+    let {loading, processing, error, screenId=this.constructor.name, submit, 
+      ...otherProps} = this.props;
     return (
       <components.Layout
         loading={loading}
         processing={processing}
         errorFlash={error.flash}
-        errorInput={error.input['RegisterProfile']}
+        errorInput={error.input[screenId]}
       >
         <ScrollView>
           <components.TextNotice>帐号注册成功，请完善资料。</components.TextNotice>
           <components.Profile
-            screenName='RegisterProfile'
+            screenId={screenId}
             {...otherProps}
           />
           <components.ButtonWithBg

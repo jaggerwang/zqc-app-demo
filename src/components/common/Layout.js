@@ -29,11 +29,4 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: COLOR.backgroundNormal,
   },
-  navBar: {
-    backgroundColor: COLOR.theme,
-    borderBottomWidth: 0,
-  },
-  tabBar: {
-    backgroundColor: COLOR.backgroundDarker,
-  },
 });

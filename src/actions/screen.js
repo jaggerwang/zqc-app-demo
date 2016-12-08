@@ -8,17 +8,17 @@ import logger from '../logger';
 export const RESET_SCREEN_STATE = 'reset_screen_state';
 export const SET_SCREEN_STATE = 'set_screen_state';
 
-export function resetScreenState(screen) {
+export function resetScreenState(screenId) {
   return {
     type: RESET_SCREEN_STATE,
-    screen,
+    screenId,
   };
 }
 
-export function setScreenState(screen, state) {
+export function setScreenState(screenId, screenState) {
   return {
     type: SET_SCREEN_STATE,
-    screen,
-    state,
+    screenId,
+    screenState,
   };
 }

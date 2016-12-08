@@ -15,14 +15,15 @@ export default class RegisterMobile extends Component {
   static navigatorStyle = DEFAULT_NAV_BAR_STYLE;
 
   render() {
-    let {navigator, loading, processing, error, input, saveInput, submit} = this.props;
-    let {mobile, password} = input['RegisterMobile'];
+    let {navigator, loading, processing, error, screenId=this.constructor.name, 
+      input, saveInput, submit} = this.props;
+    let {mobile, password} = input[screenId];
     return (
       <components.Layout
         loading={loading}
         processing={processing}
         errorFlash={error.flash}
-        errorInput={error.input['RegisterMobile']}
+        errorInput={error.input[screenId]}
       >
         <components.TextNotice>在球场Lite版注册的帐号与完整版通用。Lite版仅包含基本功能，完整功能请到官网 zaiqiuchang.com 下载安装完整版体验。</components.TextNotice>
         <components.Form>
@@ -34,7 +35,7 @@ export default class RegisterMobile extends Component {
               defaultValue={mobile}
               autoFocus={true}
               onRef={(ref) => this.refMobile = ref}
-              onChangeText={(text) => saveInput('RegisterMobile', {mobile: text.trim()})}
+              onChangeText={(text) => saveInput(screenId, {mobile: text.trim()})}
               onSubmitEditing={() => this.refPassword.focus()}
             />
           </components.FormItem>
@@ -45,14 +46,14 @@ export default class RegisterMobile extends Component {
               secureTextEntry={true}
               defaultValue={password}
               onRef={(ref) => this.refPassword = ref}
-              onChangeText={(text) => saveInput('RegisterMobile', {password: text.trim()})}
-              onSubmitEditing={() => {dismissKeyboard(); submit('RegisterMobile', navigator);}}
+              onChangeText={(text) => saveInput(screenId, {password: text.trim()})}
+              onSubmitEditing={() => {dismissKeyboard(); submit(screenId, navigator);}}
             />
           </components.FormItem>
         </components.Form>
         <components.ButtonWithBg
           text='下一步'
-          onPress={() => {dismissKeyboard(); submit('RegisterMobile', navigator);}}
+          onPress={() => {dismissKeyboard(); submit(screenId, navigator);}}
           textStyle={{fontSize: 16}}
         />
       </components.Layout>

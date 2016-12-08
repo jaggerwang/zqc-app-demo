@@ -19,12 +19,12 @@ export default (state = initialState, action) => {
       isConnected,
     };
   } else if (action.type == actions.SET_SCREEN_LAST_REFRESH_TIME) {
-    let {screen, lastRefreshTime, objectId} = action;
-    let screenLastRefreshTime = state.lastRefreshTime[screen] || {};
+    let {screenId, lastRefreshTime, objectId} = action;
+    let screenLastRefreshTime = state.lastRefreshTime[screenId] || {};
     screenLastRefreshTime = Object.assign({}, screenLastRefreshTime, {[objectId]: lastRefreshTime})
     return {
       ...state,
-      lastRefreshTime: Object.assign({}, state.lastRefreshTime, {[screen]: screenLastRefreshTime}),
+      lastRefreshTime: Object.assign({}, state.lastRefreshTime, {[screenId]: screenLastRefreshTime}),
     };
   } else if (action.type == actions.RESET) {
     return {

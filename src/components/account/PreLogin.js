@@ -9,7 +9,7 @@ import {StyleSheet, View, Text, Image} from 'react-native';
 import {HIDDEN_NAV_BAR_STYLE} from '../../config';
 import * as components from '../';
 
-export default class Prelogin extends Component {
+export default class PreLogin extends Component {
   static navigatorStyle = HIDDEN_NAV_BAR_STYLE;
 
   render() {
