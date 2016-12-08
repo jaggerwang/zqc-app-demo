@@ -8,13 +8,15 @@ import {StyleSheet, View, Text, Image, ScrollView} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ImagePicker from 'react-native-image-picker';
 
-import {COLOR, RES_USER_AVATARS} from '../../config';
+import {COLOR, DEFAULT_NAV_BAR_STYLE, RES_USER_AVATARS} from '../../config';
 import * as utils from '../../utils';
 import * as components from '../';
 import * as actions from '../../actions';
 import * as helpers from '../helpers';
 
 export default class EditProfileAvatar extends Component {
+  static navigatorStyle = DEFAULT_NAV_BAR_STYLE;
+
   static navigatorButtons = {
     leftButtons: [
       {

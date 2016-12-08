@@ -5,7 +5,7 @@
 
 import {Navigation} from 'react-native-navigation';
 
-import {COLOR, DEFAULT_NAV_BAR_STYLE} from './config';
+import {COLOR, DEFAULT_NAV_BAR_STYLE, TAB_BAR_STYLE} from './config';
 import iconImages from './iconImages';
 import * as containers from './containers';
 
@@ -49,29 +49,23 @@ export function navToTab() {
         label: '附近',
         screen: 'zqc.Nearby',
         icon: iconImages['tabbar-nearby'],
-        navigatorStyle: DEFAULT_NAV_BAR_STYLE,
         title: '附近',
       },
       {
         label: '在球场',
         screen: 'zqc.AtCourt',
         icon: iconImages['tabbar-atcourt'],
-        navigatorStyle: DEFAULT_NAV_BAR_STYLE,
         title: '在球场',
       },
       {
         label: '我',
         screen: 'zqc.Me',
         icon: iconImages['tabbar-me'],
-        navigatorStyle: DEFAULT_NAV_BAR_STYLE,
         title: '我',
       },
     ],
-    tabsStyle: {
-      tabBarButtonColor: COLOR.textEmpha,
-      tabBarSelectedButtonColor: COLOR.theme,
-      tabBarBackgroundColor: COLOR.backgroundDarker,
-    },
+    tabsStyle: TAB_BAR_STYLE,
+    appStyle: TAB_BAR_STYLE,
     animationType: 'fade',
   });
 }

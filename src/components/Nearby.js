@@ -7,13 +7,15 @@ import React, {Component} from 'react';
 import {StyleSheet, View, Text, Image, ListView, ScrollView, RefreshControl, 
   TouchableOpacity, InteractionManager} from 'react-native';
 
-import {COLOR, SCREEN_WIDTH, SCREEN_HEIGHT} from '../config';
+import {COLOR, DEFAULT_NAV_BAR_STYLE, SCREEN_WIDTH, SCREEN_HEIGHT} from '../config';
 import logger from '../logger';
 import * as utils from '../utils';
 import * as components from './';
 import * as helpers from './helpers';
 
 export default class Nearby extends Component {
+  static navigatorStyle = DEFAULT_NAV_BAR_STYLE;
+
   componentWillMount() {
     this.refreshing = false;
     this.ds = new ListView.DataSource({

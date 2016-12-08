@@ -8,12 +8,14 @@ import {StyleSheet, View, Text, Image, TouchableOpacity, InteractionManager,
   ScrollView, RefreshControl} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-import {COLOR, SCREEN_WIDTH, SCREEN_HEIGHT} from '../config';
+import {COLOR, DEFAULT_NAV_BAR_STYLE, SCREEN_WIDTH, SCREEN_HEIGHT} from '../config';
 import * as components from './';
 import * as helpers from './helpers';
 import * as utils from '../utils';
 
 export default class AtCourt extends Component {
+  static navigatorStyle = DEFAULT_NAV_BAR_STYLE;
+
   componentWillMount() {
     this.refreshing = false;
   }

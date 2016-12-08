@@ -7,10 +7,12 @@ import React, {Component} from 'react';
 import {StyleSheet, View, Text, ScrollView} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-import {COLOR} from '../../config';
+import {COLOR, DEFAULT_NAV_BAR_STYLE} from '../../config';
 import * as components from '../';
 
 export default class EditProfile extends Component {
+  static navigatorStyle = DEFAULT_NAV_BAR_STYLE;
+
   render() {
     let {loading, processing, error, ...otherProps} = this.props;
     return (

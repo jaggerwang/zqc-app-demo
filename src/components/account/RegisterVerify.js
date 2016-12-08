@@ -8,10 +8,12 @@ import {StyleSheet, View, Text} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import dismissKeyboard from 'dismissKeyboard';
 
-import {COLOR} from '../../config';
+import {COLOR, DEFAULT_NAV_BAR_STYLE} from '../../config';
 import * as components from '../';
 
 export default class RegisterVerify extends Component {
+  static navigatorStyle = DEFAULT_NAV_BAR_STYLE;
+
   componentWillMount() {
     let {setScreenState} = this.props;
     setScreenState('RegisterVerify', {secondsToSend: 30});

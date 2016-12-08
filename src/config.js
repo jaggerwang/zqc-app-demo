@@ -49,6 +49,12 @@ export const HIDDEN_NAV_BAR_STYLE = {
   statusBarHideWithNavBar: true,
 };
 
+export const TAB_BAR_STYLE = {
+  tabBarButtonColor: COLOR.textEmpha,
+  tabBarSelectedButtonColor: COLOR.theme,
+  tabBarBackgroundColor: COLOR.backgroundDarker,
+};
+
 export const RES_USER_AVATARS = new Map([
   ['american-football-player-1', require('zaiqiuchang/res/img/avatar/american-football-player-1.png')],
   ['american-football-player', require('zaiqiuchang/res/img/avatar/american-football-player.png')],

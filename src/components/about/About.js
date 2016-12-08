@@ -7,11 +7,13 @@ import React, {Component} from 'react';
 import {StyleSheet, View, Text, Image, ListView, ScrollView, RefreshControl, 
   TouchableOpacity, InteractionManager, Platform} from 'react-native';
 
-import {COLOR, VERSION} from '../../config';
+import {COLOR, DEFAULT_NAV_BAR_STYLE, VERSION} from '../../config';
 import * as components from '../';
 import * as helpers from '../helpers';
 
 export default class About extends Component {
+  static navigatorStyle = DEFAULT_NAV_BAR_STYLE;
+
   render() {
     let {loading, processing, error} = this.props;
     return (

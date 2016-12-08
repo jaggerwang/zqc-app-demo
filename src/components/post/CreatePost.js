@@ -9,11 +9,13 @@ import {StyleSheet, View, Text, TextInput, Image, TouchableOpacity,
 import Icon from 'react-native-vector-icons/FontAwesome';
 import dismissKeyboard from 'dismissKeyboard';
 
-import {COLOR, SCREEN_WIDTH, SCREEN_HEIGHT} from '../../config';
+import {COLOR, DEFAULT_NAV_BAR_STYLE, SCREEN_WIDTH, SCREEN_HEIGHT} from '../../config';
 import * as components from '../';
 import * as helpers from '../helpers';
 
 export default class CreatePost extends Component {
+  static navigatorStyle = DEFAULT_NAV_BAR_STYLE;
+
   render() {
     let {loading, processing, error} = this.props;
     return (
