@@ -16,24 +16,28 @@ import * as utils from '../utils';
 export default class AtCourt extends Component {
   static navigatorStyle = DEFAULT_NAV_BAR_STYLE;
 
-  componentWillMount() {
+  constructor(props) {
+    super(props);
+
+    this.screenId = props.screenId || 'AtCourt';
+
     this.refreshing = false;
   }
 
   componentDidMount() {
     InteractionManager.runAfterInteractions(() => {
-      let {screenId=this.constructor.name, network} = this.props;
-      if (network.isConnected && helpers.isNeedRefresh({screenId, network})) {
-        this._refresh();
+      let {network} = this.props;
+      if (network.isConnected && helpers.isNeedRefresh({screenId: this.screenId, network})) {
+        this.refresh();
       }
     });
   }
 
-  _refresh(cbFinish) {
-    let {screenId=this.constructor.name, setScreenLastRefreshTime} = this.props;
+  refresh(cbFinish) {
+    let {setScreenLastRefreshTime} = this.props;
     let {nearbyUsers} = this.props;
 
-    setScreenLastRefreshTime({screenId});
+    setScreenLastRefreshTime({screenId: this.screenId});
 
     let finished = 0;
     nearbyUsers({cbFinish: () => finished++});
@@ -65,7 +69,7 @@ export default class AtCourt extends Component {
               onRefresh={() => {
                 disableLoading();
                 this.refreshing = true;
-                this._refresh(() => {
+                this.refresh(() => {
                   this.refreshing = false;
                   enableLoading();
                 });

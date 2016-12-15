@@ -24,6 +24,22 @@ export default (state = initialState, action) => {
         },
       },
     };
+  } else if (action.type == actions.RESET_ERROR_INPUT) {
+    let {screenId} = action;
+    if (screenId === undefined) {
+      return {
+        ...state,
+        input: initialState.input,
+      };
+    } else {
+      return {
+        ...state,
+        input: {
+          ...initialState.input,
+          [screenId]: initialState.input[screenId] || {},
+        },
+      };
+    }
   } else if (action.type == actions.ERROR_FLASH) {
     let {error} = action;
     return {

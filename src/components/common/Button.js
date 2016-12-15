@@ -6,12 +6,14 @@
 import React from 'react';
 import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import flattenStyle from 'flattenStyle';
 
 import {COLOR} from '../../config';
 
 export default ({text, onPress, containerStyle, textStyle}) => {
+  let {fontSize} = flattenStyle(textStyle || styles.text);
   return (
-    <TouchableOpacity onPress={onPress} style={[styles.container, containerStyle]}>
+    <TouchableOpacity onPress={onPress} style={[styles.container, {padding: Math.round(fontSize / 2)}, containerStyle]}>
       <Text style={[styles.text, textStyle]}>{text}</Text>
     </TouchableOpacity>
   );

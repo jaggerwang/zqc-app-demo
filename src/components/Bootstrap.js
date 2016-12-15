@@ -13,6 +13,12 @@ import * as components from './';
 export default class Bootstrap extends Component {
   static navigatorStyle = HIDDEN_NAV_BAR_STYLE;
 
+  constructor(props) {
+    super(props);
+
+    this.screenId = props.screenId || 'Bootstrap';
+  }
+
   componentDidMount() {
     let {isReset=false, navigator, reset, bootstrap} = this.props;
     if (isReset) {

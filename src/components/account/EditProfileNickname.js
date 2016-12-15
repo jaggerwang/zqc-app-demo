@@ -31,46 +31,49 @@ export default class EditProfileNickname extends Component {
 
   constructor(props) {
     super(props);
-    this.props.navigator.setOnNavigatorEvent(() => this.onNavigatorEvent());
+
+    this.screenId = props.screenId || 'EditProfileNickname';
+
+    let {navigator} = props;
+    navigator.setOnNavigatorEvent(event => this.onNavigatorEvent(event));
+  }
+
+  componentDidMount() {
+    let {object, account, saveInput} = this.props;
+    let user = object.users[account.userId];
+    if (user.nickname) {
+      saveInput(this.screenId, {nickname: user.nickname});  
+    }
   }
 
   onNavigatorEvent(event) {
-    let {navigator, screenId=this.constructor.name, submit} = this.props;
+    let {navigator, submit} = this.props;
     if (event.type == 'NavBarButtonPress') {
       if (event.id == 'done') {
-        submit(screenId, navigator);
+        submit(this.screenId, navigator);
       } else if (event.id == 'cancel') {
         navigator.pop();
       }
     }
   }
 
-  componentDidMount() {
-    let {screenId=this.constructor.name, object, account, saveInput} = this.props;
-    let user = object.users[account.userId];
-    if (user.nickname) {
-      saveInput(screenId, {nickname: user.nickname});  
-    }
-  }
-
   render() {
-    let {loading, processing, error, screenId=this.constructor.name, input, 
-      saveInput} = this.props;
+    let {loading, processing, error, input, saveInput} = this.props;
     return (
       <components.Layout
         loading={loading}
         processing={processing}
         errorFlash={error.flash}
-        errorInput={error.input[screenId]}
+        errorInput={error.input[this.screenId]}
       >
         <components.Form>
           <components.FormItem iconName='user' containerStyle={{borderTopWidth: 0}}>
             <components.TextInput
               placeholder='输入昵称'
               returnKeyType='done'
-              defaultValue={input[screenId].nickname}
+              defaultValue={input[this.screenId].nickname}
               autoFocus={true}
-              onChangeText={(text) => saveInput(screenId, {nickname: text.trim()})}
+              onChangeText={(text) => saveInput(this.screenId, {nickname: text.trim()})}
             />
           </components.FormItem>
         </components.Form>

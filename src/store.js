@@ -16,7 +16,7 @@ let middlewares = [thunk];
 if (IN_DEBUGGER) {
   middlewares.push(createLogger({
     duration: true,
-    collapsed: false,
+    collapsed: true,
   }));
 }
 

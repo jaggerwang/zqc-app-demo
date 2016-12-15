@@ -14,8 +14,10 @@ import * as helpers from '../helpers';
 
 export default class Profile extends Component {
   render() {
-    let {navigator, input, screen, object, account, screenId, saveInput, setScreenState, 
-      submitGender} = this.props;
+    let {navigator, input, screen, object, saveInput, setScreenState} = this.props;
+    let {screenId, account, submitGender} = this.props;
+    let {genderPickerVisible} = screen[screenId];
+    let {gender} = input[screenId];
     let user = helpers.userFromCache(object, account.userId);
     return (
       <View>
@@ -44,10 +46,10 @@ export default class Profile extends Component {
           />
         </components.Block>
         <components.GenderPicker
-          visible={screen[screenId].genderPickerVisible}
+          visible={genderPickerVisible}
           setVisible={(visible) => setScreenState(screenId, {genderPickerVisible: visible})}
           items={GENDERS}
-          selectedValue={input[screenId].gender}
+          selectedValue={gender}
           onShow={() => saveInput(screenId, {gender: user.gender})}
           onValueChange={(value, index) => saveInput(screenId, {gender: value})}
           submit={() => submitGender(screenId)}

@@ -12,6 +12,12 @@ import * as components from '../';
 export default class PreLogin extends Component {
   static navigatorStyle = HIDDEN_NAV_BAR_STYLE;
 
+  constructor(props) {
+    super(props);
+
+    this.screenId = props.screenId || 'PreLogin';
+  }
+
   render() {
     let {navigator, loading, processing, error} = this.props;
     return (

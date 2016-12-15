@@ -16,8 +16,13 @@ import * as helpers from './helpers';
 export default class Nearby extends Component {
   static navigatorStyle = DEFAULT_NAV_BAR_STYLE;
 
-  componentWillMount() {
+  constructor(props) {
+    super(props);
+
+    this.screenId = props.screenId || 'Nearby';
+
     this.refreshing = false;
+
     this.ds = new ListView.DataSource({
       rowHasChanged: (r1, r2) => 
         r1.id != r2.id || 
@@ -29,10 +34,24 @@ export default class Nearby extends Component {
         r1.stat.commented != r2.stat.commented ||
         r1.creator.stat.liked != r2.creator.stat.liked ||
         r1.creator.stat.post != r2.creator.stat.post,
-    }).cloneWithRows(this._getRows());
+    }).cloneWithRows(this.getRows());
   }
 
-  _getRows(props) {
+  componentDidMount() {
+    InteractionManager.runAfterInteractions(() => {
+      let {network} = this.props;
+
+      if (network.isConnected && helpers.isNeedRefresh({screenId: this.screenId, network})) {
+        this.refresh();
+      }
+    });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.ds = this.ds.cloneWithRows(this.getRows(nextProps));
+  }
+
+  getRows(props) {
     props = props || this.props;
     let {object} = props;
     let {account, post} = props;
@@ -43,26 +62,12 @@ export default class Nearby extends Component {
     return rows;
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.ds = this.ds.cloneWithRows(this._getRows(nextProps));
-  }
-
-  componentDidMount() {
-    InteractionManager.runAfterInteractions(() => {
-      let {screenId=this.constructor.name, network} = this.props;
-
-      if (network.isConnected && helpers.isNeedRefresh({screenId, network})) {
-        this._refresh();
-      }
-    });
-  }
-
-  _refresh({props, cbFinish}={}) {
+  refresh({props, cbFinish}={}) {
     props = props || this.props;
-    let {screenId=this.constructor.name, location, setScreenLastRefreshTime, 
+    let {location, setScreenLastRefreshTime, 
       account, postsOfCity} = props;
 
-    setScreenLastRefreshTime({screenId});
+    setScreenLastRefreshTime({screenId: this.screenId});
 
     let finished = 0;
     postsOfCity({
@@ -80,7 +85,7 @@ export default class Nearby extends Component {
       enableLoading, disableLoading, errorFlash} = this.props;
     let {account, post, postsOfCity} = this.props;
 
-    let posts = this._getRows();
+    let posts = this.getRows();
 
     return (
       <components.Layout
@@ -112,7 +117,7 @@ export default class Nearby extends Component {
                   onRefresh={() => {
                     disableLoading();
                     this.refreshing = true;
-                    this._refresh({
+                    this.refresh({
                       cbFinish: () => {
                         this.refreshing = false;
                         enableLoading();

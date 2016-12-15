@@ -13,20 +13,25 @@ import * as components from '../';
 export default class EditProfile extends Component {
   static navigatorStyle = DEFAULT_NAV_BAR_STYLE;
 
+  constructor(props) {
+    super(props);
+
+    this.screenId = props.screenId || 'EditProfile';
+  }
+
   render() {
-    let {loading, processing, error, screenId=this.constructor.name, 
-      ...otherProps} = this.props;
+    let {loading, processing, error, ...otherProps} = this.props;
     return (
       <components.Layout
         loading={loading}
         processing={processing}
         errorFlash={error.flash}
-        errorInput={error.input[screenId]}
+        errorInput={error.input[this.screenId]}
       >
         <ScrollView>
           <components.TextNotice>完善的资料有助于结交到更多球友。</components.TextNotice>
           <components.Profile
-            screenId={screenId}
+            screenId={this.screenId}
             {...otherProps}
           />
         </ScrollView>

@@ -7,12 +7,20 @@ import {navToBootstrap} from '../navigation';
 import * as apis from '../apis';
 
 export const RESET_ERROR = 'reset_error';
+export const RESET_ERROR_INPUT = 'reset_error_input';
 export const ERROR_INPUT = 'error_input';
 export const ERROR_FLASH = 'error_flash';
 
 export function resetError() {
   return {
     type: RESET_ERROR,
+  };
+}
+
+export function resetErrorInput(screenId) {
+  return {
+    type: RESET_ERROR_INPUT,
+    screenId,
   };
 }
 

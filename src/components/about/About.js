@@ -14,6 +14,12 @@ import * as helpers from '../helpers';
 export default class About extends Component {
   static navigatorStyle = DEFAULT_NAV_BAR_STYLE;
 
+  constructor(props) {
+    super(props);
+
+    this.screenId = props.screenId || 'About';
+  }
+
   render() {
     let {loading, processing, error} = this.props;
     return (

@@ -16,8 +16,7 @@ export function getApi(url, query={}, {method='GET', headers={}, timeout=5000}={
   let urlParts = URL.parse(url, true);
   urlParts.query = query;
   url = URL.format(urlParts);
-  let request = new Request(url, {method, headers, timeout});
-  return fetchApi(request, timeout);
+  return fetchApi({url, method, headers, timeout}, timeout);
 }
 
 export function postApi(url, data={}, {method='POST', headers={}, timeout=5000}={}) {
@@ -28,16 +27,16 @@ export function postApi(url, data={}, {method='POST', headers={}, timeout=5000}=
   for (let [k, v] of Object.entries(data)) {
     body.append(k, v);
   }
-  let request = new Request(url, {method, headers, body, timeout});
-  return fetchApi(request, timeout);
+  return fetchApi({url, method, headers, body}, timeout);
 }
 
-export async function fetchApi(request, timeout=5000) {
+export async function fetchApi({url, method, headers, body}, timeout=5000) {
   let responseJson = null;
   try {
     store.dispatch(loadingStart());
 
-    logger.debug(request.url);
+    logger.debug(method, url);
+    let request = new Request(url, {method, headers, body});
     let response = await fetch(request, {timeout});
     if (!response.ok) {
       throw new HttpError(response.status, HTTP_STATUS[response.status]);

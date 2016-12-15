@@ -5,6 +5,7 @@
 
 import {Alert, Keyboard, NetInfo, Platform} from 'react-native';
 import AMapLocation from 'react-native-amap-location';
+import geolib from 'geolib';
 
 import {DEBUG, HOT_CITIES, SPORTS} from '../config';
 import logger from '../logger';
@@ -44,7 +45,15 @@ export function bootstrap({navigator}) {
         },
       );
 
-      let getPositionSuccess = (position) => dispatch(actions.setLocationPosition(position));
+      let oldPosition;
+      let getPositionSuccess = position => {
+        if (oldPosition === undefined || 
+          (position && oldPosition 
+            && geolib.getDistance(position.coords, oldPosition.coords) > 1)) {
+          dispatch(actions.setLocationPosition(position));
+        }
+        oldPosition = position;
+      };
       let getPositionError = (error) => logger.warn(error);
       let getPositionOptions = {
         enableHighAccuracy: Platform.OS == 'ios',
@@ -125,7 +134,7 @@ export function bootstrap({navigator}) {
           );
         }
       },
-      maxTimes: 5,
+      maxTimes: 10,
     });
   };
 }

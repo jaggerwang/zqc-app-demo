@@ -6,20 +6,23 @@
 import React from 'react';
 import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import flattenStyle from 'flattenStyle';
 
 import {COLOR} from '../../config';
 
 export default ({text, disable=false, onPress, containerStyle, textStyle}) => {
+  let {fontSize} = flattenStyle(textStyle || styles.text);
+  containerStyle = [styles.container, (disable ? styles.containerDisable : null), {padding: Math.round(fontSize / 2)}, containerStyle];
   let children = <Text style={[styles.text, (disable ? styles.textDisable : null), textStyle]}>{text}</Text>;
   if (onPress) {
     return (
-      <TouchableOpacity onPress={onPress} style={[styles.container, (disable ? styles.containerDisable : null), containerStyle]}>
+      <TouchableOpacity onPress={onPress} style={containerStyle}>
         {children}
       </TouchableOpacity>
     );
   } else {
     return (
-      <View style={[styles.container, (disable ? styles.containerDisable : null), containerStyle]}>
+      <View style={containerStyle}>
        {children}
       </View>
     );

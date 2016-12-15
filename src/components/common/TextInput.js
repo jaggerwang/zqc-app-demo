@@ -20,7 +20,7 @@ export default ({onRef, style, ...props}) => {
       returnKeyType='done'
       {...props}
       ref={onRef}
-      style={[styles.input, Platform.select({ios: {height: (fontSize + 10)}}), style]}
+      style={[styles.input, Platform.select({ios: {height: fontSize * 2}}), style]}
     />
   );
 }

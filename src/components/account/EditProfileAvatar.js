@@ -34,29 +34,32 @@ export default class EditProfileAvatar extends Component {
 
   constructor(props) {
     super(props);
-    this.props.navigator.setOnNavigatorEvent(() => this.onNavigatorEvent());
+
+    this.screenId = props.screenId || 'EditProfileAvatar';
+
+    let {navigator} = props;
+    navigator.setOnNavigatorEvent(event => this.onNavigatorEvent(event));
+  }
+
+  componentDidMount() {
+    let {object, account, saveInput} = this.props;
+    let {avatarType, avatarName, avatarFile} = helpers.userFromCache(object, account.userId);
+    saveInput(this.screenId, {avatarType, avatarName, avatarUri: (avatarFile ? avatarFile.url : '')});
   }
 
   onNavigatorEvent(event) {
-    let {navigator, screenId=this.constructor.name, submit} = this.props;
+    let {navigator, submit} = this.props;
     if (event.type == 'NavBarButtonPress') {
       if (event.id == 'done') {
-        submit(screenId, navigator);
+        submit(this.screenId, navigator);
       } else if (event.id == 'cancel') {
         navigator.pop();
       }
     }
   }
 
-  componentDidMount() {
-    let {screenId=this.constructor.name, object, account, saveInput} = this.props;
-    let {avatarType, avatarName, avatarFile} = helpers.userFromCache(object, account.userId);
-    saveInput(screenId, {avatarType, avatarName, avatarUri: (avatarFile ? avatarFile.url : '')});
-  }
-
   render() {
-    let {navigator, loading, processing, error, screenId=this.constructor.name, 
-      input, saveInput} = this.props;
+    let {navigator, loading, processing, error, input, saveInput} = this.props;
     let {selectCustomAvatar, submit} = this.props;
     
     return (
@@ -66,7 +69,7 @@ export default class EditProfileAvatar extends Component {
         errorFlash={error.flash}
       >
         <ScrollView>
-          <components.Image source={helpers.userAvatarSource(input[screenId], 'middle')} style={styles.avatar} />
+          <components.Image source={helpers.userAvatarSource(input[this.screenId], 'middle')} style={styles.avatar} />
           <components.TextNotice>从内置里选取</components.TextNotice>
           <View style={{flexDirection: 'row', flexWrap: 'wrap', alignItems: 'flex-start', padding: 5}}>
             {Array.from(
@@ -74,7 +77,7 @@ export default class EditProfileAvatar extends Component {
               ([k, v]) => <components.Image
                 key={k}
                 source={v}
-                onPress={() => saveInput(screenId, {avatarType: 'builtin', avatarName: k})}
+                onPress={() => saveInput(this.screenId, {avatarType: 'builtin', avatarName: k})}
                 containerStyle={{margin: 5}}
                 style={styles.avatarBuiltin}
               />
@@ -95,7 +98,7 @@ export default class EditProfileAvatar extends Component {
                   noData: true,
                   storageOptions: {},
                 },
-                (picker) => selectCustomAvatar(screenId, picker),
+                (picker) => selectCustomAvatar(this.screenId, picker),
               );
             }}
             textStyle={{fontSize: 16}}

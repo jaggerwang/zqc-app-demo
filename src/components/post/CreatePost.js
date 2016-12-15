@@ -16,6 +16,12 @@ import * as helpers from '../helpers';
 export default class CreatePost extends Component {
   static navigatorStyle = DEFAULT_NAV_BAR_STYLE;
 
+  constructor(props) {
+    super(props);
+
+    this.screenId = props.screenId || 'CreatePost';
+  }
+
   render() {
     let {loading, processing, error} = this.props;
     return (
