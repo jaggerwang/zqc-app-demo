@@ -21,7 +21,7 @@ export function nearbyUsers({cbOk, cbFail, cbFinish}={}) {
   return (dispatch, getState) => {
     let {location: {position}, object} = getState();
     if (!position) {
-      dispatch(actions.errorFlash("无法获取到手机位置。"));
+      dispatch(actions.errorFlash("无法获取当前位置。"));
       if (cbFail) {
         cbFail();
       }

@@ -12,14 +12,16 @@ import {HttpError, ResultError} from './error';
 import {HTTP_STATUS} from './httpStatus';
 import {fetchUrl as fetch} from '../utils';
 
-export function getApi(url, query={}, {method='GET', headers={}, timeout=5000}={}) {
+export function getApi(url, query={}, {method='GET', headers={}, timeout=5000, 
+  background=false}={}) {
   let urlParts = URL.parse(url, true);
   urlParts.query = query;
   url = URL.format(urlParts);
-  return fetchApi({url, method, headers, timeout}, timeout);
+  return fetchApi({url, method, headers, timeout, background});
 }
 
-export function postApi(url, data={}, {method='POST', headers={}, timeout=5000}={}) {
+export function postApi(url, data={}, {method='POST', headers={}, timeout=10000, 
+  background=false}={}) {
   if (Object.keys(data).length == 0) {
     data._ = 'fix android empty body bug';
   }
@@ -27,13 +29,16 @@ export function postApi(url, data={}, {method='POST', headers={}, timeout=5000}=
   for (let [k, v] of Object.entries(data)) {
     body.append(k, v);
   }
-  return fetchApi({url, method, headers, body}, timeout);
+  return fetchApi({url, method, headers, body, timeout, background});
 }
 
-export async function fetchApi({url, method, headers, body}, timeout=5000) {
+export async function fetchApi({url, method, headers, body, timeout=5000, 
+  background=false}) {
   let responseJson = null;
   try {
-    store.dispatch(loadingStart());
+    if (!background) {
+      store.dispatch(loadingStart());
+    }
 
     logger.debug(method, url);
     let request = new Request(url, {method, headers, body});
@@ -56,7 +61,9 @@ export async function fetchApi({url, method, headers, body}, timeout=5000) {
     }
     return Promise.reject(error);
   } finally {
-    store.dispatch(loadingEnd());
+    if (!background) {
+      store.dispatch(loadingEnd());
+    }
   }
   return responseJson;
 }

@@ -21,7 +21,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>2</string>
+	<string>1</string>
 	<key>LSApplicationCategoryType</key>
 	<string></string>
 	<key>LSRequiresIPhoneOS</key>
@@ -32,11 +32,11 @@
 		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>在球场需要使用相机来拍摄照片</string>
+	<string>在球场需要使用相机来拍摄动态照片和头像等。</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>在球场需要获取位置来寻找附近球友</string>
+	<string>为了能向你精准推荐附近动态和球友，在球场需要获取你的实时位置。</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>在球场需要访问相册来上传照片</string>
+	<string>在球场需要访问相册来选取动态照片和头像等。</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Entypo.ttf</string>

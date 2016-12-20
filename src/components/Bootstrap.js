@@ -24,7 +24,7 @@ export default class Bootstrap extends Component {
     if (isReset) {
       reset();
     }
-    bootstrap({navigator});
+    bootstrap(navigator);
   }
 
   render() {

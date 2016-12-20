@@ -19,6 +19,18 @@ export default (state = initialState, action) => {
       ...state,
       userId,
     };
+  } else if (action.type == actions.SET_CITY) {
+    let {city} = action;
+    return {
+      ...state,
+      city,
+    };
+  } else if (action.type == actions.SET_SPORT) {
+    let {sport} = action;
+    return {
+      ...state,
+      sport,
+    };
   } else if (action.type == actions.RESET || action.type == actions.RESET_ACCOUNT) {
     return initialState;
   } else {

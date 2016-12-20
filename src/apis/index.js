@@ -11,5 +11,6 @@ export * from './file';
 export * from './user';
 export * from './post';
 export * from './court';
+export * from './lbs';
 export * from './security';
 export * from './stat';

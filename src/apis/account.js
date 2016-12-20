@@ -22,12 +22,12 @@ export function logout() {
   return getApi(`${API_ORIGIN}/logout`);
 }
 
-export function editAccount(update) {
+export function editAccount(update, background=false) {
   if (update['location'] !== undefined) {
     let {longitude, latitude} = update['location'];
     update['location'] = `${longitude},${latitude}`;
   }
-  return postApi(`${API_ORIGIN}/account/edit`, update);
+  return postApi(`${API_ORIGIN}/account/edit`, update, {background});
 }
 
 export function accountInfo() {

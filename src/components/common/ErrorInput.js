@@ -8,7 +8,7 @@ import {StyleSheet, View, Text} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import * as Animatable from 'react-native-animatable';
 
-import {COLOR, NAV_BAR_HEIGHT} from '../../config';
+import {COLOR} from '../../config';
 
 export default ({error, containerStyle}) => {
   error = error || {};

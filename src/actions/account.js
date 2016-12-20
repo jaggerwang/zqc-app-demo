@@ -13,10 +13,26 @@ import * as actions from './';
 
 export const RESET_ACCOUNT = 'reset_account';
 export const LOGIN = 'login';
+export const SET_CITY = 'set_city';
+export const SET_SPORT = 'set_sport';
 
 export function resetAccount() {
   return {
     type: RESET_ACCOUNT,
+  };
+}
+
+export function setCity(city) {
+  return {
+    type: SET_CITY,
+    city,
+  };
+}
+
+export function setSport(sport) {
+  return {
+    type: SET_SPORT,
+    sport,
   };
 }
 
@@ -214,5 +230,22 @@ export function editProfileGenderSubmit(screenId) {
         })
         .catch((error) => dispatch(actions.handleApiError(error)));
     }));
+  };
+}
+
+export function updateAccountLocation() {
+  return (dispatch, getState) => {
+    let {network, location, object, account} = getState();
+    let user = object.users[account.userId];
+    if (!network.isConnected || !location.position || !user) {
+      return;
+    }
+
+    apis.editAccount({location: location.position.coords}, true)
+      .then((response) => {
+        let {data: {user}} = response;
+        dispatch(login({user}));
+      })
+      .catch((error) => dispatch(actions.handleApiError(error)));
   };
 }

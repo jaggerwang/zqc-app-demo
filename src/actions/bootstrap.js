@@ -7,7 +7,6 @@ import {Alert, Keyboard, NetInfo, Platform} from 'react-native';
 import AMapLocation from 'react-native-amap-location';
 import geolib from 'geolib';
 
-import {DEBUG, HOT_CITIES, SPORTS} from '../config';
 import logger from '../logger';
 import {navToTab} from '../navigation';
 import * as apis from '../apis';
@@ -26,15 +25,15 @@ export function reset() {
 
 let booted = false;
 
-export function bootstrap({navigator}) {
+export function bootstrap(navigator) {
   return (dispatch, getState) => {
     if (!booted) {
       if (Platform.OS != 'ios') {
-        NetInfo.isConnected.fetch().then((isConnected) => dispatch(actions.setNetwork({isConnected})));
+        NetInfo.isConnected.fetch().then(isConnected => dispatch(actions.setNetwork({isConnected})));
       }
       NetInfo.isConnected.addEventListener(
         'change', 
-        (isConnected) => {
+        isConnected => {
           let {network} = getState();
           dispatch(actions.setNetwork({isConnected}));
           if (network.isConnected === true && !isConnected) {
@@ -45,23 +44,15 @@ export function bootstrap({navigator}) {
         },
       );
 
-      let oldPosition;
-      let getPositionSuccess = position => {
-        if (oldPosition === undefined || 
-          (position && oldPosition 
-            && geolib.getDistance(position.coords, oldPosition.coords) > 1)) {
-          dispatch(actions.setLocationPosition(position));
-        }
-        oldPosition = position;
-      };
-      let getPositionError = (error) => logger.warn(error);
+      let getPositionSuccess = position => dispatch(actions.setLocationPosition(position));
+      let getPositionError = error => logger.warn(error);
       let getPositionOptions = {
         enableHighAccuracy: Platform.OS == 'ios',
         timeout: 5000,
         maximumAge: 600000,
       };
       if (Platform.OS == 'android') {
-        AMapLocation.addEventListener((position) => {
+        AMapLocation.addEventListener(position => {
           if (position.latitude && position.longitude) {
             getPositionSuccess({
               coords: {
@@ -84,77 +75,68 @@ export function bootstrap({navigator}) {
         geolocation.watchPosition(getPositionSuccess, getPositionError, getPositionOptions);
       }
 
-      let keyboardShowListener = Keyboard.addListener('keyboardDidShow', (event) => {
+      let keyboardShowListener = Keyboard.addListener('keyboardDidShow', event => {
         dispatch(actions.setKeyboard({coords: event.endCoordinates}));
       });
-      let keyboardHideListener = Keyboard.addListener('keyboardDidHide', (event) => {
+      let keyboardHideListener = Keyboard.addListener('keyboardDidHide', event => {
         dispatch(actions.resetKeyboard());
       });
 
       booted = true;
     }
 
-    dispatch(actions.processingTask('正在检测网络和位置'));
+    dispatch(actions.processingTask('正在检测网络和获取位置'));
     utils.waitingFor({
       condition: () => {
         let {location, network} = getState();
-        return (network.isConnected !== undefined && location.position);
+        return (network.isConnected && location.position);
       },
       cbOk: () => {
         dispatch(actions.processingTask(''));
-        login({navigator, dispatch, getState});
+        login(navigator, dispatch, getState);
       },
       cbFail: () => {
         dispatch(actions.processingTask(''));
         let {location, network} = getState();
-        let errors = [];
-        if (network.isConnected === undefined) {
-         errors.push('获取网络状态失败。'); 
-        }
+
         if (!location.position) {
-          errors.push('获取位置失败。');
+          dispatch(actions.errorFlash('获取位置失败。为了获得更好体验，请授权在球场使用定位服务。'));
         }
-        if (errors.length > 0) {
-          Alert.alert(
-            '检测网络和位置出错',
-            errors.join(''),
-            [
-              {text: '重试', onPress: () => dispatch(bootstrap({navigator}))},
-            ],
-          );
-        } else if (!network.isConnected) {
+
+        if (!network.isConnected) {
           Alert.alert(
             '网络不可用',
             '请打开WIFI或移动网络后重试。',
             [
-              {text: '重试', onPress: () => {
-                dispatch(bootstrap({navigator}));
+              {text: '重试', onPress: () => dispatch(bootstrap(navigator))},
+              {text: '离线模式', onPress: () => {
+                let {object, account} = getState();
+                let user = object.users[account.userId];
+                if (user) {
+                  if (user.nickname && user.avatarType && user.gender) {
+                    navToTab();
+                  } else {
+                    navigator.push({screen: 'zqc.RegisterProfile', title: '完善资料'});
+                  }
+                } else {
+                  dispatch(actions.errorFlash('尚未登录过任何帐号。'));
+                  dispatch(bootstrap(navigator));
+                }
               }},
             ],
           );
+        } else {
+          login(navigator, dispatch, getState);
         }
       },
-      maxTimes: 10,
+      maxTimes: 5,
     });
   };
 }
 
-function login({navigator, dispatch, getState}) {
-  let cbFail = (error) => {
-    Alert.alert(
-      '启动出错',
-      error.message,
-      [
-        {text: '重试', onPress: () => dispatch(bootstrap({navigator}))},
-        {text: '清缓存', onPress: () => {
-          dispatch(reset());
-          dispatch(bootstrap({navigator}));
-        }},
-      ],
-    );
-  };
+function login(navigator, dispatch, getState) {
   apis.isLogined()
-    .then((response) => {
+    .then(response => {
       let {data: {user}} = response;
       if (user) {
         dispatch(actions.login({
@@ -165,15 +147,23 @@ function login({navigator, dispatch, getState}) {
             } else {
               navigator.resetTo({screen: 'zqc.RegisterProfile', title: '完善资料'});
             }
-          }, 
-          cbFail,
+          },
         }));
       } else {
-        navigator.resetTo({screen: 'zqc.PreLogin'});
+        navigator.resetTo({screen: 'zqc.PreLogin', title: ''});
       }
     })
-    .catch((error) => {
-      dispatch(actions.errorFlash(error.message));
-      cbFail(error);
+    .catch(error => {
+      Alert.alert(
+        '启动出错',
+        error.message,
+        [
+          {text: '重试', onPress: () => dispatch(bootstrap(navigator))},
+          {text: '清缓存', onPress: () => {
+            dispatch(reset());
+            dispatch(bootstrap(navigator));
+          }},
+        ],
+      );
     });
 }

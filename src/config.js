@@ -12,8 +12,6 @@ export const VERSION = '1.0';
 let {width, height} = Dimensions.get('window');
 export const SCREEN_WIDTH = width;
 export const SCREEN_HEIGHT = height;
-export const NAV_BAR_HEIGHT = Platform.OS == 'ios' ? 64 : 54;
-export const TAB_BAR_HEIGHT = 50;
 
 export let SCHEME = 'https';
 export let DOMAIN_API = 'api.zaiqiuchang.com';
@@ -42,17 +40,19 @@ export const DEFAULT_NAV_BAR_STYLE = {
   navBarBackgroundColor: COLOR.theme,
   navBarButtonColor: COLOR.textLightPrompt,
   statusBarTextColorScheme: 'light',
+  statusBarHideWithNavBar: true,
 };
 
 export const HIDDEN_NAV_BAR_STYLE = {
   navBarHidden: true,
+  statusBarHidden: true,
   statusBarHideWithNavBar: true,
 };
 
 export const TAB_BAR_STYLE = {
+  tabBarBackgroundColor: COLOR.backgroundDarker,
   tabBarButtonColor: COLOR.textEmpha,
   tabBarSelectedButtonColor: COLOR.theme,
-  tabBarBackgroundColor: COLOR.backgroundDarker,
 };
 
 export const RES_USER_AVATARS = new Map([
