@@ -32,15 +32,15 @@ export function postsOfCity({cityCode, offset='', cbOk, cbFail, cbFinish}) {
       cityCode, 
       sportCode: account.sport.code, 
       offset,
-    }).then((response) => {
+    }).then(response => {
         let {data} = response;
         posts = data.posts;
         return actions.cachePosts(object, posts);
       })
-      .then((action) => {
+      .then(action => {
         dispatch(action);
-        let postIds = posts.filter((v) => v.status != POST_STATUS_DELETED)
-          .map((v) => v.id);
+        let postIds = posts.filter(v => v.status != POST_STATUS_DELETED)
+          .map(v => v.id);
         if (offset == '') {
           dispatch({type: SET_POSTS_OF_CITY, cityCode, postIds});
         } else {
@@ -53,7 +53,7 @@ export function postsOfCity({cityCode, offset='', cbOk, cbFail, cbFinish}) {
           cbFinish();
         }
       })
-      .catch((error) => {
+      .catch(error => {
         dispatch(actions.handleApiError(error));
         if (cbFail) {
           cbFail();

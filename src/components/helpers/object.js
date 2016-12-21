@@ -38,8 +38,8 @@ export function postFromCache(object, postId) {
     return null;
   }
   let imageFiles = post.imageIds
-    .map((v) => fileFromCache(object, v))
-    .filter((v) => v !== null);
+    .map(v => fileFromCache(object, v))
+    .filter(v => v !== null);
   let stat = postStatFromCache(object, post.id);
   if (!stat) {
     return null;

@@ -39,8 +39,8 @@ export default class RegisterMobile extends Component {
               returnKeyType='next'
               defaultValue={mobile}
               autoFocus={true}
-              onRef={(ref) => this.refMobile = ref}
-              onChangeText={(text) => saveInput(this.screenId, {mobile: text.trim()})}
+              onRef={ref => this.refMobile = ref}
+              onChangeText={text => saveInput(this.screenId, {mobile: text.trim()})}
               onSubmitEditing={() => this.refPassword.focus()}
             />
           </components.FormItem>
@@ -50,8 +50,8 @@ export default class RegisterMobile extends Component {
               returnKeyType='done'
               secureTextEntry={true}
               defaultValue={password}
-              onRef={(ref) => this.refPassword = ref}
-              onChangeText={(text) => saveInput(this.screenId, {password: text.trim()})}
+              onRef={ref => this.refPassword = ref}
+              onChangeText={text => saveInput(this.screenId, {password: text.trim()})}
               onSubmitEditing={() => {dismissKeyboard(); submit(this.screenId, navigator);}}
             />
           </components.FormItem>

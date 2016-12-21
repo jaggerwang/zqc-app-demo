@@ -73,7 +73,7 @@ export default class EditProfileNickname extends Component {
               returnKeyType='done'
               defaultValue={input[this.screenId].nickname}
               autoFocus={true}
-              onChangeText={(text) => saveInput(this.screenId, {nickname: text.trim()})}
+              onChangeText={text => saveInput(this.screenId, {nickname: text.trim()})}
             />
           </components.FormItem>
         </components.Form>

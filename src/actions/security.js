@@ -10,7 +10,7 @@ import * as actions from './';
 export function sendVerifyCode({by, mobile, email, cbOk}) {
   return (dispatch, getState) => {
     apis.sendVerifyCode({by, mobile, email})
-      .then((response) => {
+      .then(response => {
         if (cbOk) {
           cbOk();
         }

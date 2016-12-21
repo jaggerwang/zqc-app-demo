@@ -54,7 +54,7 @@ export function registerVerifySubmit(screenId, navigator) {
       let {mobile, password} = input['RegisterMobile'];
       let {code} = input[screenId];
       apis.register({mobile, password, code})
-        .then((response) => {
+        .then(response => {
           dispatch(actions.loginRequest(
             {mobile, password}, () => navigator.push({screen: 'zqc.RegisterProfile', title: '完善资料'})
           ));
@@ -91,7 +91,7 @@ export function loginSubmit(screenId, navigator) {
   return (dispatch, getState) => {
     let {input} = getState();
     dispatch(actions.validateInput(screenId, input[screenId], () => {
-      let cbOk = (user) => {
+      let cbOk = user => {
         if (user.nickname && user.avatarType && user.gender) {
           navToTab()
         } else {
@@ -113,13 +113,13 @@ export function loginSubmit(screenId, navigator) {
 }
 
 export function loginRequest({username, mobile, email, password}, cbOk) {
-  return (dispatch) => {
+  return dispatch => {
     apis.login({username, mobile, email, password})
-      .then((response) => {
+      .then(response => {
         let {data: {user}} = response;
         dispatch(login({user, cbOk}));
       })
-      .catch((error) => {
+      .catch(error => {
         if (error instanceof apis.ResultError) {
           if (error.code == apis.ERROR_CODE_NOT_FOUND
             || error.code == apis.ERROR_CODE_WRONG_PASSWORD) {
@@ -136,14 +136,14 @@ export function login({user, cbOk, cbFail}) {
   return (dispatch, getState) => {
     let {object} = getState();
     actions.cacheUsers(object, [user])
-      .then((action) => {
+      .then(action => {
         dispatch(action);
         dispatch({type: LOGIN, userId: user.id});
         if (cbOk) {
           cbOk(user);
         }
       })
-      .catch((error) => {
+      .catch(error => {
         dispatch(actions.handleApiError(error));
         if (cbFail) {
           cbFail(error);
@@ -155,8 +155,8 @@ export function login({user, cbOk, cbFail}) {
 export function logoutRequest() {
   return (dispatch, getState) => {
     apis.logout()
-      .then((response) => navToBootstrap({passProps: {isReset: true}}))
-      .catch((error) => dispatch(actions.handleApiError(error)));
+      .then(response => navToBootstrap({passProps: {isReset: true}}))
+      .catch(error => dispatch(actions.handleApiError(error)));
   };
 }
 
@@ -165,17 +165,17 @@ export function editProfileNicknameSubmit(screenId, navigator) {
     let {input} = getState();
     dispatch(actions.validateInput(screenId, input[screenId], () => {
       apis.editAccount(input[screenId])
-        .then((response) => {
+        .then(response => {
           let {data: {user}} = response;
           dispatch(login({user, cbOk: () => navigator.pop()}));
         })
-        .catch((error) => dispatch(actions.handleApiError(error)));
+        .catch(error => dispatch(actions.handleApiError(error)));
     }));
   }
 }
 
 export function selectCustomAvatar(screenId, picker) {
-  return (dispatch) => {
+  return dispatch => {
     if (picker.error) {
       dispatch(actions.errorFlash(picker.error));
     } else if (!picker.didCancel && !picker.customButton) {
@@ -189,14 +189,14 @@ export function editProfileAvatarSubmit(screenId, navigator) {
     let {input} = getState();
     dispatch(actions.validateInput(screenId, input[screenId], () => {
       let {avatarType, avatarName, avatarUri} = input[screenId];
-      let cbOk = (response) => {
+      let cbOk = response => {
         let {data: {user}} = response;
         dispatch(login({user, cbOk: () => navigator.pop()}));
       };
       if (avatarType == 'builtin') {
         apis.editAccount({avatarType, avatarName})
           .then(cbOk)
-          .catch((error) => dispatch(actions.handleApiError(error)));
+          .catch(error => dispatch(actions.handleApiError(error)));
       } else if (avatarType == 'custom') {
         if (utils.isUrl(avatarUri)) {
           navigator.pop();
@@ -205,12 +205,12 @@ export function editProfileAvatarSubmit(screenId, navigator) {
 
         ImageResizer.createResizedImage(avatarUri, 1080, 810, 'JPEG', 90)
           .then(resizedImageUri => apis.uploadFile(resizedImageUri, 'image/jpeg'))
-          .then((response) => {
+          .then(response => {
             let {data: {file}} = response;
             return apis.editAccount({avatarType, avatarId: file.id});
           })
           .then(cbOk)
-          .catch((error) => dispatch(actions.handleApiError(error)));
+          .catch(error => dispatch(actions.handleApiError(error)));
       }
     }));
   };
@@ -224,11 +224,11 @@ export function editProfileGenderSubmit(screenId) {
     dispatch(actions.validateInput(screenId, input[screenId], () => {
       let {gender} = input[screenId];
       apis.editAccount({gender})
-        .then((response) => {
+        .then(response => {
           let {data: {user}} = response;
           dispatch(login({user}));
         })
-        .catch((error) => dispatch(actions.handleApiError(error)));
+        .catch(error => dispatch(actions.handleApiError(error)));
     }));
   };
 }
@@ -242,10 +242,10 @@ export function updateAccountLocation() {
     }
 
     apis.editAccount({location: location.position.coords}, true)
-      .then((response) => {
+      .then(response => {
         let {data: {user}} = response;
         dispatch(login({user}));
       })
-      .catch((error) => dispatch(actions.handleApiError(error)));
+      .catch(error => dispatch(actions.handleApiError(error)));
   };
 }

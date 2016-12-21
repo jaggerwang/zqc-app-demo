@@ -24,5 +24,5 @@ export default function setup() {
 
       navToBootstrap();
     })
-    .catch((error) => logger.error(error));
+    .catch(error => logger.error(error));
 }

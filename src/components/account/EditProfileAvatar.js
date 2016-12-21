@@ -98,7 +98,7 @@ export default class EditProfileAvatar extends Component {
                   noData: true,
                   storageOptions: {},
                 },
-                (picker) => selectCustomAvatar(this.screenId, picker),
+                picker => selectCustomAvatar(this.screenId, picker),
               );
             }}
             textStyle={{fontSize: 16}}

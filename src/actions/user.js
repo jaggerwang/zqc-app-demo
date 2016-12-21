@@ -34,14 +34,14 @@ export function nearbyUsers({cbOk, cbFail, cbFinish}={}) {
     let {coords: location} = position;
     let users;
     apis.nearbyUsers({location})
-      .then((response) => {
+      .then(response => {
         let {data} = response;
         users = data.users;
         return actions.cacheUsers(object, users);
       })
-      .then((action) => {
+      .then(action => {
         dispatch(action);
-        let userIds = users.map((v) => v.id);
+        let userIds = users.map(v => v.id);
         dispatch({type: SET_NEARBY_USERS, userIds});
         if (cbOk) {
           cbOk();
@@ -50,7 +50,7 @@ export function nearbyUsers({cbOk, cbFail, cbFinish}={}) {
           cbFinish();
         }
       })
-      .catch((error) => {
+      .catch(error => {
         dispatch(actions.handleApiError(error));
         if (cbFail) {
           cbFail();

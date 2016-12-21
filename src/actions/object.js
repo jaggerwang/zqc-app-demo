@@ -24,7 +24,7 @@ function cacheObjects({users, userIds, posts, postIds, courts, courtIds,
       return o;
     }, {});
     if (objectIds !== undefined) {
-      objectIds.forEach((v) => {
+      objectIds.forEach(v => {
         if (o[v] === undefined) {
           o[v] = null;
         }
@@ -91,7 +91,7 @@ export function cacheUsers(object, users, userIds) {
 
   let avatarIds = [];
   let avatarFiles = [];
-  users.filter((v) => v !== null).forEach((user) => {
+  users.filter(v => v !== null).forEach(user => {
     if (user.avatarType == 'custom') {
       avatarIds.push(user.avatarId);
       if (user.avatarFile) {
@@ -108,7 +108,7 @@ export function cacheUsers(object, users, userIds) {
 
   userIds = [];
   let stats = {};
-  users.filter((v) => v !== null).forEach((user) => {
+  users.filter(v => v !== null).forEach(user => {
     userIds.push(user.id);
     if (user.stat) {
       stats[user.id] = user.stat;
@@ -121,13 +121,13 @@ export function cacheUsers(object, users, userIds) {
     ps.push(cacheUserStatByIds(object, userIds));
   }
 
-  return Promise.all(ps).then((actions) => mergeCacheObjectsActions(actions));
+  return Promise.all(ps).then(actions => mergeCacheObjectsActions(actions));
 }
 
 export async function cacheUserByIds(object, userIds, update=false) {
   userIds = Array.from(new Set(userIds));
   if (!update) {
-    userIds = userIds.filter((v) => object.users[v] === undefined);
+    userIds = userIds.filter(v => object.users[v] === undefined);
   }
   if (userIds.length > 0) {
     let response;
@@ -148,7 +148,7 @@ export function cachePosts(object, posts, postIds) {
 
   let creatorIds = [];
   let creators = [];
-  posts.filter((v) => v !== null).forEach((post) => {
+  posts.filter(v => v !== null).forEach(post => {
     creatorIds.push(post.creatorId);
     if (post.creator) {
       creators.push(post.creator);
@@ -163,7 +163,7 @@ export function cachePosts(object, posts, postIds) {
 
   let courtIds = [];
   let courts = [];
-  posts.filter((v) => v !== null).forEach((post) => {
+  posts.filter(v => v !== null).forEach(post => {
     courtIds.push(post.courtId);
     if (post.court) {
       courts.push(post.court);
@@ -178,7 +178,7 @@ export function cachePosts(object, posts, postIds) {
 
   let imageIds = [];
   let imageFiles = [];
-  posts.filter((v) => v !== null).forEach((post) => {
+  posts.filter(v => v !== null).forEach(post => {
     imageIds = imageIds.concat(post.imageIds);
     if (post.imageFiles) {
       imageFiles = imageFiles.concat(post.imageFiles);
@@ -193,7 +193,7 @@ export function cachePosts(object, posts, postIds) {
 
   postIds = [];
   let stats = [];
-  posts.filter((v) => v !== null).forEach((post) => {
+  posts.filter(v => v !== null).forEach(post => {
     postIds.push(post.id);
     if (post.stat) {
       stats[post.id] = post.stat;
@@ -206,13 +206,13 @@ export function cachePosts(object, posts, postIds) {
     ps.push(cachePostStatByIds(object, postIds));
   }
   
-  return Promise.all(ps).then((actions) => mergeCacheObjectsActions(actions));
+  return Promise.all(ps).then(actions => mergeCacheObjectsActions(actions));
 }
 
 export async function cachePostByIds(object, postIds, update=false) {
   postIds = Array.from(new Set(postIds));
   if (!update) {
-    postIds = postIds.filter((v) => object.posts[v] === undefined);
+    postIds = postIds.filter(v => object.posts[v] === undefined);
   }
   if (postIds.length > 0) {
     let response;
@@ -233,7 +233,7 @@ export function cacheCourts(object, courts, courtIds) {
 
   courtIds = [];
   let stats = [];
-  courts.filter((v) => v !== null).forEach((court) => {
+  courts.filter(v => v !== null).forEach(court => {
     courtIds.push(court.id);
     if (court.stat) {
       stats[court.id] = court.stat;
@@ -246,13 +246,13 @@ export function cacheCourts(object, courts, courtIds) {
     ps.push(cacheCourtStatByIds(object, courtIds));
   }
   
-  return Promise.all(ps).then((actions) => mergeCacheObjectsActions(actions));
+  return Promise.all(ps).then(actions => mergeCacheObjectsActions(actions));
 }
 
 export async function cacheCourtByIds(object, courtIds, update=false) {
   courtIds = Array.from(new Set(courtIds));
   if (!update) {
-    courtIds = courtIds.filter((v) => object.courts[v] === undefined);
+    courtIds = courtIds.filter(v => object.courts[v] === undefined);
   }
   if (courtIds.length > 0) {
     let response;
@@ -275,7 +275,7 @@ export function cacheFiles(files, fileIds) {
 export async function cacheFileByIds(object, fileIds, update=false) {
   fileIds = Array.from(new Set(fileIds));
   if (!update) {
-    fileIds = fileIds.filter((v) => object.files[v] === undefined);
+    fileIds = fileIds.filter(v => object.files[v] === undefined);
   }
   if (fileIds.length > 0) {
     let response;
@@ -298,7 +298,7 @@ export function cacheUserStats(userStats) {
 export async function cacheUserStatByIds(object, userIds, update=false) {
   userIds = Array.from(new Set(userIds));
   if (!update) {
-    userIds = userIds.filter((v) => object.userStats[v] === undefined);
+    userIds = userIds.filter(v => object.userStats[v] === undefined);
   }
   if (userIds.length > 0) {
     let response;
@@ -321,7 +321,7 @@ export function cachePostStats(postStats) {
 export async function cachePostStatByIds(object, postIds, update=false) {
   postIds = Array.from(new Set(postIds));
   if (!update) {
-    postIds = postIds.filter((v) => object.postStats[v] === undefined);
+    postIds = postIds.filter(v => object.postStats[v] === undefined);
   }
   if (postIds.length > 0) {
     let response;
@@ -344,7 +344,7 @@ export function cacheCourtStats(courtStats) {
 export async function cacheCourtStatByIds(object, courtIds, update=false) {
   courtIds = Array.from(new Set(courtIds));
   if (!update) {
-    courtIds = courtIds.filter((v) => object.courtStats[v] === undefined);
+    courtIds = courtIds.filter(v => object.courtStats[v] === undefined);
   }
   if (courtIds.length > 0) {
     let response;

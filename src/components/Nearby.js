@@ -56,8 +56,8 @@ export default class Nearby extends Component {
     let {object} = props;
     let {account, post} = props;
     let postIds = post.byCity[account.city.code] || [];
-    let rows = postIds.map((v) => helpers.postFromCache(object, v))
-      .filter((v) => v !== null);
+    let rows = postIds.map(v => helpers.postFromCache(object, v))
+      .filter(v => v !== null);
 
     return rows;
   }
@@ -99,7 +99,7 @@ export default class Nearby extends Component {
           enableEmptySections={true}
           initialListSize={5}
           pageSize={5}
-          renderRow={(post) => 
+          renderRow={post => 
             <components.Post
               account={account}
               post={post}
@@ -108,7 +108,7 @@ export default class Nearby extends Component {
               containerStyle={styles.post}
             />
           }
-          renderScrollComponent={(props) => 
+          renderScrollComponent={props => 
             <ScrollView
               {...props}
               refreshControl={

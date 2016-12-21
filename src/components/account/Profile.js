@@ -47,7 +47,7 @@ export default class Profile extends Component {
         </components.Block>
         <components.GenderPicker
           visible={genderPickerVisible}
-          setVisible={(visible) => setScreenState(screenId, {genderPickerVisible: visible})}
+          setVisible={visible => setScreenState(screenId, {genderPickerVisible: visible})}
           items={GENDERS}
           selectedValue={gender}
           onShow={() => saveInput(screenId, {gender: user.gender})}

@@ -52,8 +52,8 @@ export default class AtCourt extends Component {
       enableLoading} = this.props;
     let {account, user} = this.props;
     let nearbyUsers = user.nearby
-      .map((v) => helpers.userFromCache(object, v))
-      .filter((v) => v !== null && v.id != account.userId)
+      .map(v => helpers.userFromCache(object, v))
+      .filter(v => v !== null && v.id != account.userId)
       .slice(0, 10);
 
     return (
@@ -91,7 +91,7 @@ export default class AtCourt extends Component {
             {nearbyUsers.length > 0 ? 'Ta们也在球场，赶紧去认识一下。' : '附近暂无球友。'}
           </components.TextNotice>
           <View style={{flexDirection: 'row', flexWrap: 'wrap', alignItems: 'flex-start'}}>
-            {nearbyUsers.map((user) => 
+            {nearbyUsers.map(user => 
               <components.Image 
                 key={user.id} 
                 source={helpers.userAvatarSource(user)} 

@@ -68,7 +68,7 @@ export function updateLocationCity() {
     }
 
     apis.lbsRegeo(location.position.coords)
-      .then((response) => {
+      .then(response => {
         let {data: {address}} = response;
         let city = {
           name: address.city,
@@ -80,6 +80,6 @@ export function updateLocationCity() {
         }
         dispatch(setLocationCity(city));
       })
-      .catch((error) => dispatch(actions.handleApiError(error)));
+      .catch(error => dispatch(actions.handleApiError(error)));
   };
 }

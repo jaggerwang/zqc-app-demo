@@ -63,7 +63,7 @@ export default class RegisterVerify extends Component {
               keyboardType='numeric'
               defaultValue={code}
               autoFocus={true}
-              onChangeText={(text) => saveInput(this.screenId, {code: text.trim()})}
+              onChangeText={text => saveInput(this.screenId, {code: text.trim()})}
               onSubmitEditing={() => {dismissKeyboard(); submit(this.screenId, navigator);}}
             />
           </components.FormItem>

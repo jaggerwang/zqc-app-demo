@@ -36,7 +36,7 @@ export default class Login extends Component {
               returnKeyType='next'
               defaultValue={account}
               autoFocus={true}
-              onChangeText={(text) => saveInput(this.screenId, {account: text.trim()})}
+              onChangeText={text => saveInput(this.screenId, {account: text.trim()})}
               onSubmitEditing={() => this.refPassword.focus()}
             />
           </components.FormItem>
@@ -46,8 +46,8 @@ export default class Login extends Component {
               returnKeyType='done'
               secureTextEntry={true}
               defaultValue={password}
-              onRef={(ref) => this.refPassword = ref}
-              onChangeText={(text) => saveInput(this.screenId, {password: text.trim()})}
+              onRef={ref => this.refPassword = ref}
+              onChangeText={text => saveInput(this.screenId, {password: text.trim()})}
               onSubmitEditing={() => {dismissKeyboard(); submit(this.screenId, navigator);}}
             />
           </components.FormItem>
