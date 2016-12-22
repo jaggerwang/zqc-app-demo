@@ -10,8 +10,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import {COLOR} from '../../config';
 
 export default ({loading, containerStyle}) => {
-  let {loadingCount, defaultPrompt, prompt, enabled} = loading;
-  prompt = (prompt !== undefined ? prompt : defaultPrompt);
+  let {loadingCount, prompt, enabled} = loading;
+  prompt = (prompt !== undefined ? prompt : '');
   if (enabled && loadingCount > 0) {
     return (
       <View style={[styles.container, containerStyle]}>

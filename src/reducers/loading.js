@@ -8,7 +8,6 @@ import * as actions from '../actions';
 
 const initialState = {
   loadingCount: 0,
-  defaultPrompt: '',
   prompt: undefined,
   enabled: true,
 };
