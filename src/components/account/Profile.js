@@ -7,7 +7,8 @@ import React, {Component} from 'react';
 import {StyleSheet, Platform, View, Text} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-import {COLOR, RES_USER_AVATARS, GENDERS} from '../../config';
+import {COLOR, RES_USER_AVATARS} from '../../config';
+import {GENDERS} from '../../const';
 import logger from '../../logger';
 import * as components from '../';
 import * as helpers from '../helpers';

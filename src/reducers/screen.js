@@ -7,6 +7,10 @@ import logger from '../logger';
 import * as actions from '../actions';
 
 const initialState = {
+  Nearby: {
+    citySelectorVisible: false,
+  },
+  
   RegisterVerify: {
     secondsToSend: 0,
   },

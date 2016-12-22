@@ -18,6 +18,8 @@ export {default as TextWithIcon} from './TextWithIcon';
 export {default as TextInput} from './TextInput';
 export {default as TextNotice} from './TextNotice';
 
+export {default as Tag} from './Tag';
+
 export {default as Icon} from './Icon';
 
 export {default as Image} from './Image';

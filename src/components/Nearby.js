@@ -5,9 +5,10 @@
 
 import React, {Component} from 'react';
 import {StyleSheet, View, Text, Image, ListView, ScrollView, RefreshControl, 
-  TouchableOpacity, InteractionManager} from 'react-native';
+  TouchableOpacity, InteractionManager, Platform} from 'react-native';
 
 import {COLOR, DEFAULT_NAV_BAR_STYLE, SCREEN_WIDTH, SCREEN_HEIGHT} from '../config';
+import {POST_STATUS_DELETED} from '../const';
 import logger from '../logger';
 import * as utils from '../utils';
 import * as components from './';
@@ -21,12 +22,16 @@ export default class Nearby extends Component {
 
     this.screenId = props.screenId || 'Nearby';
 
+    let {navigator} = props;
+    this.setNavBarButtons(props);
+    navigator.setOnNavigatorEvent(event => this.onNavigatorEvent(event));
+
     this.refreshing = false;
 
     this.ds = new ListView.DataSource({
       rowHasChanged: (r1, r2) => 
         r1.id != r2.id || 
-        r1.liked != r2.liked || 
+        r1.status != r2.status || 
         r1.creator.nickname != r2.creator.nickname || 
         r1.creator.avatarName != r2.creator.avatarName || 
         r1.creator.avatarId != r2.creator.avatarId || 
@@ -35,6 +40,15 @@ export default class Nearby extends Component {
         r1.creator.stat.liked != r2.creator.stat.liked ||
         r1.creator.stat.post != r2.creator.stat.post,
     }).cloneWithRows(this.getRows());
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.account.city.code != this.props.account.city.code
+      || nextProps.account.sport.code != this.props.account.sport.code) {
+      this.setNavBarButtons(nextProps);
+
+      this.refresh({props: nextProps});
+    }
   }
 
   componentDidMount() {
@@ -47,8 +61,33 @@ export default class Nearby extends Component {
     });
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.ds = this.ds.cloneWithRows(this.getRows(nextProps));
+  setNavBarButtons(props) {
+    let {navigator, account} = props;
+    let {city, sport} = account;
+    let buttons = [
+      {
+        title: city.name + ' ' + sport.name + ' >',
+        id: 'select_city_and_sport',
+      },
+    ];
+    navigator.setButtons(Platform.select({
+      ios: {
+        leftButtons: buttons,
+      },
+      android: {
+        rightButtons: buttons,
+      },
+    }));
+  }
+
+  onNavigatorEvent(event) {
+    let {navigator, setScreenState} = this.props;
+    let {submit} = this.props;
+    if (event.type == 'NavBarButtonPress') {
+      if (event.id == 'select_city_and_sport') {
+        setScreenState(this.screenId, {citySelectorVisible: true});
+      }
+    }
   }
 
   getRows(props) {
@@ -57,15 +96,14 @@ export default class Nearby extends Component {
     let {account, post} = props;
     let postIds = post.byCity[account.city.code] || [];
     let rows = postIds.map(v => helpers.postFromCache(object, v))
-      .filter(v => v !== null);
-
+      .filter(v => v && v.status != POST_STATUS_DELETED);
     return rows;
   }
 
   refresh({props, cbFinish}={}) {
     props = props || this.props;
-    let {location, setScreenLastRefreshTime, 
-      account, postsOfCity} = props;
+    let {setScreenLastRefreshTime} = props;
+    let {account, postsOfCity} = props;
 
     setScreenLastRefreshTime({screenId: this.screenId});
 
@@ -80,12 +118,28 @@ export default class Nearby extends Component {
     });
   }
 
+  setCityAndSport({city, sport}) {
+    let {setScreenState} = this.props;
+    let {setCity, setSport} = this.props;
+
+    if (city) {
+      setCity(city);      
+    }
+    if (sport) {
+      setSport(sport);
+    }
+
+    setScreenState(this.screenId, {citySelectorVisible: false});
+  }
+
   render() {
-    let {loading, processing, error, location, network, sport, object, 
-      enableLoading, disableLoading, errorFlash} = this.props;
-    let {account, post, postsOfCity} = this.props;
+    let {navigator, loading, processing, error, location, network, screen, 
+      enableLoading, disableLoading, errorFlash, setScreenState} = this.props;
+    let {account, postsOfCity} = this.props;
+    let {citySelectorVisible} = screen[this.screenId];
 
     let posts = this.getRows();
+    this.ds = this.ds.cloneWithRows(posts);
 
     return (
       <components.Layout
@@ -101,10 +155,11 @@ export default class Nearby extends Component {
           pageSize={5}
           renderRow={post => 
             <components.Post
+              navigator={navigator}
+              errorFlash={errorFlash}
+              location={location}
               account={account}
               post={post}
-              location={location}
-              errorFlash={errorFlash}
               containerStyle={styles.post}
             />
           }
@@ -138,6 +193,16 @@ export default class Nearby extends Component {
           }}
         /> :
         <components.TextNotice>当前城市暂时没有数据。</components.TextNotice>}
+
+        <components.CityAndSportSelector
+          visible={citySelectorVisible}
+          location={location}
+          city={account.city}
+          sport={account.sport}
+          setVisible={visible => setScreenState(this.screenId, {citySelectorVisible: visible})}
+          setCity={city => this.setCityAndSport({city})}
+          setSport={sport => this.setCityAndSport({sport})}
+        />
       </components.Layout>
     );
   }

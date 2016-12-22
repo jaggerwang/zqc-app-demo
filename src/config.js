@@ -93,8 +93,3 @@ export const RES_USER_BACKGROUNDS = new Map([
   ['juhua', require('zaiqiuchang/res/img/user-background/juhua.png')],
   ['pugongying', require('zaiqiuchang/res/img/user-background/pugongying.png')],
 ]);
-
-export const GENDERS = [
-  {label: '男', value: 'm'},
-  {label: '女', value: 'f'},
-];
