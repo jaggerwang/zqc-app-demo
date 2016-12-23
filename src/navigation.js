@@ -30,6 +30,7 @@ export function registerScreens(store, Provider) {
 
 	reg('zqc.CreatePost', () => containers.CreatePost, store, Provider);
 
+  reg('zqc.CityAndSportSelector', () => containers.CityAndSportSelector, store, Provider);
 	reg('zqc.About', () => containers.About, store, Provider);
 }
 

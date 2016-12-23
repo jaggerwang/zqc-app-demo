@@ -3,23 +3,26 @@
  * zaiqiuchang.com
  */
 
-import React from 'react';
+import React, {Component} from 'react';
 import {StyleSheet, View, Text, Modal, TouchableOpacity} from 'react-native';
 
-import {COLOR} from '../../config';
+import {COLOR, HIDDEN_NAV_BAR_STYLE} from '../../config';
 import {HOT_CITIES, SPORTS} from '../../const';
 import * as components from '../';
 
-export default ({visible, location, city, sport, setVisible, onShow, setCity, setSport}) => {
-  return (
-    <Modal
-      animationType='fade'
-      visible={visible}
-      transparent={true}
-      onShow={onShow}
-      onRequestClose={() => null}
-    >
-      <TouchableOpacity onPress={() => setVisible(false)} style={styles.modal}>
+export default class CityAndSportSelector extends Component {
+  static navigatorStyle = HIDDEN_NAV_BAR_STYLE;
+
+  constructor(props) {
+    super(props);
+
+    this.screenId = props.screenId || 'CityAndSportSelector';
+  }
+
+  render() {
+    let {navigator, location, account, setCity, setSport} = this.props;
+    return (
+      <TouchableOpacity onPress={() => navigator.dismissModal()} style={styles.modal}>
         <View style={styles.container}>
           <View style={{flexDirection: 'row'}}>
             <View style={{flex: 2, marginRight: 5, borderRightWidth: 1, borderColor: COLOR.lineNormal}}>
@@ -28,8 +31,8 @@ export default ({visible, location, city, sport, setVisible, onShow, setCity, se
                 {location.city ?
                   <components.Tag 
                     text={location.city.name} 
-                    selected={location.city.code == city.code}
-                    onPress={() => setCity(location.city)}
+                    selected={location.city.code == account.city.code}
+                    onPress={() => {navigator.dismissModal(); setCity(location.city);}}
                   /> :
                   <components.Tag text='未知' />
                 }
@@ -40,8 +43,8 @@ export default ({visible, location, city, sport, setVisible, onShow, setCity, se
                   <components.Tag
                     key={v.code}
                     text={v.name}
-                    selected={v.code == city.code}
-                    onPress={() => setCity(v)}
+                    selected={v.code == account.city.code}
+                    onPress={() => {navigator.dismissModal(); setCity(v);}}
                   />
                 )}
               </View>
@@ -53,9 +56,9 @@ export default ({visible, location, city, sport, setVisible, onShow, setCity, se
                   <components.Tag
                     key={v.code}
                     text={v.name}
-                    selected={v.code == sport.code}
+                    selected={v.code == account.sport.code}
                     disabled={v.disabled}
-                    onPress={() => setSport(v)}
+                    onPress={() => {navigator.dismissModal(); setSport(v);}}
                   />
                 )}
               </View>
@@ -66,20 +69,20 @@ export default ({visible, location, city, sport, setVisible, onShow, setCity, se
           </components.TextNotice>
         </View>
       </TouchableOpacity>
-    </Modal>
-  );
+    );
+  }
 }
 
 const styles = StyleSheet.create({
   modal: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: COLOR.backgroundNormal,
     justifyContent: 'center',
   },
   container: {
     marginHorizontal: 10, 
     padding: 10,
-    backgroundColor: COLOR.backgroundNormal,
+    backgroundColor: COLOR.backgroundDarker,
     borderRadius: 5,
   },
   title: {

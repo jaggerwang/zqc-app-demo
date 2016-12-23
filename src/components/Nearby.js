@@ -81,11 +81,11 @@ export default class Nearby extends Component {
   }
 
   onNavigatorEvent(event) {
-    let {navigator, setScreenState} = this.props;
+    let {navigator} = this.props;
     let {submit} = this.props;
     if (event.type == 'NavBarButtonPress') {
       if (event.id == 'select_city_and_sport') {
-        setScreenState(this.screenId, {citySelectorVisible: true});
+        navigator.showModal({screen: 'zqc.CityAndSportSelector'});
       }
     }
   }
@@ -118,25 +118,10 @@ export default class Nearby extends Component {
     });
   }
 
-  setCityAndSport({city, sport}) {
-    let {setScreenState} = this.props;
-    let {setCity, setSport} = this.props;
-
-    if (city) {
-      setCity(city);      
-    }
-    if (sport) {
-      setSport(sport);
-    }
-
-    setScreenState(this.screenId, {citySelectorVisible: false});
-  }
-
   render() {
-    let {navigator, loading, processing, error, location, network, screen, 
-      enableLoading, disableLoading, errorFlash, setScreenState} = this.props;
+    let {navigator, loading, processing, error, location, network, 
+      enableLoading, disableLoading, errorFlash} = this.props;
     let {account, postsOfCity} = this.props;
-    let {citySelectorVisible} = screen[this.screenId];
 
     let posts = this.getRows();
     this.ds = this.ds.cloneWithRows(posts);
@@ -193,16 +178,6 @@ export default class Nearby extends Component {
           }}
         /> :
         <components.TextNotice>当前城市暂时没有数据。</components.TextNotice>}
-
-        <components.CityAndSportSelector
-          visible={citySelectorVisible}
-          location={location}
-          city={account.city}
-          sport={account.sport}
-          setVisible={visible => setScreenState(this.screenId, {citySelectorVisible: visible})}
-          setCity={city => this.setCityAndSport({city})}
-          setSport={sport => this.setCityAndSport({sport})}
-        />
       </components.Layout>
     );
   }

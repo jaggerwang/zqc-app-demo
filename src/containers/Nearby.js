@@ -10,13 +10,12 @@ import * as components from '../components';
 import * as actions from '../actions';
 
 function mapStateToProps(state) {
-  let {loading, processing, error, screen, location, object, network} = state;
+  let {loading, processing, error, location, object, network} = state;
   let {account, post} = state;
   return {
     loading,
     processing,
     error,
-    screen,
     location,
     object,
     network,
@@ -31,9 +30,6 @@ function mapDispatchToProps(dispatch) {
     disableLoading: actions.disableLoading,
     errorFlash: actions.errorFlash,
     setScreenLastRefreshTime: actions.setScreenLastRefreshTime,
-    setCity: actions.setCity,
-    setSport: actions.setSport,
-    setScreenState: actions.setScreenState,
     nearbyPosts: actions.nearbyPosts,
     postsOfCity: actions.postsOfCity,
     likePost: actions.likePost,
