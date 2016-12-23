@@ -3,53 +3,48 @@
  * zaiqiuchang.com
  */
 
-import React from 'react';
+import React, {Component} from 'react';
 import {StyleSheet, View, Text, Picker, Modal, TouchableOpacity} from 'react-native';
 
-import {COLOR} from '../../config';
+import {COLOR, HIDDEN_NAV_BAR_STYLE} from '../../config';
+import {GENDERS} from '../../const';
 import * as components from '../';
+import * as helpers from '../helpers';
 
-export default ({visible, items, selectedValue, setVisible, onShow, onValueChange, submit, cancel}) => {
-  if (cancel === undefined) {
-    cancel = () => setVisible(false);
+export default class GenderPicker extends Component {
+  static navigatorStyle = HIDDEN_NAV_BAR_STYLE;
+
+  constructor(props) {
+    super(props);
+
+    this.screenId = props.screenId || 'GenderPicker';
   }
-  return (
-    <Modal
-      animationType='fade'
-      visible={visible}
-      transparent={true}
-      onShow={onShow}
-      onRequestClose={() => null}
-    >
-      <View style={styles.container}>
-        <View style={styles.titleContainer}>
-          <components.Text onPress={cancel} style={styles.title}>取消</components.Text>
-          <components.Text onPress={submit} style={styles.title}>完成</components.Text>
-        </View>
+
+  render() {
+    let {navigator, object} = this.props;
+    let {account, submit} = this.props;
+    let user = helpers.userFromCache(object, account.userId);
+    return (
+      <TouchableOpacity onPress={() => navigator.dismissModal()} style={styles.container}>
         <Picker
-          selectedValue={selectedValue}
-          onValueChange={onValueChange}
+          selectedValue={user.gender}
+          onValueChange={(value, index) => {navigator.dismissModal(); submit(value);}}
           style={styles.picker}
         >
-          {items.map(({value, label}) => 
-            <Picker.Item key={value} label={label === undefined ? value : label} value={value} />
+          {GENDERS.map(({value, label}) => 
+            <Picker.Item key={value} label={label} value={value} />
           )}
         </Picker>
-      </View>
-    </Modal>
-  );
+      </TouchableOpacity>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    justifyContent: 'flex-end',
-  },
-  titleContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    backgroundColor: COLOR.backgroundDarker,
+    backgroundColor: COLOR.backgroundNormal,
+    justifyContent: 'center',
   },
   title: {
     padding: 10,

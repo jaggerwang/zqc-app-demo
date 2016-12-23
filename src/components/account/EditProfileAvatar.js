@@ -59,8 +59,8 @@ export default class EditProfileAvatar extends Component {
   }
 
   render() {
-    let {navigator, loading, processing, error, input, saveInput} = this.props;
-    let {selectCustomAvatar, submit} = this.props;
+    let {navigator, loading, processing, error, input, errorFlash, saveInput} = this.props;
+    let {submit} = this.props;
     
     return (
       <components.Layout
@@ -98,7 +98,13 @@ export default class EditProfileAvatar extends Component {
                   noData: true,
                   storageOptions: {},
                 },
-                picker => selectCustomAvatar(this.screenId, picker),
+                picker => {
+                  if (picker.error) {
+                    errorFlash(picker.error);
+                  } else if (!picker.didCancel && !picker.customButton) {
+                    saveInput(this.screenId, {avatarType: 'custom', avatarUri: picker.uri});
+                  }
+                },
               );
             }}
             textStyle={{fontSize: 16}}

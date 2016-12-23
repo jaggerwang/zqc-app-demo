@@ -10,13 +10,11 @@ import * as components from '../../components';
 import * as actions from '../../actions';
 
 function mapStateToProps(state) {
-  let {loading, processing, error, input, screen, object, account} = state;
+  let {loading, processing, error, object, account} = state;
   return {
     loading,
     processing,
     error,
-    input,
-    screen,
     object,
     account,
   };
@@ -24,9 +22,6 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    saveInput: actions.saveInput,
-    setScreenState: actions.setScreenState,
-    submitGender: actions.editProfileGenderSubmit,
   }, dispatch);
 }
 

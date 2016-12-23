@@ -10,13 +10,6 @@ const initialState = {
   RegisterVerify: {
     secondsToSend: 0,
   },
-  RegisterProfile: {
-    genderPickerVisible: false,
-  },
-  
-  EditProfile: {
-    genderPickerVisible: false,
-  },
 };
 
 export default (state = initialState, action) => {

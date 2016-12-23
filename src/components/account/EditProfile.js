@@ -20,7 +20,7 @@ export default class EditProfile extends Component {
   }
 
   render() {
-    let {loading, processing, error, ...otherProps} = this.props;
+    let {navigator, loading, processing, error, ...otherProps} = this.props;
     return (
       <components.Layout
         loading={loading}
@@ -31,7 +31,7 @@ export default class EditProfile extends Component {
         <ScrollView>
           <components.TextNotice>完善的资料有助于结交到更多球友。</components.TextNotice>
           <components.Profile
-            screenId={this.screenId}
+            navigator={navigator}
             {...otherProps}
           />
         </ScrollView>

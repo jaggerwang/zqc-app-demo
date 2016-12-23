@@ -24,9 +24,9 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
+    errorFlash: actions.errorFlash,
     saveInput: actions.saveInput,
     setScreenState: actions.setScreenState,
-    selectCustomAvatar: actions.selectCustomAvatar,
     submit: actions.editProfileAvatarSubmit,
   }, dispatch);
 }

@@ -11,6 +11,7 @@ export {default as RegisterMobile} from './RegisterMobile';
 export {default as RegisterVerify} from './RegisterVerify';
 export {default as RegisterProfile} from './RegisterProfile';
 
+export {default as GenderPicker} from './GenderPicker';
 export {default as EditProfile} from './EditProfile';
 export {default as EditProfileNickname} from './EditProfileNickname';
 export {default as EditProfileAvatar} from './EditProfileAvatar';

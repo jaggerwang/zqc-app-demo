@@ -19,13 +19,7 @@ const initialState = {
   RegisterVerify: {
     code: '',
   },
-  RegisterProfile: {
-    gender: '',
-  },
 
-  EditProfile: {
-    gender: '',
-  },
   EditProfileNickname: {
     nickname: '',
   },

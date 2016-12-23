@@ -50,6 +50,7 @@ export default class EditProfileNickname extends Component {
     let {navigator, submit} = this.props;
     if (event.type == 'NavBarButtonPress') {
       if (event.id == 'done') {
+        dismissKeyboard();
         submit(this.screenId, navigator);
       } else if (event.id == 'cancel') {
         navigator.pop();
@@ -58,7 +59,8 @@ export default class EditProfileNickname extends Component {
   }
 
   render() {
-    let {loading, processing, error, input, saveInput} = this.props;
+    let {navigator, loading, processing, error, input, saveInput} = this.props;
+    let {submit} = this.props;
     return (
       <components.Layout
         loading={loading}
@@ -74,6 +76,7 @@ export default class EditProfileNickname extends Component {
               defaultValue={input[this.screenId].nickname}
               autoFocus={true}
               onChangeText={text => saveInput(this.screenId, {nickname: text.trim()})}
+              onSubmitEditing={() => {dismissKeyboard(); submit(this.screenId, navigator);}}
             />
           </components.FormItem>
         </components.Form>

@@ -10,11 +10,9 @@ import * as components from '../../components';
 import * as actions from '../../actions';
 
 function mapStateToProps(state) {
-  let {loading, processing, error, object, account} = state;
+  let {object} = state;
+  let {account} = state;
   return {
-    loading,
-    processing,
-    error,
     object,
     account,
   };
@@ -22,8 +20,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    submit: actions.registerProfileSubmit,
+    submit: actions.editProfileGenderSubmit,
   }, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(components.RegisterProfile);
+export default connect(mapStateToProps, mapDispatchToProps)(components.GenderPicker);

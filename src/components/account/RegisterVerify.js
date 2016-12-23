@@ -16,12 +16,14 @@ export default class RegisterVerify extends Component {
 
   constructor(props) {
     super(props);
-
+    
     this.screenId = props.screenId || 'RegisterVerify';
   }
 
   componentDidMount() {
-    let {setScreenState} = this.props;
+    let {saveInput, setScreenState} = this.props;
+    let {mobile, password} = this.props;
+    saveInput(this.screenId, {mobile, password});
     setScreenState(this.screenId, {secondsToSend: 30});
 
     this.timerSend = setInterval(
@@ -41,10 +43,10 @@ export default class RegisterVerify extends Component {
   }
 
   render() {
-    let {navigator, loading, processing, error, input, screen, saveInput, 
-      setScreenState, sendVerifyCode, submit} = this.props;
-    let {mobile} = input['RegisterMobile'];
-    let {code} = input[this.screenId];
+    let {navigator, loading, processing, error, input, screen, errorFlash, 
+      saveInput, setScreenState} = this.props;
+    let {sendVerifyCode, submit} = this.props;
+    let {code, mobile} = input[this.screenId];
     let {secondsToSend} = screen[this.screenId];
 
     return (
@@ -62,7 +64,6 @@ export default class RegisterVerify extends Component {
               maxLength={4}
               keyboardType='numeric'
               defaultValue={code}
-              autoFocus={true}
               onChangeText={text => saveInput(this.screenId, {code: text.trim()})}
               onSubmitEditing={() => {dismissKeyboard(); submit(this.screenId, navigator);}}
             />

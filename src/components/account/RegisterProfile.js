@@ -15,12 +15,12 @@ export default class RegisterProfile extends Component {
 
   constructor(props) {
     super(props);
-
+    
     this.screenId = props.screenId || 'RegisterProfile';
   }
-
+  
   render() {
-    let {loading, processing, error, submit, ...otherProps} = this.props;
+    let {navigator, loading, processing, error, submit, ...otherProps} = this.props;
     return (
       <components.Layout
         loading={loading}
@@ -31,7 +31,7 @@ export default class RegisterProfile extends Component {
         <ScrollView>
           <components.TextNotice>帐号注册成功，请完善资料。</components.TextNotice>
           <components.Profile
-            screenId={this.screenId}
+            navigator={navigator}
             {...otherProps}
           />
           <components.ButtonWithBg

@@ -24,6 +24,7 @@ export function registerScreens(store, Provider) {
 	reg('zqc.AtCourt', () => containers.AtCourt, store, Provider);
 	reg('zqc.Me', () => containers.Me, store, Provider);
 
+  reg('zqc.GenderPicker', () => containers.GenderPicker, store, Provider);
 	reg('zqc.EditProfile', () => containers.EditProfile, store, Provider);
 	reg('zqc.EditProfileNickname', () => containers.EditProfileNickname, store, Provider);
 	reg('zqc.EditProfileAvatar', () => containers.EditProfileAvatar, store, Provider);

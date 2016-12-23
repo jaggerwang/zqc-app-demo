@@ -16,12 +16,13 @@ export default class RegisterMobile extends Component {
 
   constructor(props) {
     super(props);
-
+    
     this.screenId = props.screenId || 'RegisterMobile';
   }
-
+  
   render() {
-    let {navigator, loading, processing, error, input, saveInput, submit} = this.props;
+    let {navigator, loading, processing, error, input, saveInput} = this.props;
+    let {submit} = this.props;
     let {mobile, password} = input[this.screenId];
     return (
       <components.Layout
@@ -38,7 +39,6 @@ export default class RegisterMobile extends Component {
               keyboardType='numeric'
               returnKeyType='next'
               defaultValue={mobile}
-              autoFocus={true}
               onRef={ref => this.refMobile = ref}
               onChangeText={text => saveInput(this.screenId, {mobile: text.trim()})}
               onSubmitEditing={() => this.refPassword.focus()}

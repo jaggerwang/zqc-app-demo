@@ -139,16 +139,14 @@ function login(navigator, dispatch, getState) {
     .then(response => {
       let {data: {user}} = response;
       if (user) {
-        dispatch(actions.login({
-          user, 
-          cbOk: () => {
-            if (user.nickname && user.avatarType && user.gender) {
-              navToTab();
-            } else {
-              navigator.resetTo({screen: 'zqc.RegisterProfile', title: '完善资料'});
-            }
-          },
-        }));
+        let cbOk = () => {
+          if (user.nickname && user.avatarType && user.gender) {
+            navToTab();
+          } else {
+            navigator.resetTo({screen: 'zqc.RegisterProfile', title: '完善资料'});
+          }
+        };
+        dispatch(actions.setAccount({user, cbOk}));
       } else {
         navigator.resetTo({screen: 'zqc.PreLogin', title: ''});
       }
