@@ -4,12 +4,10 @@ Zaiqiuchang is a mobile app developed using React Native(RN for short), both iOS
 
 ### Screenshots
 
-<img src="https://zqc.cdn.zaiqiuchang.com/screenshot/demo/Snip20161207_8.jpg" width="240" />
-<img src="https://zqc.cdn.zaiqiuchang.com/screenshot/demo/Snip20161207_3.png" width="240" />
-<img src="https://zqc.cdn.zaiqiuchang.com/screenshot/demo/Snip20161207_5.png" width="240" />
-<img src="https://zqc.cdn.zaiqiuchang.com/screenshot/demo/Snip20161207_6.png" width="240" />
-<img src="https://zqc.cdn.zaiqiuchang.com/screenshot/demo/Snip20161207_7.png" width="240" />
-<img src="https://zqc.cdn.zaiqiuchang.com/screenshot/demo/Snip20161207_10.png" width="240" />
+<img src="https://zqc.cdn.zaiqiuchang.com/screenshot/demo/nearby.jpg" width="240" />
+
+* [功能演示视频](http://v.youku.com/v_show/id_XMTg4MjY3OTEyNA==.html)
+* [Features introducing video](https://www.youtube.com/watch?v=g4CWoEIlKZk)
 
 ### Features
 
@@ -44,5 +42,6 @@ Zaiqiuchang is a mobile app developed using React Native(RN for short), both iOS
 ### Other resources
 
 * [视频课程 - React Native跨平台移动应用开发之基础篇](http://study.163.com/course/courseMain.htm?courseId=1003433016)
+* [视频课程 - React Native跨平台移动应用开发之实战篇](http://study.163.com/course/courseMain.htm?courseId=1003558014)
 * [技术文章 - React Native跨平台移动应用开发实战](https://jaggerwang.net/react-native-cross-platform-mobile-app-develop-intro/)
 * [在球场官网](https://www.zaiqiuchang.com)
