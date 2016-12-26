@@ -12,7 +12,7 @@ import * as apis from '../apis';
 import * as actions from './';
 
 export const RESET_ACCOUNT = 'reset_account';
-export const LOGIN = 'login';
+export const SET_ACCOUNT = 'set_account';
 export const SET_CITY = 'set_city';
 export const SET_SPORT = 'set_sport';
 
@@ -135,7 +135,7 @@ export function setAccount({user, cbOk, cbFail}) {
     actions.cacheUsers(object, [user])
       .then(action => {
         dispatch(action);
-        dispatch({type: LOGIN, userId: user.id});
+        dispatch({type: SET_ACCOUNT, userId: user.id});
         if (cbOk) {
           cbOk(user);
         }

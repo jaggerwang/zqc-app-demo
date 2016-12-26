@@ -11,13 +11,13 @@ import {GENDERS} from '../../const';
 import * as components from '../';
 import * as helpers from '../helpers';
 
-export default class GenderPicker extends Component {
+export default class EditProfileGender extends Component {
   static navigatorStyle = HIDDEN_NAV_BAR_STYLE;
 
   constructor(props) {
     super(props);
 
-    this.screenId = props.screenId || 'GenderPicker';
+    this.screenId = props.screenId || 'EditProfileGender';
   }
 
   render() {

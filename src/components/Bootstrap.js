@@ -4,7 +4,7 @@
  */
 
 import React, {Component} from 'react';
-import {StyleSheet, View, Text, Image, TouchableOpacity} from 'react-native';
+import {StyleSheet, View, Text, Image, TouchableOpacity, InteractionManager} from 'react-native';
 
 import {COLOR, HIDDEN_NAV_BAR_STYLE} from '../config';
 import * as navigation from '../navigation';
@@ -20,11 +20,13 @@ export default class Bootstrap extends Component {
   }
 
   componentDidMount() {
-    let {isReset=false, navigator, reset, bootstrap} = this.props;
-    if (isReset) {
-      reset();
-    }
-    bootstrap(navigator);
+    InteractionManager.runAfterInteractions(() => {
+      let {isReset=false, navigator, reset, bootstrap} = this.props;
+      if (isReset) {
+        reset();
+      }
+      bootstrap(navigator);
+    });
   }
 
   render() {

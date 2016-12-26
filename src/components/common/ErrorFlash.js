@@ -8,7 +8,7 @@ import {StyleSheet, View, Text} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import * as Animatable from 'react-native-animatable';
 
-import {COLOR, SCREEN_WIDTH, SCREEN_HEIGHT} from '../../config';
+import {COLOR} from '../../config';
 import * as apis from '../../apis';
 
 export default ({error, containerStyle}) => {
@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 10,
     right: 10,
-    bottom: Math.floor((SCREEN_HEIGHT / 2 - 40) / 3),
+    bottom: 10,
     alignItems: 'center',
     padding: 10,
     backgroundColor: COLOR.backgroundNotice,

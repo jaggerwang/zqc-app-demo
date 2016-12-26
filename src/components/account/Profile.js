@@ -37,7 +37,7 @@ export default ({navigator, object, account}) => {
           leftText='性别'
           rightText={user.gender ? (user.gender == 'm' ? '男' : '女') : '未选择'}
           rightIcon='angle-right'
-          onPress={() => navigator.showModal({screen: 'zqc.GenderPicker'})}
+          onPress={() => navigator.showModal({screen: 'zqc.EditProfileGender'})}
         />
       </components.Block>
     </View>

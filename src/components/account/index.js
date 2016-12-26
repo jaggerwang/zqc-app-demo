@@ -12,7 +12,7 @@ export {default as RegisterVerify} from './RegisterVerify';
 export {default as RegisterProfile} from './RegisterProfile';
 
 export {default as Profile} from './Profile';
-export {default as GenderPicker} from './GenderPicker';
+export {default as EditProfileGender} from './EditProfileGender';
 export {default as EditProfile} from './EditProfile';
 export {default as EditProfileNickname} from './EditProfileNickname';
 export {default as EditProfileAvatar} from './EditProfileAvatar';

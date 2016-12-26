@@ -13,7 +13,7 @@ const initialState = {
 };
 
 export default (state = initialState, action) => {
-  if (action.type == actions.LOGIN) {
+  if (action.type == actions.SET_ACCOUNT) {
     let {userId} = action;
     return {
       ...state,

@@ -24,4 +24,4 @@ function mapDispatchToProps(dispatch) {
   }, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(components.GenderPicker);
+export default connect(mapStateToProps, mapDispatchToProps)(components.EditProfileGender);
