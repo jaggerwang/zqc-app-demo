@@ -4,10 +4,10 @@ Zaiqiuchang is a mobile app developed using React Native(RN for short), both iOS
 
 ### Screenshots
 
-<img src="https://zqc.cdn.zaiqiuchang.com/screenshot/ios/screenshot-nearby-720p.jpg" width="240" />
+<img src="https://zqc.cdn.zaiqiuchang.com/screenshot/ios/screenshot-nearby-360p.jpg" />
 
-* [功能演示视频](http://v.youku.com/v_show/id_XMTg4MjY3OTEyNA==.html)
-* [Features introducing video](https://www.youtube.com/watch?v=g4CWoEIlKZk)
+* [功能演示视频](http://v.youku.com/v_show/id_XMjQ3Nzk4ODQyMA==.html)
+* [Features show video](https://www.youtube.com/watch?v=gISX5Z0kfU0)
 
 ### Features
 
