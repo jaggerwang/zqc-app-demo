@@ -9,19 +9,21 @@ Zaiqiuchang is a mobile app developed using React Native(RN for short), both iOS
 * [功能演示视频](http://v.youku.com/v_show/id_XMjQ5MDQ0NzMwMA==.html)
 * [Features show video](https://www.youtube.com/watch?v=Ni3a6cnu8h0)
 
-### Features
+### Tools
 
-|Feature|Description|
+|Tool|Description|
 |-------|-----------|
 |[react-native](https://github.com/facebook/react-native)|Bridge to native.|
 |[react](https://github.com/facebook/react)|Build ui component.|
 |[redux](http://redux.js.org/)|Manage ui state.|
 |[react-native-navigation](https://github.com/wix/react-native-navigation)|Screen navigation.|
-|[react-native-vector-icons](https://github.com/oblador/react-native-vector-icons)|Display icon.|
-|[validate.js](https://validatejs.org/)|Validate input.|
-|[react-native-image-picker](https://github.com/marcshilling/react-native-image-picker)|Pick image from camera or album.|
-|[react-native-image-resizer](https://github.com/bamlab/react-native-image-resizer)|Compress image.|
+|[react-native-code-push](react-native-code-push)|Online upgrade app without submitting to app store.|
+|[react-native-image-crop-picker](https://github.com/ivpusic/react-native-image-crop-picker)|Pick image and video from album, or taken from camera.|
+|[react-native-video](https://github.com/react-native-community/react-native-video)|Play video.|
+|[react-native-orientation](https://github.com/yamill/react-native-orientation)|Orientation support.|
 |[react-native-amap-location](https://github.com/xiaobuu/react-native-amap-location)|Locate on Android.|
+|[react-native-wechat](https://github.com/weflex/react-native-wechat)|Share to WeChat.|
+|[react-native-vector-icons](https://github.com/oblador/react-native-vector-icons)|Display icon.|
 
 ### How to run
 
@@ -38,6 +40,12 @@ Zaiqiuchang is a mobile app developed using React Native(RN for short), both iOS
 > react-native link
 > react-native run-android
 ```
+
+### FAQ
+
+**Fix android compile error: getUseDeveloperSupport should be public**
+
+> It's a bug for react-native-navigation. If you encounter this, modify line `protected boolean getUseDeveloperSupport() {` to `public boolean getUseDeveloperSupport() {` in file "NavigationReactGateway.java".
 
 ### Other resources
 
