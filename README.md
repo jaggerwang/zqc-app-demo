@@ -41,6 +41,8 @@ Zaiqiuchang is a mobile app developed using React Native(RN for short), both iOS
 > react-native run-android
 ```
 
+> Change all `react-native-video` to `react-native-video-exoplayer` in file 'android/settings.gradle' and 'android/app/build.gradle' for better video playing performance.
+
 ### FAQ
 
 **Fix android compile error: getUseDeveloperSupport should be public**
