@@ -12,6 +12,8 @@ import {persistStore, autoRehydrate} from 'redux-persist';
 import {IN_DEBUGGER} from './config';
 import reducers from './reducers';
 
+export let store = null;
+
 let middlewares = [thunk];
 if (IN_DEBUGGER) {
   middlewares.push(createLogger({
@@ -24,9 +26,9 @@ export const createAppStore = compose(
   applyMiddleware(...middlewares),
 )(createStore);
 
-export default function createPersistAppStore() {
+export function createPersistAppStore() {
   return new Promise((resolve, reject) => {
-    let store = createAppStore(reducers, undefined, autoRehydrate());
+    store = createAppStore(reducers, undefined, autoRehydrate());
     if (IN_DEBUGGER) {
       window.store = store;
     }
@@ -35,13 +37,14 @@ export default function createPersistAppStore() {
       store,
       {
         storage: AsyncStorage, 
-        blacklist: ['loading', 'processing', 'error', 'network', 'location'],
+        blacklist: ['loading', 'processing', 'error', 'network', 'location', 
+          'device'],
       },
       (error, state) => {
         if (error) {
           reject(error);
         } else {
-          resolve(store);
+          resolve({store, state});
         }
       },
     );

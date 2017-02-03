@@ -5,16 +5,20 @@
 
 import React, {Component} from 'react';
 import {StyleSheet, View, Text, Image, ScrollView} from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import ImagePicker from 'react-native-image-picker';
+import ImagePicker from 'react-native-image-crop-picker';
+import dismissKeyboard from 'dismissKeyboard';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
 
-import {COLOR, DEFAULT_NAV_BAR_STYLE, RES_USER_AVATARS} from '../../config';
+import {COLOR, DEFAULT_NAV_BAR_STYLE} from '../../config';
+import {RES_USER_AVATARS} from '../../const';
+import logger from '../../logger';
 import * as utils from '../../utils';
 import * as components from '../';
 import * as actions from '../../actions';
-import * as helpers from '../helpers';
+import * as helpers from '../../helpers';
 
-export default class EditProfileAvatar extends Component {
+class EditProfileAvatar extends Component {
   static navigatorStyle = DEFAULT_NAV_BAR_STYLE;
 
   static navigatorButtons = {
@@ -40,34 +44,58 @@ export default class EditProfileAvatar extends Component {
     let {navigator} = props;
     navigator.setOnNavigatorEvent(event => this.onNavigatorEvent(event));
   }
-
+  
   componentDidMount() {
     let {object, account, saveInput} = this.props;
-    let {avatarType, avatarName, avatarFile} = helpers.userFromCache(object, account.userId);
-    saveInput(this.screenId, {avatarType, avatarName, avatarUri: (avatarFile ? avatarFile.url : '')});
+    let {avatarType, avatarName, avatarFile} = helpers.userFromCache(object, account.id);
+    saveInput(this.screenId, {avatarType, avatarName, avatarFile});
   }
 
   onNavigatorEvent(event) {
-    let {navigator, submit} = this.props;
+    let {navigator} = this.props;
     if (event.type == 'NavBarButtonPress') {
       if (event.id == 'done') {
-        submit(this.screenId, navigator);
+        this.submit();
       } else if (event.id == 'cancel') {
         navigator.pop();
       }
     }
   }
 
+  submit() {
+    dismissKeyboard();
+
+    let {navigator, input, validateInput, updateAccount, uploadFile} = this.props;
+    validateInput(this.screenId, input[this.screenId], () => {
+      let {avatarType, avatarName, avatarImage} = input[this.screenId];
+      let cbOk = () => navigator.pop();
+      if (avatarType == 'builtin') {
+        updateAccount({
+          update: {avatarType, avatarName}, 
+          cbOk,
+        });
+      } else if (avatarType == 'custom') {
+        if (!avatarImage) {
+          cbOk();
+          return;
+        }
+        uploadFile({
+          path: avatarImage.path, 
+          mime: avatarImage.mime,
+          cbOk: file => updateAccount({
+            update: {avatarType, avatarId: file.id}, 
+            cbOk,
+          }),
+        });
+      }
+    });
+  }
+
   render() {
-    let {navigator, loading, processing, error, input, errorFlash, saveInput} = this.props;
-    let {submit} = this.props;
+    let {navigator, input, errorFlash, saveInput} = this.props;
     
     return (
-      <components.Layout
-        loading={loading}
-        processing={processing}
-        errorFlash={error.flash}
-      >
+      <components.Layout screenId={this.screenId}>
         <ScrollView>
           <components.Image source={helpers.userAvatarSource(input[this.screenId], 'middle')} style={styles.avatar} />
           <components.TextNotice>从内置里选取</components.TextNotice>
@@ -84,31 +112,46 @@ export default class EditProfileAvatar extends Component {
             )}
           </View>
           <components.TextNotice>从相册里选取</components.TextNotice>
-          <components.ButtonWithBg
-            text='打开相册'
-            onPress={() => {
-              ImagePicker.showImagePicker(
+          <components.ActionSheet
+            onPress={showActionSheetWithOptions => {
+              let options = ['相机', '相册', '取消'];
+              showActionSheetWithOptions(
                 {
+                  options,
+                  cancelButtonIndex: options.findIndex(v => v == '取消'),
                   title: '设置头像',
-                  takePhotoButtonTitle: '拍照',
-                  chooseFromLibraryButtonTitle: '相册',
-                  cancelButtonTitle: '取消',
-                  mediaType: 'photo',
-                  allowsEditing: true,
-                  noData: true,
-                  storageOptions: {},
                 },
-                picker => {
-                  if (picker.error) {
-                    errorFlash(picker.error);
-                  } else if (!picker.didCancel && !picker.customButton) {
-                    saveInput(this.screenId, {avatarType: 'custom', avatarUri: picker.uri});
+                buttonIndex => {
+                  let picker;
+                  if (buttonIndex == options.findIndex(v => v == '相册')) {
+                    picker = ImagePicker.openPicker;
+                  } else if (buttonIndex == options.findIndex(v => v == '相机')) {
+                    picker = ImagePicker.openCamera;
                   }
-                },
+                  if (picker) {
+                    picker({
+                      cropping: true,
+                      width: 800,
+                      height: 800,
+                      compressImageQuality: 0.9,
+                    })
+                    .then(image => saveInput(this.screenId, {
+                      avatarType: 'custom', 
+                      avatarImage: image,
+                    }))
+                    .catch(error => {
+                      if (error.code != 'E_PICKER_CANCELLED') {
+                        logger.warn(error.message);
+                      }
+                    });
+                  } 
+                }
               );
             }}
-            textStyle={{fontSize: 16}}
-          />
+          >
+            <components.ButtonWithBg text='打开相册' textStyle={{fontSize: 16}} />
+          </components.ActionSheet>
+            
         </ScrollView>
       </components.Layout>
     );
@@ -128,3 +171,18 @@ const styles = StyleSheet.create({
     height: 40,
   },
 });
+
+function mapStateToProps(state) {
+  let {input, object, account} = state;
+  return {
+    input,
+    object,
+    account,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(actions, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditProfileAvatar);

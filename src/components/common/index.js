@@ -18,11 +18,10 @@ export {default as TextWithIcon} from './TextWithIcon';
 export {default as TextInput} from './TextInput';
 export {default as TextNotice} from './TextNotice';
 
-export {default as Tag} from './Tag';
-
 export {default as Icon} from './Icon';
-
 export {default as Image} from './Image';
+
+export {default as Tag} from './Tag';
 
 export {default as Form} from './Form';
 export {default as FormItem} from './FormItem';
@@ -31,3 +30,5 @@ export {default as Block} from './Block';
 export {default as BlockItem} from './BlockItem';
 
 export {default as Section} from './Section';
+
+export {default as ActionSheet} from './ActionSheet';

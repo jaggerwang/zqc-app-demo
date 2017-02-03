@@ -1,6 +1,6 @@
 /**
- * Zai Qiu Chang App
- * https://www.zaiqiuchang.com/
+ * 在球场
+ * zaiqiuchang.com
  */
 
 import setup from "./src/setup";

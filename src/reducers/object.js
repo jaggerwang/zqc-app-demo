@@ -9,11 +9,13 @@ import * as actions from '../actions';
 const initialState = {
   users: {},
   posts: {},
+  postComments: {},
   courts: {},
   files: {},
   userStats: {},
   postStats: {},
   courtStats: {},
+  fileStats: {},
 };
 
 export default (state = initialState, action) => {

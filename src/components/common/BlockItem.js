@@ -5,25 +5,41 @@
 
 import React from 'react';
 import {StyleSheet, View, Text, Image, TouchableOpacity} from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
 
 import {COLOR} from '../../config';
+import * as components from '../';
 
-export default ({leftIcon, leftText, rightImage, rightText, rightIcon, onPress, 
+export default ({leftIcon, leftText, rightImage, rightText, rightComponent, rightIcon, onPress, 
   containerStyle, imageStyle, leftIconStyle, rightIconStyle}) => {
-  return (
-    <TouchableOpacity onPress={onPress} style={[styles.container, containerStyle]}>
-      <View style={{flexDirection: 'row', alignItems: 'center'}}>
-        {leftIcon ? <Icon name={leftIcon} style={[styles.leftText, styles.leftIcon, leftIconStyle]} /> : null}
-        <Text style={styles.leftText}>{leftText}</Text>
-      </View>
-      <View style={{flexDirection: 'row', alignItems: 'center'}}>
-        {rightImage ? <Image source={rightImage} style={[{width: 50, height: 50}, imageStyle]} /> : null}
-        {rightText ? <Text style={styles.rightText}>{rightText}</Text> : null}
-        {rightIcon ? <Icon name={rightIcon} style={[styles.rightText, styles.rightIcon, rightIconStyle]} /> : null}
-      </View>
-    </TouchableOpacity>
+  let leftChild = (
+    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+      {leftIcon ? <components.Icon name={leftIcon} style={[styles.leftText, styles.leftIcon, leftIconStyle]} /> : null}
+      <Text style={styles.leftText}>{leftText}</Text>
+    </View>
   );
+  let rightChild = (
+    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+      {rightImage ? <Image source={rightImage} style={[{width: 50, height: 50}, imageStyle]} /> : null}
+      {rightText ? <Text style={styles.rightText}>{rightText}</Text> : null}
+      {rightComponent ? rightComponent : null}
+      {rightIcon ? <components.Icon name={rightIcon} style={[styles.rightText, styles.rightIcon, rightIconStyle]} /> : null}
+    </View>
+  );
+  if (onPress) {
+    return (
+      <TouchableOpacity onPress={onPress} style={[styles.container, containerStyle]}>
+        {leftChild}
+        {rightChild}
+      </TouchableOpacity>
+    );
+  } else {
+    return (
+      <View style={[styles.container, containerStyle]}>
+        {leftChild}
+        {rightChild}
+      </View>
+    );
+  } 
 }
 
 const styles = StyleSheet.create({

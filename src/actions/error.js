@@ -3,7 +3,9 @@
  * zaiqiuchang.com
  */
 
+import logger from '../logger';
 import {navToBootstrap} from '../navigation';
+import {InputError, ApiHttpError} from '../error';
 import * as apis from '../apis';
 
 export const RESET_ERROR = 'reset_error';
@@ -33,7 +35,7 @@ export function errorInput(screenId, error) {
 }
 
 export function errorFlash(error, duration=3000) {
-  return (dispatch, getState) => {
+  return dispatch => {
     dispatch({
       type: ERROR_FLASH,
       error,
@@ -47,14 +49,26 @@ export function errorFlash(error, duration=3000) {
   };
 }
 
-export function handleApiError(error) {
-  return (dispatch, getState) => {
-    if (error instanceof apis.HttpError) {
+export function handleError(error) {
+  return dispatch => {
+    logger.debug(error);
+    if (error instanceof ApiHttpError) {
       if (error.code == 401) {
         navToBootstrap();
         return;
       }
+    } else if (error instanceof InputError) {
+      dispatch(errorInput(error.screenId, error.error));
+      return;
+    } else if (error instanceof Error) {
+      dispatch(errorFlash(error.message));
+      return;
+    } else if (error instanceof Object && error.hasOwnProperty('message')) {
+      dispatch(errorFlash(error.message));
+      return;
+    } else {
+      logger.error(error);
+      return;
     }
-    dispatch(errorFlash(error.message));
   };
 }

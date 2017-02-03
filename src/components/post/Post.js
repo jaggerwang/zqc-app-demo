@@ -6,20 +6,41 @@
 import React, {Component, PropTypes} from 'react';
 import {StyleSheet, View, Text, Image, ListView, ScrollView, RefreshControl, 
   TouchableOpacity, InteractionManager} from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
 
 import {COLOR, SCREEN_WIDTH, SCREEN_HEIGHT} from '../../config';
+import {navToAlbum, navToPlayer} from '../../navigation';
 import logger from '../../logger';
 import * as components from '../';
-import * as helpers from '../helpers';
+import * as helpers from '../../helpers';
+import * as actions from '../../actions';
 
-export default class Post extends Component {
+class Post extends Component {
+  showMoreOps(showActionSheetWithOptions) {
+    let {post, sharePostToWeChatSession, sharePostToWeChatTimeline} = this.props;
+    let options = ['朋友圈', '好友', '取消'];
+    showActionSheetWithOptions(
+      {
+        options,
+        cancelButtonIndex: options.findIndex(v => v == '取消'),
+        title: '分享到微信',
+      },
+      buttonIndex => {
+        if (buttonIndex == options.findIndex(v => v == '朋友圈')) {
+          sharePostToWeChatTimeline({post});
+        } else if (buttonIndex == options.findIndex(v => v == '好友')) {
+          sharePostToWeChatSession({post});
+        }
+      }
+    );
+  }
+
   render() {
-    let {location} = this.props;
-    let {post, containerStyle} = this.props;
-
+    let {navigator, screenId, location, post, containerStyle, onPress, likePost, 
+      unlikePost, onComment} = this.props;
     return (
-      <components.Block containerStyle={containerStyle}>
+      <components.Block onPress={onPress} containerStyle={containerStyle}>
         <View style={{flexDirection: 'row', paddingBottom: 2.5}}>
           <components.Image 
             source={helpers.userAvatarSource(post.creator)} 
@@ -29,31 +50,24 @@ export default class Post extends Component {
           <View style={{flex: 1}}>
             <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', height: 25}}>
               <components.TextWithIcon 
-                iconName={post.creator.gender == 'm' ? 'mars' : 'venus'} 
+                icon={post.creator.gender == 'm' ? 'person' : 'person'} 
                 text={post.creator.nickname}
-                styleKind='emphaBig'
-                containerStyle={{paddingVertical: 5}}
+                style={{fontSize: 14, color: COLOR.textEmpha}}
+                containerStyle={{paddingVertical: 5}} 
               />
-              <components.TextWithIcon 
-                iconName='map-marker' 
-                text={post.court.name} 
-                styleKind='empha' 
-                containerStyle={{paddingVertical: 5}}
-              />
+
+              <components.Text>{helpers.dateText(post.createTime)}</components.Text>
             </View>
+
             <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', height: 25}}>
-              <View style={{flexDirection: 'row'}}>
-                <components.TextWithIcon 
-                  iconName='thumbs-o-up' 
-                  text={helpers.numberText(post.stat.liked)}
-                  containerStyle={{marginRight: 5}}
-                />
-                <components.TextWithIcon 
-                  iconName='comment-o' 
-                  text={helpers.numberText(post.stat.commented)}
-                />
-              </View>
-              <components.Text>{helpers.distanceText(location, post.location)} · {helpers.dateText(post.createTime)}</components.Text>
+              <components.TextWithIcon 
+                icon='location-on' 
+                text={post.court.name} 
+                style={{color: COLOR.textEmpha}} 
+                containerStyle={{paddingVertical: 5}} 
+              />
+
+              <components.Text>{helpers.distanceText(location, post.court.location)}</components.Text>
             </View>
           </View>
         </View>
@@ -65,29 +79,76 @@ export default class Post extends Component {
         }
 
         <View style={styles.postImages}>
-          {post.imageFiles.slice(0, 3).map((value, index, array) => 
+          {post.imageFiles.slice(0, 3).map((file, index, array) => 
+            file.mime.startsWith('image/') ?
             <components.Image
-              key={value.id}
-              source={helpers.imageSource(value.url, (array.length == 1 ? 'large' : 'middle'))}
+              key={file.id}
+              source={helpers.fileImageSource(file, (array.length == 1 ? 'large' : 'middle'))}
+              onPress={() => {
+                let imageFiles = post.imageFiles.filter(v => v.mime.startsWith('image/'));
+                let currentIndex = imageFiles.findIndex(v => v.id == file.id);
+                navToAlbum(navigator, imageFiles, {currentIndex});
+              }}
+              style={array.length == 1 ? styles.largeImage : (array.length == 2 ? styles.middleImage : styles.smallImage)}
+            /> :
+            <components.Image
+              key={file.id}
+              source={helpers.fileImageSource(file, (array.length == 1 ? 'large' : 'middle'))}
+              playIconVisible={true}
+              onPress={() => navToPlayer(navigator, file, {prevScreen: screenId})}
               style={array.length == 1 ? styles.largeImage : (array.length == 2 ? styles.middleImage : styles.smallImage)}
             />
           )}
         </View>
         {post.imageFiles.length > 3 ?
         <View style={[styles.postImages, (post.imageFiles.length < 6 ? {justifyContent: 'flex-start'} : null)]}>
-          {post.imageFiles.slice(3, 6).map((value, index, array) => 
+          {post.imageFiles.slice(3, 6).map((file, index, array) => 
+            file.mime.startsWith('image/') ?
             <components.Image
-              key={value.id}
-              source={helpers.imageSource(value.url, 'middle')}
+              key={file.id}
+              source={helpers.fileImageSource(file, 'middle')}
+              onPress={() => {
+                let imageFiles = post.imageFiles.filter(v => v.mime.startsWith('image/'));
+                let currentIndex = imageFiles.findIndex(v => v.id == file.id);
+                navToAlbum(navigator, imageFiles, {currentIndex});
+              }}
+              style={[styles.smallImage, (post.imageFiles.length < 6 ? {marginRight: 5} : null)]}
+            /> :
+            <components.Image
+              key={file.id}
+              source={helpers.fileImageSource(file, 'middle')}
+              playIconVisible={true}
+              onPress={() => navToPlayer(navigator, file, {prevScreen: screenId})}
               style={[styles.smallImage, (post.imageFiles.length < 6 ? {marginRight: 5} : null)]}
             />
           )}
         </View> :
         null}
+
+        <View style={styles.opBar}>
+          <View style={{flexDirection: 'row'}}>
+            <components.TextWithIcon 
+              icon='thumb-up' 
+              text={helpers.numberText(post.stat.liked)}
+              containerStyle={{marginHorizontal: 5}}
+            />
+            <components.TextWithIcon 
+              icon='comment' 
+              text={helpers.numberText(post.stat.commented)}
+              containerStyle={{marginHorizontal: 5}}
+            />
+          </View>
+
+          <View style={{flexDirection: 'row'}}>
+            <components.ActionSheet onPress={showActionSheetWithOptions => this.showMoreOps(showActionSheetWithOptions)}>
+              <components.Icon name='share' style={styles.postOp} />
+            </components.ActionSheet>
+          </View>
+        </View>
       </components.Block>
     );
   }
-}
+} 
 
 let smallImageSize = Math.floor((SCREEN_WIDTH - 30) / 3);
 let middleImageSize = Math.floor((SCREEN_WIDTH - 25) / 2);
@@ -120,5 +181,33 @@ const styles = StyleSheet.create({
     width: largeImageSize,
     height: largeImageSize * 9 / 16,
   },
+  opBar: {
+    marginTop: 5,
+    height: 30, 
+    flexDirection: 'row', 
+    justifyContent: 'space-between', 
+    alignItems: 'center', 
+  },
+  postOp: {
+    paddingHorizontal: 10,
+    paddingVertical: 7,
+    fontSize: 16,
+  },
+  liked: {
+    color: COLOR.theme,
+  },
 });
 
+function mapStateToProps(state) {
+  let {location, account} = state;
+  return {
+    location,
+    account,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(actions, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Post);

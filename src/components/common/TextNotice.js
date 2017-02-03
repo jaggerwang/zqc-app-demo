@@ -5,19 +5,35 @@
 
 import React from 'react';
 import {StyleSheet, View, Text, TextInput} from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
 
 import {COLOR} from '../../config';
 
-export default ({children, style}) => {
-  return <Text style={[styles.text, style]}>{children}</Text>;
+export default ({children, onPress, style, containerStyle}) => {
+  let child = (
+    <Text style={[styles.text, style]}>{children}</Text>
+  );
+  if (onPress) {
+    return (
+      <TouchableOpacity onPress={onPress} style={[styles.container, containerStyle]}>
+        {child}
+      </TouchableOpacity>
+    );
+  } else{
+    return (
+      <View style={[styles.container, containerStyle]}>
+        {child}
+      </View>
+    );
+  } 
 }
 
 const styles = StyleSheet.create({
-  text: {
+  container: {
     padding: 10,
+  },
+  text: {
     fontSize: 12,
-    lineHeight: 16,
+    lineHeight: 18,
     color: COLOR.textNormal,
   }
 });

@@ -7,11 +7,24 @@ import logger from '../logger';
 import * as actions from '../actions';
 
 const initialState = {
+  nearby: [],
   byCity: {},
 };
 
 export default (state = initialState, action) => {
-  if (action.type == actions.SET_POSTS_OF_CITY) {
+  if (action.type == actions.SET_NEARBY_POSTS) {
+    let {postIds} = action;
+    return {
+      ...state,
+      nearby: postIds,
+    };
+  } else if (action.type == actions.APPEND_NEARBY_POSTS) {
+    let {postIds} = action;
+    return {
+      ...state,
+      nearby: state.nearby.concat(postIds),
+    };
+  } else if (action.type == actions.SET_POSTS_OF_CITY) {
     let {cityCode, postIds} = action;
     return {
       ...state,

@@ -3,18 +3,16 @@
  * zaiqiuchang.com
  */
 
-import ImageResizer from 'react-native-image-resizer';
-
 import logger from '../logger';
-import {navToBootstrap, navToTab} from '../navigation';
+import {ApiResultError, ERROR_CODE_DUPLICATED, ERROR_CODE_NOT_FOUND, 
+  ERROR_CODE_WRONG_PASSWORD, ERROR_CODE_INVALID_VERIFY_CODE} from '../error';
 import * as utils from '../utils';
 import * as apis from '../apis';
 import * as actions from './';
 
 export const RESET_ACCOUNT = 'reset_account';
-export const SET_ACCOUNT = 'set_account';
-export const SET_CITY = 'set_city';
-export const SET_SPORT = 'set_sport';
+export const SET_ACCOUNT_USER = 'set_account_user';
+export const SET_ACCOUNT_SETTINGS = 'set_account_settings';
 
 export function resetAccount() {
   return {
@@ -22,211 +20,177 @@ export function resetAccount() {
   };
 }
 
-export function setCity(city) {
+export function setAccountUser({user, cbOk}) {
+  return dispatch => {
+    dispatch(actions.cacheUsers({users: [user]}))
+      .then(users => {
+        let user = users[0];
+        dispatch({type: SET_ACCOUNT_USER, id: user.id});
+        if (cbOk) {
+          cbOk(user);
+        }
+      })
+      .catch(error => dispatch(actions.handleError(error)));
+  };
+}
+
+export function setAccountSettings(settings) {
   return {
-    type: SET_CITY,
-    city,
-  };
-}
-
-export function setSport(sport) {
-  return {
-    type: SET_SPORT,
-    sport,
-  };
-}
-
-export function registerMobileSubmit(screenId, navigator) {
-  return (dispatch, getState) => {
-    let {input} = getState();
-    dispatch(actions.validateInput(screenId, input[screenId], () => {
-      let {mobile, password} = input[screenId];
-      let cbOk = () => navigator.push({screen: 'zqc.RegisterVerify', title: '验证', passProps: {mobile, password}});
-      dispatch(actions.sendVerifyCode({by: "mobile", mobile, cbOk}));
-    }));
-  };
-}
-
-export function registerVerifySubmit(screenId, navigator) {
-  return (dispatch, getState) => {
-    let {input} = getState();
-    dispatch(actions.validateInput(screenId, input[screenId], () => {
-      let {mobile, password, code} = input[screenId];
-      apis.register({mobile, password, code})
-        .then(response => {
-          dispatch(login({mobile, password}, navigator));
-        })
-        .catch(error => {
-          if (error instanceof apis.ResultError) {
-            if (error.code == apis.ERROR_CODE_DUPLICATED) {
-              dispatch(actions.errorFlash("手机号已注册过。"));
-              return;
-            } else if (error.code == apis.ERROR_CODE_INVALID_VERIFY_CODE) {
-              dispatch(actions.errorFlash("验证码错误。"));
-              return;
-            }
-          }
-          dispatch(actions.handleApiError(error));
-        });
-    }));
-  };
-}
-
-export function registerProfileSubmit(screenId, navigator) {
-  return (dispatch, getState) => {
-    let {object, account} = getState();
-    let user = object.users[account.userId];
-    if (user.nickname && user.avatarType && user.gender) {
-      navToTab();
-    } else {
-      dispatch(actions.errorFlash("请填写完基本资料。"));
-    }
-  };
-}
-
-export function loginSubmit(screenId, navigator) {
-  return (dispatch, getState) => {
-    let {input} = getState();
-    dispatch(actions.validateInput(screenId, input[screenId], () => {
-      let {account, password} = input[screenId];
-      let username, mobile, email;
-      if (account.match(/^\d+$/) !== null) {
-        mobile = account;
-      } else if (account.match(/^.+@.+$/) !== null) {
-        email = account;
-      } else {
-        username = account;
-      }
-      dispatch(login({username, mobile, email, password}, navigator));
-    }));
+    type: SET_ACCOUNT_SETTINGS,
+    settings,
   }
 }
 
-function login({username, mobile, email, password}, navigator) {
+export function register({mobile, password, code, cbOk}) {
   return dispatch => {
-    apis.login({username, mobile, email, password})
-      .then(response => {
-        let {data: {user}} = response;
-        let cbOk = user => {
-          if (user.nickname && user.avatarType && user.gender) {
-            navToTab();
-          } else {
-            navigator.push({screen: 'zqc.RegisterProfile', title: '完善资料'});
-          }
-        };
-        dispatch(setAccount({user, cbOk}));
-      })
+    apis.register({mobile, password, code})
+      .then(response => dispatch(login({mobile, password, cbOk})))
       .catch(error => {
-        if (error instanceof apis.ResultError) {
-          if (error.code == apis.ERROR_CODE_NOT_FOUND
-            || error.code == apis.ERROR_CODE_WRONG_PASSWORD) {
-            dispatch(actions.errorFlash("帐号或密码错误"));
+        if (error instanceof ApiResultError) {
+          if (error.code == ERROR_CODE_DUPLICATED) {
+            dispatch(actions.errorFlash("手机号已注册过。"));
+            return;
+          } else if (error.code == ERROR_CODE_INVALID_VERIFY_CODE) {
+            dispatch(actions.errorFlash("验证码错误。"));
             return;
           }
         }
-        dispatch(actions.handleApiError(error));
+        dispatch(actions.handleError(error));
       });
   };
 }
 
-export function setAccount({user, cbOk, cbFail}) {
-  return (dispatch, getState) => {
-    let {object} = getState();
-    actions.cacheUsers(object, [user])
-      .then(action => {
-        dispatch(action);
-        dispatch({type: SET_ACCOUNT, userId: user.id});
+export function isLogined({cbOk, cbFail}, {timeout=5000}={}) {
+  return dispatch => {
+    apis.isLogined({timeout})
+      .then(response => {
+        let {data: {user, settings}} = response;
+        if (user) {
+          dispatch(setAccountUser({user}));
+        }
+        if (settings) {
+          dispatch(setAccountSettings(settings));  
+        }
+        if (cbOk) {
+          cbOk({user, settings});
+        }
+      })
+      .catch(error => {
+        if (cbFail) {
+          cbFail(error);
+        } else {
+          dispatch(actions.handleError(error))
+        }
+      });
+  };
+}
+
+export function login({username, mobile, email, password, cbOk}) {
+  return dispatch => {
+    apis.login({username, mobile, email, password})
+      .then(response => {
+        let {data: {user, settings}} = response;
+        dispatch(setAccountUser({user, cbOk}));
+        dispatch(setAccountSettings(settings));
+      })
+      .catch(error => {
+        if (error instanceof ApiResultError) {
+          if (error.code == ERROR_CODE_NOT_FOUND
+            || error.code == ERROR_CODE_WRONG_PASSWORD) {
+            dispatch(actions.errorFlash("帐号或密码错误"));
+            return;
+          }
+        }
+        dispatch(actions.handleError(error));
+      });
+  };
+}
+
+export function logout(cbOk) {
+  return dispatch => {
+    apis.logout()
+      .then(response => {
+        if (cbOk) {
+          cbOk();
+        }
+      })
+      .catch(error => dispatch(actions.handleError(error)));
+  };
+}
+
+export function updateAccount({update, cbOk, cbFail}) {
+  return dispatch => {
+    apis.updateAccount(update)
+      .then(response => {
+        let {data: {user}} = response;
+        return dispatch(actions.cacheUsers({users: [user]}));
+      })
+      .then(users => {
+        let user = users[0];
         if (cbOk) {
           cbOk(user);
         }
       })
       .catch(error => {
-        dispatch(actions.handleApiError(error));
         if (cbFail) {
           cbFail(error);
+        } else {
+          dispatch(actions.handleError(error));
         }
       });
   };
 }
 
-export function logoutRequest() {
-  return (dispatch, getState) => {
-    apis.logout()
-      .then(response => navToBootstrap({passProps: {isReset: true}}))
-      .catch(error => dispatch(actions.handleApiError(error)));
+export function updateAccountSettings(settings) {
+  return dispatch => {
+    apis.updateAccountSettings(settings)
+      .then(response => {
+        let {data: {settings}} = response;
+        dispatch(setAccountSettings(settings));
+      })
+      .catch(error => dispatch(actions.handleError(error)));
   };
 }
 
-export function editProfileNicknameSubmit(screenId, navigator) {
-  return (dispatch, getState) => {
-    let {input} = getState();
-    dispatch(actions.validateInput(screenId, input[screenId], () => {
-      apis.editAccount(input[screenId])
-        .then(response => {
-          let {data: {user}} = response;
-          dispatch(setAccount({user, cbOk: () => navigator.pop()}));
-        })
-        .catch(error => dispatch(actions.handleApiError(error)));
-    }));
-  }
-}
-
-export function editProfileAvatarSubmit(screenId, navigator) {
-  return (dispatch, getState) => {
-    let {input} = getState();
-    dispatch(actions.validateInput(screenId, input[screenId], () => {
-      let {avatarType, avatarName, avatarUri} = input[screenId];
-      let cbOk = response => {
+export function resetPassword({mobile, email, password, code, cbOk}) {
+  return dispatch => {
+    apis.resetPassword({mobile, email, password, code})
+      .then(response => {
         let {data: {user}} = response;
-        dispatch(setAccount({user, cbOk: () => navigator.pop()}));
-      };
-      if (avatarType == 'builtin') {
-        apis.editAccount({avatarType, avatarName})
-          .then(cbOk)
-          .catch(error => dispatch(actions.handleApiError(error)));
-      } else if (avatarType == 'custom') {
-        if (utils.isUrl(avatarUri)) {
-          navigator.pop();
-          return;
+        return dispatch(actions.cacheUsers({users: [user]}));
+      })
+      .then(users => {
+        let user = users[0];
+        if (cbOk) {
+          cbOk(user);
         }
-
-        ImageResizer.createResizedImage(avatarUri, 1080, 810, 'JPEG', 90)
-          .then(resizedImageUri => apis.uploadFile(resizedImageUri, 'image/jpeg'))
-          .then(response => {
-            let {data: {file}} = response;
-            return apis.editAccount({avatarType, avatarId: file.id});
-          })
-          .then(cbOk)
-          .catch(error => dispatch(actions.handleApiError(error)));
-      }
-    }));
+      })
+      .catch(error => dispatch(actions.handleError(error)));
   };
 }
 
-export function editProfileGenderSubmit(gender) {
-  return (dispatch, getState) => {
-    apis.editAccount({gender})
+export function accountInfo({cbOk, cbFinish}) {
+  return dispatch => {
+    apis.accountInfo()
       .then(response => {
-        let {data: {user}} = response;
-        dispatch(setAccount({user}));
+        let {data: {user, settings}} = response;
+        dispatch(setAccountSettings(settings));
+        return dispatch(actions.cacheUsers({users: [user]}));
       })
-      .catch(error => dispatch(actions.handleApiError(error)));
-  };
-}
-
-export function updateAccountLocation() {
-  return (dispatch, getState) => {
-    let {network, location, object, account} = getState();
-    let user = object.users[account.userId];
-    if (!network.isConnected || !location.position || !user) {
-      return;
-    }
-
-    apis.editAccount({location: location.position.coords}, true)
-      .then(response => {
-        let {data: {user}} = response;
-        dispatch(setAccount({user}));
+      .then(users => {
+        if (cbFinish) {
+          cbFinish();
+        }
+        let user = users[0];
+        if (cbOk) {
+          cbOk(user);
+        }
       })
-      .catch(error => dispatch(actions.handleApiError(error)));
+      .catch(error => {
+        if (cbFinish) {
+          cbFinish();
+        }
+        dispatch(actions.handleError(error));
+      });
   };
 }

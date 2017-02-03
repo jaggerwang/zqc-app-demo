@@ -2,23 +2,31 @@
  * 在球场
  * zaiqiuchang.com
  */
+
 import {Platform, Dimensions} from 'react-native';
 
 export const DEBUG = __DEV__;
 export const IN_DEBUGGER = DEBUG && !!window.navigator.userAgent;
 
-export const VERSION = '1.0';
+export const VERSION = '1.3.0';
 
 let {width, height} = Dimensions.get('window');
 export const SCREEN_WIDTH = width;
 export const SCREEN_HEIGHT = height;
+export const NAV_BAR_HEIGHT = 65;
+export const TAB_BAR_HEIGHT = 50;
 
 export let SCHEME = 'https';
 export let DOMAIN_API = 'api.zaiqiuchang.com';
-export let API_ORIGIN = `${SCHEME}://${DOMAIN_API}`;
+export let DOMAIN_WWW = 'www.zaiqiuchang.com';
+export let DOMAIN_WEB = 'web.zaiqiuchang.com';
+export let API_BASE_URL = `${SCHEME}://${DOMAIN_API}`;
+export let WWW_BASE_URL = `${SCHEME}://${DOMAIN_WWW}`;
+export let WEB_BASE_URL = `${SCHEME}://${DOMAIN_WEB}`;
 
 export const COLOR = {
   theme: '#006633',
+  favored: '#C71A22',
   textPrompt: '#929292',
   textNormal: '#5E5E5E',
   textEmpha: '#212121',
@@ -27,7 +35,7 @@ export const COLOR = {
   backgroundDarker: '#D6D6D6',
   backgroundNormal: '#EBEBEB',
   backgroundLighter: '#FFFFFF',
-  backgroundDarkLighter: '#212121',
+  backgroundDarkLighter: '#424242',
   backgroundDarkNormal: '#000000',
   backgroundNotice: '#FFFB00',
   linePrompt: '#EBEBEB',
@@ -55,41 +63,8 @@ export const TAB_BAR_STYLE = {
   tabBarSelectedButtonColor: COLOR.theme,
 };
 
-export const RES_USER_AVATARS = new Map([
-  ['american-football-player-1', require('zaiqiuchang/res/img/avatar/american-football-player-1.png')],
-  ['american-football-player', require('zaiqiuchang/res/img/avatar/american-football-player.png')],
-  ['baseball-player', require('zaiqiuchang/res/img/avatar/baseball-player.png')],
-  ['basketball-player', require('zaiqiuchang/res/img/avatar/basketball-player.png')],
-  ['bodybuilder', require('zaiqiuchang/res/img/avatar/bodybuilder.png')],
-  ['cricket-player', require('zaiqiuchang/res/img/avatar/cricket-player.png')],
-  ['cyclist-1', require('zaiqiuchang/res/img/avatar/cyclist-1.png')],
-  ['cyclist', require('zaiqiuchang/res/img/avatar/cyclist.png')],
-  ['fencer', require('zaiqiuchang/res/img/avatar/fencer.png')],
-  ['football-player', require('zaiqiuchang/res/img/avatar/football-player.png')],
-  ['formula-1', require('zaiqiuchang/res/img/avatar/formula-1.png')],
-  ['golfer', require('zaiqiuchang/res/img/avatar/golfer.png')],
-  ['gymnast', require('zaiqiuchang/res/img/avatar/gymnast.png')],
-  ['hockey-player', require('zaiqiuchang/res/img/avatar/hockey-player.png')],
-  ['horsewoman', require('zaiqiuchang/res/img/avatar/horsewoman.png')],
-  ['karate', require('zaiqiuchang/res/img/avatar/karate.png')],
-  ['kickboxer', require('zaiqiuchang/res/img/avatar/kickboxer.png')],
-  ['kudo', require('zaiqiuchang/res/img/avatar/kudo.png')],
-  ['motorcyclist', require('zaiqiuchang/res/img/avatar/motorcyclist.png')],
-  ['pilot', require('zaiqiuchang/res/img/avatar/pilot.png')],
-  ['rowing', require('zaiqiuchang/res/img/avatar/rowing.png')],
-  ['shooter', require('zaiqiuchang/res/img/avatar/shooter.png')],
-  ['skier-1', require('zaiqiuchang/res/img/avatar/skier-1.png')],
-  ['skier', require('zaiqiuchang/res/img/avatar/skier.png')],
-  ['sumotori', require('zaiqiuchang/res/img/avatar/sumotori.png')],
-  ['swimmer', require('zaiqiuchang/res/img/avatar/swimmer.png')],
-  ['taekwondo', require('zaiqiuchang/res/img/avatar/taekwondo.png')],
-  ['tennis-player', require('zaiqiuchang/res/img/avatar/tennis-player.png')],
-  ['volleyball-player', require('zaiqiuchang/res/img/avatar/volleyball-player.png')],
-  ['weightlifter', require('zaiqiuchang/res/img/avatar/weightlifter.png')],
-]);
-
-export const RES_USER_BACKGROUNDS = new Map([
-  ['light-circle', require('zaiqiuchang/res/img/user-background/light-circle.png')],
-  ['juhua', require('zaiqiuchang/res/img/user-background/juhua.png')],
-  ['pugongying', require('zaiqiuchang/res/img/user-background/pugongying.png')],
-]);
+export const WECHAT = {
+  app: {
+    id: 'wxe1a7f5b2cf4d029b',
+  },
+};

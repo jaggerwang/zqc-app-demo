@@ -3,6 +3,7 @@
  * zaiqiuchang.com
  */
 
+
 import logger from '../logger';
 import * as utils from '../utils';
 import * as apis from '../apis';
@@ -17,46 +18,65 @@ export function resetUser() {
   };
 }
 
+export function userInfo({userId, cbOk, cbFail, cbFinish}) {
+  return dispatch => {
+    dispatch(actions.cacheUserByIds({userIds: [userId], update: true}))
+      .then(users => {
+        if (cbFinish) {
+          cbFinish();
+        }
+        if (cbOk) {
+          cbOk(users);
+        }
+      })
+      .catch(error => {
+        if (cbFinish) {
+          cbFinish();
+        }
+        if (cbFail) {
+          cbFail(error);
+        } else {
+          dispatch(actions.handleError(error));
+        }
+      });
+  };
+}
+
 export function nearbyUsers({cbOk, cbFail, cbFinish}={}) {
   return (dispatch, getState) => {
     let {location: {position}, object} = getState();
     if (!position) {
-      dispatch(actions.errorFlash("无法获取当前位置。"));
-      if (cbFail) {
-        cbFail();
-      }
       if (cbFinish) {
         cbFinish();
       }
+      dispatch(actions.errorFlash("无法获取当前位置。"));
       return;
     }
 
     let {coords: location} = position;
-    let users;
     apis.nearbyUsers({location})
       .then(response => {
-        let {data} = response;
-        users = data.users;
-        return actions.cacheUsers(object, users);
+        let {data: {users}} = response;
+        return dispatch(actions.cacheUsers({users}));
       })
-      .then(action => {
-        dispatch(action);
+      .then(users => {
+        if (cbFinish) {
+          cbFinish();
+        }
         let userIds = users.map(v => v.id);
         dispatch({type: SET_NEARBY_USERS, userIds});
         if (cbOk) {
-          cbOk();
-        }
-        if (cbFinish) {
-          cbFinish();
+          cbOk(users);
         }
       })
       .catch(error => {
-        dispatch(actions.handleApiError(error));
-        if (cbFail) {
-          cbFail();
-        }
         if (cbFinish) {
           cbFinish();
+        }
+        if (cbFail) {
+          cbFail(error);
+        } else {
+          dispatch(actions.handleError(error));
         }
       });
   };

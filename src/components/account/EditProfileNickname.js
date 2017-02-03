@@ -5,13 +5,16 @@
 
 import React, {Component} from 'react';
 import {StyleSheet, View, Text} from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import dismissKeyboard from 'dismissKeyboard';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
 
 import {COLOR, DEFAULT_NAV_BAR_STYLE} from '../../config';
+import {ApiResultError, ERROR_CODE_DUPLICATED} from '../../error';
 import * as components from '../';
+import * as actions from '../../actions';
 
-export default class EditProfileNickname extends Component {
+class EditProfileNickname extends Component {
   static navigatorStyle = DEFAULT_NAV_BAR_STYLE;
 
   static navigatorButtons = {
@@ -37,46 +40,68 @@ export default class EditProfileNickname extends Component {
     let {navigator} = props;
     navigator.setOnNavigatorEvent(event => this.onNavigatorEvent(event));
   }
-
+  
   componentDidMount() {
     let {object, account, saveInput} = this.props;
-    let user = object.users[account.userId];
+    let user = object.users[account.id];
     if (user.nickname) {
       saveInput(this.screenId, {nickname: user.nickname});  
     }
   }
 
+  componentWillUnmount() {
+    let {resetInput} = this.props;
+    resetInput(this.screenId);
+    dismissKeyboard();
+  }
+
   onNavigatorEvent(event) {
-    let {navigator, submit} = this.props;
+    let {navigator} = this.props;
     if (event.type == 'NavBarButtonPress') {
       if (event.id == 'done') {
-        dismissKeyboard();
-        submit(this.screenId, navigator);
+        this.submit();
       } else if (event.id == 'cancel') {
         navigator.pop();
       }
     }
   }
 
+  submit() {
+    dismissKeyboard();
+
+    let {navigator, input, errorFlash, handleError, validateInput, updateAccount} = this.props;
+    validateInput(this.screenId, input[this.screenId], () => {
+      updateAccount({
+        update: input[this.screenId], 
+        cbOk: () => navigator.pop(),
+        cbFail: error => {
+          if (error instanceof ApiResultError) {
+            if (error.code == ERROR_CODE_DUPLICATED) {
+              errorFlash("昵称重复。");
+              return;
+            }
+          }
+          handleError(error);
+        },
+      });
+    });
+  }
+
   render() {
-    let {navigator, loading, processing, error, input, saveInput} = this.props;
-    let {submit} = this.props;
+    let {navigator, input, saveInput} = this.props;
+    
     return (
-      <components.Layout
-        loading={loading}
-        processing={processing}
-        errorFlash={error.flash}
-        errorInput={error.input[this.screenId]}
-      >
+      <components.Layout screenId={this.screenId}>
         <components.Form>
-          <components.FormItem iconName='user' containerStyle={{borderTopWidth: 0}}>
+          <components.FormItem icon='person' containerStyle={{borderTopWidth: 0}}>
             <components.TextInput
               placeholder='输入昵称'
               returnKeyType='done'
               defaultValue={input[this.screenId].nickname}
               autoFocus={true}
+              maxLength={20}
               onChangeText={text => saveInput(this.screenId, {nickname: text.trim()})}
-              onSubmitEditing={() => {dismissKeyboard(); submit(this.screenId, navigator);}}
+              onSubmitEditing={() => this.submit()}
             />
           </components.FormItem>
         </components.Form>
@@ -86,3 +111,18 @@ export default class EditProfileNickname extends Component {
 }
 
 const styles = StyleSheet.create({});
+
+function mapStateToProps(state) {
+  let {input, object, account} = state;
+  return {
+    input,
+    object,
+    account,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(actions, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditProfileNickname);

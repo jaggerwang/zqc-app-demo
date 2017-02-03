@@ -5,16 +5,21 @@
 
 import React, {Component} from 'react';
 import {StyleSheet, View, Text, Image, ListView, ScrollView, RefreshControl, 
-  TouchableOpacity, InteractionManager, Platform} from 'react-native';
+  TouchableOpacity, InteractionManager, Platform, Alert, Linking} from 'react-native';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
+import compareVersions from 'compare-versions';
 
-import {COLOR, DEFAULT_NAV_BAR_STYLE, SCREEN_WIDTH, SCREEN_HEIGHT} from '../config';
-import {POST_STATUS_DELETED} from '../const';
+import {COLOR, DEFAULT_NAV_BAR_STYLE, SCREEN_WIDTH, SCREEN_HEIGHT, VERSION, 
+    API_BASE_URL} from '../config';
+import {POST_STATUS_NORMAL} from '../const';
 import logger from '../logger';
 import * as utils from '../utils';
 import * as components from './';
-import * as helpers from './helpers';
+import * as helpers from '../helpers';
+import * as actions from '../actions';
 
-export default class Nearby extends Component {
+class Nearby extends Component {
   static navigatorStyle = DEFAULT_NAV_BAR_STYLE;
 
   constructor(props) {
@@ -26,25 +31,24 @@ export default class Nearby extends Component {
     this.setNavBarButtons(props);
     navigator.setOnNavigatorEvent(event => this.onNavigatorEvent(event));
 
-    this.refreshing = false;
-
     this.ds = new ListView.DataSource({
       rowHasChanged: (r1, r2) => 
         r1.id != r2.id || 
-        r1.status != r2.status || 
-        r1.creator.nickname != r2.creator.nickname || 
-        r1.creator.avatarName != r2.creator.avatarName || 
-        r1.creator.avatarId != r2.creator.avatarId || 
-        r1.stat.liked != r2.stat.liked ||
-        r1.stat.commented != r2.stat.commented ||
-        r1.creator.stat.liked != r2.creator.stat.liked ||
-        r1.creator.stat.post != r2.creator.stat.post,
+        r1.updateTime != r2.updateTime || 
+        r1.imageFiles.map(v => v.id).join() != r2.imageFiles.map(v => v.id).join() || 
+        r1.imageFiles.map(v => v.updateTime).join() != r2.imageFiles.map(v => v.updateTime).join() || 
+        r1.court.id != r2.court.id || 
+        r1.court.updateTime != r2.court.updateTime || 
+        r1.creator.id != r2.creator.id || 
+        r1.creator.updateTime != r2.creator.updateTime || 
+        r1.stat.id != r2.stat.id || 
+        r1.stat.updateTime != r2.stat.updateTime
     }).cloneWithRows(this.getRows());
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.account.city.code != this.props.account.city.code
-      || nextProps.account.sport.code != this.props.account.sport.code) {
+    if (nextProps.account.settings.city.code != this.props.account.settings.city.code
+      || nextProps.account.settings.sport.code != this.props.account.settings.sport.code) {
       this.setNavBarButtons(nextProps);
 
       this.refresh({props: nextProps});
@@ -53,20 +57,25 @@ export default class Nearby extends Component {
 
   componentDidMount() {
     InteractionManager.runAfterInteractions(() => {
-      let {network} = this.props;
+      let {network, location, errorFlash, likedPosts, favoredFiles} = this.props;
 
-      if (network.isConnected && helpers.isNeedRefresh({screenId: this.screenId, network})) {
+      if (!location.position) {
+        errorFlash('获取位置失败，请允许在球场使用定位服务。');
+      }
+      
+      if (network.isConnected) {
         this.refresh();
+
+        this.updateAccountLocation();
       }
     });
   }
 
   setNavBarButtons(props) {
     let {navigator, account} = props;
-    let {city, sport} = account;
     let buttons = [
       {
-        title: city.name + ' ' + sport.name + ' >',
+        title: account.settings.city.name.substring(0, 2) + ' ' + account.settings.sport.name + ' >',
         id: 'select_city_and_sport',
       },
     ];
@@ -82,10 +91,21 @@ export default class Nearby extends Component {
 
   onNavigatorEvent(event) {
     let {navigator} = this.props;
-    let {submit} = this.props;
     if (event.type == 'NavBarButtonPress') {
       if (event.id == 'select_city_and_sport') {
-        navigator.showModal({screen: 'zqc.CityAndSportSelector'});
+        if (Platform.OS == 'ios') {
+          navigator.showLightBox({
+            screen: 'zqc.SelectCityAndSport',
+            style: {
+              backgroundBlur: 'light',
+            },
+          });
+        } else {
+          navigator.showModal({
+            screen: 'zqc.SelectCityAndSport',
+          });
+        }
+        
       }
     }
   }
@@ -93,25 +113,40 @@ export default class Nearby extends Component {
   getRows(props) {
     props = props || this.props;
     let {object} = props;
-    let {account, post} = props;
-    let postIds = post.byCity[account.city.code] || [];
+    let {location, account, post} = props;
+    let postIds;
+    if (location.city && account.settings.city.code == location.city.code) {
+      postIds = post.nearby;
+    } else {
+      postIds = post.byCity[account.settings.city.code] || [];
+    }
     let rows = postIds.map(v => helpers.postFromCache(object, v))
-      .filter(v => v && v.status != POST_STATUS_DELETED);
+      .filter(v => v && v.status == POST_STATUS_NORMAL);
+
     return rows;
+  }
+
+  updateAccountLocation() {
+    let {location, updateAccount} = this.props;
+    if (location.position) {
+      updateAccount({update: {location: location.position.coords}});
+    }
   }
 
   refresh({props, cbFinish}={}) {
     props = props || this.props;
-    let {setScreenLastRefreshTime} = props;
-    let {account, postsOfCity} = props;
-
-    setScreenLastRefreshTime({screenId: this.screenId});
+    let {location} = props;
+    let {account, nearbyPosts, postsOfCity} = props;
 
     let finished = 0;
-    postsOfCity({
-      cityCode: account.city.code, 
-      cbFinish: () => finished++,
-    });
+    if (location.city && account.settings.city.code == location.city.code) {
+      nearbyPosts({cbFinish: () => finished++});
+    } else {
+      postsOfCity({
+        cityCode: account.settings.city.code, 
+        cbFinish: () => finished++,
+      });
+    }
     utils.waitingFor({
       condition: () => finished == 1,
       cbFinish,
@@ -119,19 +154,15 @@ export default class Nearby extends Component {
   }
 
   render() {
-    let {navigator, loading, processing, error, location, network, 
-      enableLoading, disableLoading, errorFlash} = this.props;
-    let {account, postsOfCity} = this.props;
-
+    let {navigator, location, network, screen, account, enableLoading, disableLoading, 
+      setScreenState, nearbyPosts, postsOfCity} = this.props;
+    let {refreshing} = screen[this.screenId];
+    
     let posts = this.getRows();
     this.ds = this.ds.cloneWithRows(posts);
 
     return (
-      <components.Layout
-        loading={loading}
-        processing={processing}
-        errorFlash={error.flash}
-      >
+      <components.Layout screenId={this.screenId}>
         {posts.length > 0 ?
         <ListView
           dataSource={this.ds}
@@ -141,10 +172,8 @@ export default class Nearby extends Component {
           renderRow={post => 
             <components.Post
               navigator={navigator}
-              errorFlash={errorFlash}
-              location={location}
-              account={account}
-              post={post}
+              screenId={this.screenId}
+              post={post} 
               containerStyle={styles.post}
             />
           }
@@ -153,13 +182,13 @@ export default class Nearby extends Component {
               {...props}
               refreshControl={
                 <RefreshControl
-                  refreshing={this.refreshing}
+                  refreshing={refreshing}
                   onRefresh={() => {
                     disableLoading();
-                    this.refreshing = true;
+                    setScreenState(this.screenId, {refreshing: true});
                     this.refresh({
                       cbFinish: () => {
-                        this.refreshing = false;
+                        setScreenState(this.screenId, {refreshing: false});
                         enableLoading();
                       },
                     });
@@ -170,14 +199,20 @@ export default class Nearby extends Component {
           }
           onEndReached={() => {
             if (network.isConnected && posts.length > 0) {
-              postsOfCity({
-                cityCode: account.city.code, 
-                offset: posts[posts.length - 1].createTime,
-              });
+              if (location.city && account.settings.city.code == location.city.code) {
+                nearbyPosts({offset: posts[posts.length - 1].createTime});
+              } else {
+                postsOfCity({
+                  cityCode: account.settings.city.code, 
+                  offset: posts[posts.length - 1].createTime,
+                });
+              }
             }
           }}
         /> :
-        <components.TextNotice>当前城市暂时没有数据。</components.TextNotice>}
+        <components.TextNotice>
+          {location.city && account.settings.city.code == location.city.code ? '附近暂时没有数据，可以切换到其它热门城市看看。' : '当前城市暂时没有数据。'}
+        </components.TextNotice>}
       </components.Layout>
     );
   }
@@ -188,3 +223,21 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
 });
+
+function mapStateToProps(state) {
+  let {location, network, screen, object, account, post} = state;
+  return {
+    location,
+    network,
+    screen,
+    object,
+    account,
+    post,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(actions, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Nearby);

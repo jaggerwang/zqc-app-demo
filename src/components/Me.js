@@ -6,14 +6,18 @@
 import React, {Component} from 'react';
 import {StyleSheet, View, Text, Image, ListView, ScrollView, RefreshControl, 
   TouchableOpacity, InteractionManager} from 'react-native';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
 
-import {COLOR, DEFAULT_NAV_BAR_STYLE} from '../config';
+import {COLOR, DEFAULT_NAV_BAR_STYLE, SCREEN_WIDTH, SCREEN_HEIGHT} from '../config';
+import {navToBootstrap, navToUserDetail} from '../navigation';
 import logger from '../logger';
 import * as utils from '../utils';
 import * as components from './';
-import * as helpers from './helpers';
+import * as helpers from '../helpers';
+import * as actions from '../actions';
 
-export default class Me extends Component {
+class Me extends Component {
   static navigatorStyle = DEFAULT_NAV_BAR_STYLE;
 
   constructor(props) {
@@ -21,36 +25,59 @@ export default class Me extends Component {
 
     this.screenId = props.screenId || 'Me';
   }
+  
+  refresh(cbFinish) {
+    let {accountInfo} = this.props;
 
+    let finished = 0;
+    accountInfo({cbFinish: () => finished++});
+    utils.waitingFor({
+      condition: () => finished == 1,
+      cbFinish,
+    });
+  }
+  
   render() {
-    let {navigator, loading, processing, error, location, object, 
-      disableLoading, enableLoading, errorFlash} = this.props;
-    let {account, logoutRequest} = this.props;
+    let {navigator, screen, object, account, disableLoading, enableLoading, 
+      setScreenState, logout} = this.props;
+    let {refreshing} = screen[this.screenId];
 
-    let user = helpers.userFromCache(object, account.userId);
+    let user = helpers.userFromCache(object, account.id);
     if (!user) {
       return null;
     }
 
     return (
-      <components.Layout
-        loading={loading}
-        processing={processing}
-        errorFlash={error.flash}
-      >
-        <ScrollView>
+      <components.Layout screenId={this.screenId}>
+        <ScrollView
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={() => {
+                disableLoading();
+                setScreenState(this.screenId, {refreshing: true});
+                this.refresh(() => {
+                  setScreenState(this.screenId, {refreshing: false});
+                  enableLoading();
+                });
+              }}
+            />
+          }
+        >
           <components.Block containerStyle={{flexDirection: 'row'}}>
             <components.Image 
               source={helpers.userAvatarSource(user, 'middle')}
+              onPress={() => navToUserDetail(navigator, user)} 
               style={styles.userAvatar}
               containerStyle={{marginRight: 5}}
             />
             <View style={{flex: 1}}>
               <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', height: 25}}>
                 <components.TextWithIcon 
-                  iconName={user.gender == 'm' ? 'mars' : 'venus'} 
+                  icon={user.gender == 'm' ? 'person' : 'person'} 
                   text={user.nickname} 
-                  styleKind='emphaBig' 
+                  style={{fontSize: 14, color: COLOR.textEmpha}} 
+                  onPress={() => navToUserDetail(navigator, user)}
                 />
                 <components.Button
                   text='编辑资料'
@@ -62,12 +89,12 @@ export default class Me extends Component {
               <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', height: 25}}>
                 <View style={{flexDirection: 'row'}}>
                   <components.TextWithIcon 
-                    iconName='thumbs-o-up' 
+                    icon='thumb-up' 
                     text={helpers.numberText(user.stat.liked)}
                     containerStyle={{marginRight: 5}}
                   />
                   <components.TextWithIcon 
-                    iconName='plus-square-o' 
+                    icon='add-box' 
                     text={helpers.numberText(user.stat.post)}
                   />
                 </View>
@@ -77,11 +104,23 @@ export default class Me extends Component {
               </View>
             </View>
           </components.Block>
-          <components.Block containerStyle={{marginTop: 10}}>
+
+          <components.Block containerStyle={{marginTop: 10, paddingVertical: 0}}>
             <components.BlockItem
-              leftIcon='info-circle'
+              leftIcon='settings'
+              leftText='设置'
+              rightIcon='keyboard-arrow-right'
+              onPress={() => navigator.push({screen: 'zqc.Settings', title: '设置'})}
+              leftIconStyle={{color: COLOR.theme}}
+              containerStyle={{borderTopWidth: 0}}
+            />
+          </components.Block>
+
+          <components.Block containerStyle={{marginTop: 10, paddingVertical: 0}}>
+            <components.BlockItem
+              leftIcon='info'
               leftText='关于'
-              rightIcon='angle-right'
+              rightIcon='keyboard-arrow-right'
               onPress={() => navigator.push({screen: 'zqc.About', title: '关于'})}
               leftIconStyle={{color: COLOR.theme}}
               containerStyle={{borderTopWidth: 0}}
@@ -89,7 +128,7 @@ export default class Me extends Component {
           </components.Block>
           <components.ButtonWithBg
             text='退出当前帐号'
-            onPress={() => logoutRequest()}
+            onPress={() => logout(() => navToBootstrap({isReset: true}))}
             textStyle={{fontSize: 16}}
             containerStyle={{marginTop: 20}}
           />
@@ -106,3 +145,18 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
 });
+
+function mapStateToProps(state) {
+  let {screen, object, account} = state;
+  return {
+    screen,
+    object,
+    account,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(actions, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Me);

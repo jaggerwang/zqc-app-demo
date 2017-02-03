@@ -5,39 +5,36 @@
 
 import React, {Component} from 'react';
 import {StyleSheet, View, Text, Image, TouchableOpacity, InteractionManager,
-  ScrollView, RefreshControl} from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+  ScrollView, RefreshControl, Alert} from 'react-native';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
 
 import {COLOR, DEFAULT_NAV_BAR_STYLE, SCREEN_WIDTH, SCREEN_HEIGHT} from '../config';
 import * as components from './';
-import * as helpers from './helpers';
+import * as helpers from '../helpers';
 import * as utils from '../utils';
+import * as actions from '../actions';
 
-export default class AtCourt extends Component {
+class AtCourt extends Component {
   static navigatorStyle = DEFAULT_NAV_BAR_STYLE;
-
+  
   constructor(props) {
     super(props);
 
     this.screenId = props.screenId || 'AtCourt';
-
-    this.refreshing = false;
   }
 
   componentDidMount() {
     InteractionManager.runAfterInteractions(() => {
       let {network} = this.props;
-      if (network.isConnected && helpers.isNeedRefresh({screenId: this.screenId, network})) {
+      if (network.isConnected) {
         this.refresh();
       }
     });
   }
 
   refresh(cbFinish) {
-    let {setScreenLastRefreshTime} = this.props;
     let {nearbyUsers} = this.props;
-
-    setScreenLastRefreshTime({screenId: this.screenId});
 
     let finished = 0;
     nearbyUsers({cbFinish: () => finished++});
@@ -48,29 +45,26 @@ export default class AtCourt extends Component {
   }
 
   render() {
-    let {navigator, loading, processing, error, object, disableLoading, 
-      enableLoading} = this.props;
-    let {account, user} = this.props;
+    let {navigator, screen, object, account, user, disableLoading, 
+        enableLoading, setScreenState} = this.props;
+    let {refreshing} = screen[this.screenId];
+
     let nearbyUsers = user.nearby
       .map(v => helpers.userFromCache(object, v))
-      .filter(v => v !== null && v.id != account.userId)
+      .filter(v => v !== null && v.id != account.id)
       .slice(0, 10);
 
     return (
-      <components.Layout
-        loading={loading}
-        processing={processing}
-        errorFlash={error.flash}
-      >
+      <components.Layout screenId={this.screenId}>
         <ScrollView
           refreshControl={
             <RefreshControl
-              refreshing={this.refreshing}
+              refreshing={refreshing}
               onRefresh={() => {
                 disableLoading();
-                this.refreshing = true;
+                setScreenState(this.screenId, {refreshing: true});
                 this.refresh(() => {
-                  this.refreshing = false;
+                  setScreenState(this.screenId, {refreshing: false});
                   enableLoading();
                 });
               }}
@@ -79,17 +73,25 @@ export default class AtCourt extends Component {
           contentContainerStyle={{alignItems: 'center', padding: 10}}
         >
           <components.Icon
-            name='plus-square-o' 
-            onPress={() => navigator.push({screen: 'zqc.CreatePost', title: '发动态'})} 
+            name='add-box' 
+            onPress={() => Alert.alert(
+              '发动态失败',
+              'Lite版暂不支持该功能，请到官网(zaiqiuchang.com)下载完整版体验。',
+              [
+                {text: '确认', onPress: () => navigator.pop()},
+              ],
+            )} 
             style={styles.postIcon} 
-            containerStyle={{marginVertical: Math.floor((SCREEN_HEIGHT / 2 - 200) / 2)}}
           />
-          <View style={{alignSelf: 'stretch', alignItems: 'center', borderBottomWidth: 1, borderColor: COLOR.lineNormal}}>
-            <components.TextNotice style={{paddingHorizontal: 0}}>正在球场上挥洒汗水？拍张照片让附近的球友发现你。</components.TextNotice>
-          </View>
-          <components.TextNotice style={{paddingHorizontal: 0}}>
+
+          <components.TextNotice containerStyle={styles.postTextContainer} style={styles.postText}>
+            正在球场上挥洒汗水？上传运动照片或视频，让附近的球友发现你。
+          </components.TextNotice>
+
+          <components.TextNotice containerStyle={styles.nearbyUserTextContainer} style={styles.nearbyUserText}>
             {nearbyUsers.length > 0 ? 'Ta们也在球场，赶紧去认识一下。' : '附近暂无球友。'}
           </components.TextNotice>
+
           <View style={{flexDirection: 'row', flexWrap: 'wrap', alignItems: 'flex-start'}}>
             {nearbyUsers.map(user => 
               <components.Image 
@@ -110,11 +112,46 @@ let avatarSize = Math.floor((SCREEN_WIDTH - 70) / 5);
 
 const styles = StyleSheet.create({
   postIcon: {
+    marginVertical: Math.floor((SCREEN_HEIGHT / 2 - 200) / 2),
     fontSize: 100,
     color: COLOR.theme,
   },
   userAvatar: {
     width: avatarSize,
     height: avatarSize,
+    borderRadius: 5,
+  },
+  postTextContainer: {
+    paddingHorizontal: 0, 
+    alignSelf: 'stretch', 
+    alignItems: 'center', 
+    borderBottomWidth: 1, 
+    borderColor: COLOR.lineNormal, 
+  },
+  postText: {
+    textAlign: 'center',
+  },
+  nearbyUserTextContainer: {
+    paddingHorizontal: 0, 
+  },
+  nearbyUserText: {
+    textAlign: 'center',
   },
 });
+
+function mapStateToProps(state) {
+  let {network, screen, object, account, user} = state;
+  return {
+    network,
+    screen,
+    object,
+    account,
+    user,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(actions, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AtCourt);

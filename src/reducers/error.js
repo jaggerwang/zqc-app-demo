@@ -35,7 +35,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         input: {
-          ...initialState.input,
+          ...state.input,
           [screenId]: initialState.input[screenId] || {},
         },
       };

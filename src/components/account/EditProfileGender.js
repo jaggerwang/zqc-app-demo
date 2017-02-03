@@ -5,13 +5,16 @@
 
 import React, {Component} from 'react';
 import {StyleSheet, View, Text, Picker, Modal, TouchableOpacity} from 'react-native';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
 
 import {COLOR, HIDDEN_NAV_BAR_STYLE} from '../../config';
 import {GENDERS} from '../../const';
 import * as components from '../';
-import * as helpers from '../helpers';
+import * as helpers from '../../helpers';
+import * as actions from '../../actions';
 
-export default class EditProfileGender extends Component {
+class EditProfileGender extends Component {
   static navigatorStyle = HIDDEN_NAV_BAR_STYLE;
 
   constructor(props) {
@@ -20,15 +23,23 @@ export default class EditProfileGender extends Component {
     this.screenId = props.screenId || 'EditProfileGender';
   }
 
+  submit(gender) {
+    let {navigator, updateAccount} = this.props;
+
+    navigator.dismissModal()
+
+    updateAccount({update: {gender}});
+  }
+
   render() {
-    let {navigator, object} = this.props;
-    let {account, submit} = this.props;
-    let user = helpers.userFromCache(object, account.userId);
+    let {navigator, object, account} = this.props;
+    let user = helpers.userFromCache(object, account.id);
+    
     return (
       <TouchableOpacity onPress={() => navigator.dismissModal()} style={styles.container}>
         <Picker
           selectedValue={user.gender}
-          onValueChange={(value, index) => {navigator.dismissModal(); submit(value);}}
+          onValueChange={value => this.submit(value)}
           style={styles.picker}
         >
           {GENDERS.map(({value, label}) => 
@@ -44,7 +55,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLOR.backgroundNormal,
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
   },
   title: {
     padding: 10,
@@ -55,3 +66,17 @@ const styles = StyleSheet.create({
     backgroundColor: COLOR.backgroundLighter,
   },
 });
+
+function mapStateToProps(state) {
+  let {object, account} = state;
+  return {
+    object,
+    account,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(actions, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditProfileGender);

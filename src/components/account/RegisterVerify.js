@@ -5,13 +5,15 @@
 
 import React, {Component} from 'react';
 import {StyleSheet, View, Text} from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import dismissKeyboard from 'dismissKeyboard';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
 
 import {COLOR, DEFAULT_NAV_BAR_STYLE} from '../../config';
 import * as components from '../';
+import * as actions from '../../actions';
 
-export default class RegisterVerify extends Component {
+class RegisterVerify extends Component {
   static navigatorStyle = DEFAULT_NAV_BAR_STYLE;
 
   constructor(props) {
@@ -21,8 +23,7 @@ export default class RegisterVerify extends Component {
   }
 
   componentDidMount() {
-    let {saveInput, setScreenState} = this.props;
-    let {mobile, password} = this.props;
+    let {mobile, password, saveInput, setScreenState} = this.props;
     saveInput(this.screenId, {mobile, password});
     setScreenState(this.screenId, {secondsToSend: 30});
 
@@ -42,30 +43,36 @@ export default class RegisterVerify extends Component {
     clearInterval(this.timerSend);
   }
 
+  submit() {
+    dismissKeyboard();
+
+    let {navigator, input, validateInput, register} = this.props;
+    validateInput(this.screenId, input[this.screenId], () => {
+      let {mobile, password, code} = input[this.screenId];
+      register({mobile, password, code, cbOk: () => navigator.push({
+        screen: 'zqc.RegisterProfile', 
+        title: '完善资料',
+      })});
+    });
+  }
+
   render() {
-    let {navigator, loading, processing, error, input, screen, errorFlash, 
-      saveInput, setScreenState} = this.props;
-    let {sendVerifyCode, submit} = this.props;
+    let {navigator, input, screen, errorFlash, saveInput, setScreenState, sendVerifyCode} = this.props;
     let {code, mobile} = input[this.screenId];
     let {secondsToSend} = screen[this.screenId];
 
     return (
-      <components.Layout
-        loading={loading}
-        processing={processing}
-        errorFlash={error.flash}
-        errorInput={error.input[this.screenId]}
-      >
+      <components.Layout screenId={this.screenId}>
         <components.TextNotice>验证码短信已发送，请注意查收。</components.TextNotice>
         <components.Form>
-          <components.FormItem iconName='key' containerStyle={{borderTopWidth: 0}}>
+          <components.FormItem icon='vpn-key' containerStyle={{borderTopWidth: 0}}>
             <components.TextInput
               placeholder='输入验证码'
               maxLength={4}
               keyboardType='numeric'
               defaultValue={code}
               onChangeText={text => saveInput(this.screenId, {code: text.trim()})}
-              onSubmitEditing={() => {dismissKeyboard(); submit(this.screenId, navigator);}}
+              onSubmitEditing={() => this.submit()}
             />
           </components.FormItem>
         </components.Form>
@@ -91,7 +98,7 @@ export default class RegisterVerify extends Component {
             text='下一步'
             textStyle={{fontSize: 16}}
             containerStyle={{flex: 2}}
-            onPress={() => {dismissKeyboard(); submit(this.screenId, navigator);}}
+            onPress={() => this.submit()}
           />
         </View>
       </components.Layout>
@@ -100,3 +107,17 @@ export default class RegisterVerify extends Component {
 }
 
 const styles = StyleSheet.create({});
+
+function mapStateToProps(state) {
+  let {input, screen} = state;
+  return {
+    input,
+    screen,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(actions, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterVerify);

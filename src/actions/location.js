@@ -24,7 +24,7 @@ export function resetLocation() {
 }
 
 export function setLocationPosition(position) {
-  return (dispatch, getState) => {
+  return dispatch => {
     if (oldPosition && position 
       && geolib.getDistance(position.coords, oldPosition.coords) < 10) {
       return;
@@ -35,8 +35,6 @@ export function setLocationPosition(position) {
       position,
     });
 
-    dispatch(actions.updateAccountLocation());
-
     dispatch(updateLocationCity());
 
     oldPosition = position;
@@ -44,19 +42,18 @@ export function setLocationPosition(position) {
 }
 
 export function setLocationCity(city) {
-  return (dispatch, getState) => {
+  return dispatch => {
+    if (oldCity && oldCity.code == city.code) {
+      return;
+    }
+
     dispatch({
       type: SET_LOCATION_CITY,
       city,
     });
 
-    if (!oldCity || oldCity != city) {
-      dispatch(actions.setCity(city));
-    }
-
     oldCity = city;
   };
-  return ;
 }
 
 export function updateLocationCity() {
@@ -80,6 +77,6 @@ export function updateLocationCity() {
         }
         dispatch(setLocationCity(city));
       })
-      .catch(error => dispatch(actions.handleApiError(error)));
+      .catch(error => null);
   };
 }

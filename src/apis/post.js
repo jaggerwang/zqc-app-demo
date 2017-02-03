@@ -3,17 +3,30 @@
  * zaiqiuchang.com
  */
 
-import {API_ORIGIN} from '../config';
 import {getApi, postApi} from './';
 
 export function postInfo(id) {
-  return getApi(`${API_ORIGIN}/post/info`, {id});
+  return getApi('/post/info', {id});
 }
 
 export function postInfos(ids) {
-  return getApi(`${API_ORIGIN}/post/infos`, {ids: ids.join(',')});
+  return getApi('/post/infos', {ids: ids.join(',')});
 }
 
-export function postsOfCity({cityCode, sportCode='', limit=10, offset=''}) {
-  return getApi(`${API_ORIGIN}/post/byCity`, {cityCode, sportCode, limit, offset});
+export function nearbyPosts({location, sportCode='', distance='', status=0, 
+  limit=10, offset=''}) {
+  let {longitude, latitude} = location;
+  return getApi('/post/nearby', {
+    location: `${longitude},${latitude}`,
+    sportCode,
+    distance,
+    status,
+    limit,
+    offset,
+  });
+}
+
+export function postsOfCity({cityCode='', sportCode='', status=0, limit=10, 
+  offset=''}) {
+  return getApi('/post/byCity', {cityCode, sportCode, status, limit, offset});
 }

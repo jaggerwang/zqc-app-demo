@@ -3,23 +3,26 @@
  * zaiqiuchang.com
  */
 
-import React, {Component} from 'react';
+import React, {Component, PropTypes} from 'react';
 import {StyleSheet, View} from 'react-native';
+import {ActionSheetProvider} from '@exponent/react-native-action-sheet';
 
 import {COLOR} from '../../config';
 import * as components from '../';
 
 export default class Layout extends Component {
   render() {
-    let {loading, processing, errorFlash, errorInput, children, containerStyle} = this.props;
+    let {screenId, drawUnderNavBar=false, children, onLayout, containerStyle} = this.props;
     return (
-      <View style={[styles.container, containerStyle]}>
-        {processing ? <components.Processing processing={processing} /> : null}
-        {errorInput ? <components.ErrorInput error={errorInput} /> : null}
-        {children}
-        {loading ? <components.Loading loading={loading} /> : null}
-        {errorFlash ? <components.ErrorFlash error={errorFlash} /> : null}
-      </View>
+      <ActionSheetProvider>
+        <View onLayout={onLayout} style={[styles.container, containerStyle]}>
+          <components.Processing />
+          <components.ErrorInput screenId={screenId} />
+          {children}
+          <components.Loading drawUnderNavBar={drawUnderNavBar} />
+          <components.ErrorFlash />
+        </View>
+      </ActionSheetProvider>
     );
   }
 }

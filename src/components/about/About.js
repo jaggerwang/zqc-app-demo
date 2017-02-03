@@ -6,48 +6,50 @@
 import React, {Component} from 'react';
 import {StyleSheet, View, Text, Image, ListView, ScrollView, RefreshControl, 
   TouchableOpacity, InteractionManager, Platform} from 'react-native';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
 
 import {COLOR, DEFAULT_NAV_BAR_STYLE, VERSION} from '../../config';
 import * as components from '../';
-import * as helpers from '../helpers';
+import * as helpers from '../../helpers';
+import * as actions from '../../actions';
 
-export default class About extends Component {
+class About extends Component {
   static navigatorStyle = DEFAULT_NAV_BAR_STYLE;
 
   constructor(props) {
     super(props);
-
+    
     this.screenId = props.screenId || 'About';
   }
-
+  
   render() {
-    let {loading, processing, error} = this.props;
+    let {account, checkAppUpdate} = this.props;
+    let {settings: {betaUser}} = account;
+
     return (
-      <components.Layout
-        loading={loading}
-        processing={processing}
-        errorFlash={error.flash}
-      >
+      <components.Layout screenId={this.screenId}>
         <ScrollView>
           <components.Image
             source={require('zaiqiuchang/res/img/zqc-icon-middle.png')}
             style={styles.logo}
           />
-          <components.Block>
+          <components.Block containerStyle={{paddingVertical: 0}}>
             <components.BlockItem
-              leftText='在球场Lite版'
+              leftText='当前版本'
               rightText={VERSION}
               containerStyle={{borderTopWidth: 0}}
             />
             {Platform.OS == 'android' ?
             <components.BlockItem
-              leftText='新版更新'
-              rightText='无新版'
+              leftText='版本更新'
+              rightText='立即检查'
+              rightIcon='keyboard-arrow-right'
+              onPress={() => checkAppUpdate({betaUser, silent: false})}
             /> :
             null
             }
           </components.Block>
-          <components.TextNotice>在球场Lite版仅限于学习使用，严禁用于商业目的。</components.TextNotice>
           <components.TextNotice>Copyright © 在球场 zaiqiuchang.com All Rights Reserved.</components.TextNotice>
         </ScrollView>
       </components.Layout>
@@ -64,3 +66,16 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
 });
+
+function mapStateToProps(state) {
+  let {account} = state;
+  return {
+    account,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(actions, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(About);

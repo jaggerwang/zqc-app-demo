@@ -5,14 +5,14 @@
 
 import React from 'react';
 import {StyleSheet, View, Text} from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
 
 import {COLOR} from '../../config';
+import * as components from '../';
 
-export default ({children, iconName, containerStyle, iconStyle}) => {
+export default ({icon, children, containerStyle, iconStyle}) => {
   return (
     <View style={[styles.container, containerStyle]}>
-      {iconName ? <Icon name={iconName} style={[styles.icon, iconStyle]} /> : null}
+      {icon ? <components.Icon name={icon} style={[styles.icon, iconStyle]} /> : null}
       {children}
     </View>
   );

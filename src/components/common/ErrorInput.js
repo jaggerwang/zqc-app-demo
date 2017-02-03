@@ -5,24 +5,25 @@
 
 import React from 'react';
 import {StyleSheet, View, Text} from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import * as Animatable from 'react-native-animatable';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
 
 import {COLOR} from '../../config';
 
-export default ({error, containerStyle}) => {
-  error = error || {};
+function ErrorInput({error, screenId, containerStyle}) {
+  error = error.input[screenId] || {};
   if (Object.values(error).every(v => v.length == 0)) {
     return null;
-  } else {
-    return (
-      <Animatable.View animation='fadeIn' style={[styles.container, containerStyle]}>
-        {Object.entries(error)
-          .filter(([k, v]) => v.length > 0)
-          .map(([k, v]) => <Text key={k} style={styles.text}>{v.join('')}</Text>)}
-      </Animatable.View>
-    );
   }
+  
+  return (
+    <Animatable.View animation='fadeIn' style={[styles.container, containerStyle]}>
+      {Object.entries(error)
+        .filter(([k, v]) => v.length > 0)
+        .map(([k, v]) => <Text key={k} style={styles.text}>{v.join('')}</Text>)}
+    </Animatable.View>
+  );
 };
 
 const styles = StyleSheet.create({
@@ -37,3 +38,16 @@ const styles = StyleSheet.create({
     color: COLOR.textEmpha,
   }
 });
+
+function mapStateToProps(state) {
+  let {error} = state;
+  return {
+    error,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({}, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ErrorInput);

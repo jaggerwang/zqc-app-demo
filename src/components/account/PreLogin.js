@@ -5,11 +5,14 @@
 
 import React, {Component} from 'react';
 import {StyleSheet, View, Text, Image} from 'react-native';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
 
 import {HIDDEN_NAV_BAR_STYLE} from '../../config';
 import * as components from '../';
+import * as actions from '../../actions';
 
-export default class PreLogin extends Component {
+class PreLogin extends Component {
   static navigatorStyle = HIDDEN_NAV_BAR_STYLE;
 
   constructor(props) {
@@ -19,12 +22,11 @@ export default class PreLogin extends Component {
   }
 
   render() {
-    let {navigator, loading, processing, error} = this.props;
+    let {navigator} = this.props;
+
     return (
       <components.Layout
-        loading={loading}
-        processing={processing}
-        errorFlash={error.flash}
+        screenId={this.screenId}
         containerStyle={{justifyContent: 'center'}}
       >
         <components.Image
@@ -49,3 +51,13 @@ export default class PreLogin extends Component {
 }
 
 const styles = StyleSheet.create({});
+
+function mapStateToProps(state) {
+  return {};
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(actions, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PreLogin);

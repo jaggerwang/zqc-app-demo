@@ -5,25 +5,29 @@
 
 import React from 'react';
 import {StyleSheet, Platform, View, Text, TouchableOpacity} from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
 
 import {COLOR, SCREEN_WIDTH, SCREEN_HEIGHT} from '../../config';
+import * as components from '../';
 
-export default ({iconName, text, containerStyle, styleKind='normal', 
-  transparent=false, iconStyle, textStyle, onPress}) => {
-  let transparentStyle = transparent ? {backgroundColor: 'transparent'} : null;
+export default ({text, icon, style, iconStyle, containerStyle, onPress}) => {
+  let leftChild = (
+    <components.Icon name={icon} style={[styles.text, styles.icon, style, iconStyle]} />
+  );
+  let rightChild = (
+    <Text style={[styles.text, style]}>{text}</Text>
+  );
   if (onPress) {
     return (
       <TouchableOpacity onPress={onPress} style={[styles.container, containerStyle]}>
-        <Icon name={iconName} style={[styles.icon, styles[styleKind], transparentStyle, iconStyle]} />
-        <Text style={[styles[styleKind], transparentStyle, textStyle]}>{text}</Text>
+        {leftChild}
+        {rightChild}
       </TouchableOpacity>
     );
   } else{
     return (
       <View style={[styles.container, containerStyle]}>
-        <Icon name={iconName} style={[styles.icon, styles[styleKind], transparentStyle, iconStyle]} />
-        <Text style={[styles[styleKind], transparentStyle, textStyle]}>{text}</Text>
+        {leftChild}
+        {rightChild}
       </View>
     );
   } 
@@ -34,23 +38,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  icon: {
-    paddingHorizontal: 2,
-  },
-  normal: {
+  text: {
     fontSize: 12,
     color: COLOR.textNormal,
+    backgroundColor: 'transparent',
   },
-  normalBig: {
-    fontSize: 14,
-    color: COLOR.textNormal,
-  },
-  empha: {
-    fontSize: 12,
-    color: COLOR.textEmpha,
-  },
-  emphaBig: {
-    fontSize: 14,
-    color: COLOR.textEmpha,
-  },
+  icon: {},
 });

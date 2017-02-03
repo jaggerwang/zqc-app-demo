@@ -5,7 +5,6 @@
 
 import React from 'react';
 import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
 
 import {COLOR} from '../../config';
 

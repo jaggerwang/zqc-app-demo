@@ -7,29 +7,50 @@ import logger from '../logger';
 import * as actions from '../actions';
 
 const initialState = {
-  userId: '',
-  city: {name: '成都', code: '028'},
-  sport: {name: '网球', code: 'tennis'},
+  id: undefined,
+  settings: {
+    'betaUser': false,
+    'city': {
+      'name': '全国',
+      'code': '',
+    },
+    'sport': {
+      'name': '网球',
+      'code': 'tennis',
+    },
+    'storage': {
+      'quota': 1073741824,
+      'usedAmountMonth': 0,
+    },
+    'video': {
+      'autoPlay': {
+        'wifi': true,
+        'mobile': true,
+      },
+      'playRate': {
+        'wifi': 'hd',
+        'mobile': 'ld',
+      },
+      'uploadRate': {
+        'wifi': 'fhd',
+        'mobile': 'hd',
+      },
+    },
+  },
 };
 
 export default (state = initialState, action) => {
-  if (action.type == actions.SET_ACCOUNT) {
-    let {userId} = action;
+  if (action.type == actions.SET_ACCOUNT_USER) {
+    let {id} = action;
     return {
       ...state,
-      userId,
+      id,
     };
-  } else if (action.type == actions.SET_CITY) {
-    let {city} = action;
+  } else if (action.type == actions.SET_ACCOUNT_SETTINGS) {
+    let {settings} = action;
     return {
       ...state,
-      city,
-    };
-  } else if (action.type == actions.SET_SPORT) {
-    let {sport} = action;
-    return {
-      ...state,
-      sport,
+      settings,
     };
   } else if (action.type == actions.RESET || action.type == actions.RESET_ACCOUNT) {
     return initialState;
