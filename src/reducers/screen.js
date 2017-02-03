@@ -26,66 +26,14 @@ const initialState = {
     refreshing: false,
   },
 
-  PostDetail: {
-    refreshing: false,
-    isShowCommentBar: false,
-  },
-  PostLikes: {
-    refreshing: false,
-  },
-
-  CourtDetail: {
-    refreshing: false,
-  },
-  SelectCourt: {
-    refreshing: false,
-    selectedCourt: null,
-    createdCourts: [],
-  },
-
-  UserDetail: {
-    refreshing: false,
-  },
   EditProfileEmail: {
     secondsToSend: 0,
-  },
-  MyFileFavors: {
-    refreshing: false,
-  },
-  MyPostComments: {
-    refreshing: false,
-  },
-  MyPostLikes: {
-    refreshing: false,
-  },
-  MyPosts: {
-    refreshing: false,
-  },
-  
-  MostFavoredFilesOfUser: {
-    refreshing: false,
-  },
-  MostPlayedCourtsOfUser: {
-    refreshing: false,
-  },
-  MostPlayedUsersOfCourt: {
-    refreshing: false,
   },
 
   Album: {
     navBarHidden: false,
     files: [],
     currentIndex: 0,
-  },
-
-  AdminPostList: {
-    refreshing: false,
-  },
-  AdminSelectCourt: {
-    refreshing: false,
-    selectedCourt: null,
-    createdCourts: [],
-    searchedCourts: [],
   },
 };
 

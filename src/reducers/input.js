@@ -24,22 +24,6 @@ const initialState = {
   RegisterVerify: {
     code: '',
   },
-
-  CreatePost: {
-    text: '',
-    files: [],
-    court: null,
-    post: null,
-  },
-  SelectCourt: {
-    by: '',
-    court: null,
-    name: '',
-  },
-
-  PostDetail: {
-    comment: '',
-  },
   
   EditProfileNickname: {
     nickname: '',
@@ -62,24 +46,6 @@ const initialState = {
     backgroundName: '',
     backgroundFile: null,
     backgroundImage: null,
-  },
-
-  Report: {
-    objectType: '',
-    objectId: '',
-    reason: 0,
-  },
-
-  AdminCreatePost: {
-    text: '',
-    files: [],
-    court: null,
-  },
-  AdminSelectCourt: {
-    keyword: '',
-    name: '',
-    longitude: '',
-    latitude: '',
   },
 };
 

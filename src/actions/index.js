@@ -19,4 +19,5 @@ export * from './security';
 export * from './player';
 export * from './store';
 export * from './lbs';
+export * from './file';
 export * from './share';
