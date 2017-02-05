@@ -27,27 +27,26 @@ Zaiqiuchang is a mobile app developed using React Native(RN for short), both iOS
 
 ### How to run
 
-**iOS**
-```
-> npm install
-> react-native link
-> react-native run-ios
-```
+First you sholud make sure [React Native](http://facebook.github.io/react-native/releases/0.40/docs/getting-started.html) already installed.
 
-**Android**
 ```
-> npm install
-> react-native link
-> react-native run-android
+> npm install # install dependent packages.
+> react-native run-ios # run demo on iPhone simulator, or use run-android to run demo on android device.
 ```
 
-> Change all `react-native-video` to `react-native-video-exoplayer` in file 'android/settings.gradle' and 'android/app/build.gradle' for better video playing performance.
+As we already did `react-native link` for native code, so there is no need to do this again.
 
-### FAQ
+> Notice! After installed dependent packages, you should fix some known issues by hand, otherwise you will encounter compile errors. Please do as the following section [Known Issues](#known-issues).
 
-**Fix android compile error: getUseDeveloperSupport should be public**
+### Known issues
 
-> It's a bug for react-native-navigation. If you encounter this, modify line `protected boolean getUseDeveloperSupport() {` to `public boolean getUseDeveloperSupport() {` in file "NavigationReactGateway.java".
+**react-native-navigation**
+
+Open file 'node_modules/react-native-navigation/android/app/src/main/java/com/reactnativenavigation/react/NavigationReactGateway.java', find line `protected boolean getUseDeveloperSupport() {` and modify it to `public boolean getUseDeveloperSupport() {`.
+
+**react-native-wechat**
+
+Open file 'node_modules/react-native-wechat/ios/RCTWeChat.m', remove or comment line `#import <RCTImage/RCTImageUtils.h>`.
 
 ### Other resources
 
