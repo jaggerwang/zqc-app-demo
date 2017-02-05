@@ -30,8 +30,9 @@ Zaiqiuchang is a mobile app developed using React Native(RN for short), both iOS
 First you sholud make sure [React Native](http://facebook.github.io/react-native/releases/0.40/docs/getting-started.html) already installed.
 
 ```
-> npm install # install dependent packages.
-> react-native run-ios # run demo on iPhone simulator, or use run-android to run demo on android device.
+> git clone git@github.com:jaggerwang/zqc-app-demo.git && cd zqc-app-demo
+> npm install
+> react-native run-ios # or run-android
 ```
 
 As we already did `react-native link` for native code, so there is no need to do this again.
