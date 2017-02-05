@@ -23,7 +23,7 @@
     "react-native-fs": "^2.1.0-rc.1",
     "react-native-gallery": "^0.0.17",
     "react-native-image-crop-picker": "^0.12.1",
-    "react-native-navigation": "wix/react-native-navigation",
+    "react-native-navigation": "wix/react-native-navigation#pull/652/head",
     "react-native-orientation": "yamill/react-native-orientation",
     "react-native-swipeout": "jaggerwang/react-native-swipeout",
     "react-native-transformable-image": "^0.0.18",
