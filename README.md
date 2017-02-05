@@ -36,7 +36,7 @@ First you sholud make sure [React Native](http://facebook.github.io/react-native
 
 As we already did `react-native link` for native code, so there is no need to do this again.
 
-> Notice! After installed dependent packages, you should fix some known issues by hand, otherwise you will encounter compile errors. Please do as the following section [Known Issues](#known-issues).
+> Notice! After installed dependent packages, you should fix some known issues by hand, otherwise you will encounter compile errors. Please do as the following section [Known issues](#known-issues).
 
 ### Known issues
 
