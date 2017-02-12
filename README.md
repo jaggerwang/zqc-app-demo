@@ -27,7 +27,7 @@
 
 ### How to run
 
-First you sholud make sure [React Native](http://facebook.github.io/react-native/releases/0.40/docs/getting-started.html) already installed.
+First you sholud make sure [React Native](http://facebook.github.io/react-native/releases/0.40/docs/getting-started.html) is already installed.
 
 ```
 > git clone git@github.com:jaggerwang/zqc-app-demo.git && cd zqc-app-demo
@@ -37,7 +37,7 @@ First you sholud make sure [React Native](http://facebook.github.io/react-native
 
 As we already did `react-native link` for native code, so there is no need to do this again.
 
-> Notice! After installed dependent packages, you should fix some known issues by hand, otherwise you will encounter compile errors. Please do as the following section [Known issues](#known-issues).
+> Notice! After installed dependent packages, you should fix some known issues manually, otherwise you will encounter compile errors. Do as section [Known issues](#known-issues).
 
 ### Known issues
 
