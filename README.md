@@ -39,6 +39,10 @@ As we already did `react-native link` for native code, so there is no need to do
 
 > Notice! After installed dependent packages, you should fix some known issues manually, otherwise you will encounter compile errors. Do as section [Known issues](#known-issues).
 
+### Generating Android APK
+
+Please follow the official doc [Generating Signed APK](https://facebook.github.io/react-native/docs/signed-apk-android.html).
+
 ### Known issues
 
 **react-native-navigation**
