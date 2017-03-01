@@ -53,6 +53,10 @@ Open file 'node_modules/react-native-navigation/android/app/src/main/java/com/re
 
 Open file 'node_modules/react-native-wechat/ios/RCTWeChat.m', remove or comment line `#import <RCTImage/RCTImageUtils.h>`.
 
+**generating android apk failed**
+
+If you see error like "Cannot merge new index ...", you can refer to issue [Issue #5](https://github.com/jaggerwang/zqc-app-demo/issues/5)
+
 ### Other resources
 
 * [视频课程 - React Native跨平台移动应用开发](http://study.163.com/course/courseMain.htm?courseId=1003433016)
