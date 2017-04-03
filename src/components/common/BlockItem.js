@@ -9,25 +9,44 @@ import {StyleSheet, View, Text, Image, TouchableOpacity} from 'react-native';
 import {COLOR} from '../../config';
 import * as components from '../';
 
-export default ({leftIcon, leftText, rightImage, rightText, rightComponent, rightIcon, onPress, 
-  containerStyle, imageStyle, leftIconStyle, rightIconStyle}) => {
+export default ({leftIcon, leftText, rightImage, rightText, rightComponent, 
+  rightIcon, onPress, containerStyle, imageStyle, leftIconStyle, 
+  rightIconStyle}) => {
   let leftChild = (
     <View style={{flexDirection: 'row', alignItems: 'center'}}>
-      {leftIcon ? <components.Icon name={leftIcon} style={[styles.leftText, styles.leftIcon, leftIconStyle]} /> : null}
+      {leftIcon 
+        ? <components.Icon 
+          name={leftIcon} 
+          style={[styles.leftText, styles.leftIcon, leftIconStyle]} 
+        /> 
+        : null}
       <Text style={styles.leftText}>{leftText}</Text>
     </View>
   );
   let rightChild = (
     <View style={{flexDirection: 'row', alignItems: 'center'}}>
-      {rightImage ? <Image source={rightImage} style={[{width: 50, height: 50}, imageStyle]} /> : null}
+      {rightImage 
+        ? <Image 
+          source={rightImage} 
+          style={[{width: 50, height: 50}, imageStyle]} 
+        /> 
+        : null}
       {rightText ? <Text style={styles.rightText}>{rightText}</Text> : null}
-      {rightComponent ? rightComponent : null}
-      {rightIcon ? <components.Icon name={rightIcon} style={[styles.rightText, styles.rightIcon, rightIconStyle]} /> : null}
+      {rightComponent || null}
+      {rightIcon 
+        ? <components.Icon 
+          name={rightIcon} 
+          style={[styles.rightText, styles.rightIcon, rightIconStyle]} 
+        /> 
+        : null}
     </View>
   );
   if (onPress) {
     return (
-      <TouchableOpacity onPress={onPress} style={[styles.container, containerStyle]}>
+      <TouchableOpacity 
+        onPress={onPress} 
+        style={[styles.container, containerStyle]}
+      >
         {leftChild}
         {rightChild}
       </TouchableOpacity>
@@ -40,7 +59,7 @@ export default ({leftIcon, leftText, rightImage, rightText, rightComponent, righ
       </View>
     );
   } 
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -68,5 +87,5 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     fontSize: 16,
     color: COLOR.textNormal,
-  }
+  },
 });

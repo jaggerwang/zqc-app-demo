@@ -5,9 +5,6 @@
 
 import valid from 'validate.js';
 
-import logger from '../logger';
-import * as utils from '../utils';
-import * as apis from '../apis';
 import * as actions from './';
 
 export const RESET_INPUT = 'reset_input';
@@ -22,7 +19,6 @@ export function resetInput(screenId) {
     
     dispatch(actions.resetErrorInput(screenId));
   };
-  return ;
 }
 
 export function saveInput(screenId, input) {
@@ -67,27 +63,27 @@ let accountConstraints = {
 let mobileConstraints = {
   format: {
     pattern: /^\d{11}$/,
-    message: '手机号须为11位数字。'
+    message: '手机号须为11位数字。',
   },
 };
 
 let emailConstraints = {
   email: {
-    message: '邮箱格式错误。'
+    message: '邮箱格式错误。',
   },
 };
 
 let passwordConstraints = {
   length: {
     minimum: 6,
-    message: '密码长度至少为6。'
+    message: '密码长度至少为6。',
   },
 };
 
 let verifyCodeConstraints = {
   format: {
     pattern: /^\d{4}$/,
-    message: '验证码为4位数字。'
+    message: '验证码为4位数字。',
   },
 };
 
@@ -114,7 +110,7 @@ let constraints = {
     nickname: {
       length: {
         minimum: 3,
-        message: '昵称长度至少为3。'
+        message: '昵称长度至少为3。',
       },
     },
   },

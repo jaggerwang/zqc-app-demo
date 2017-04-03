@@ -3,10 +3,6 @@
  * zaiqiuchang.com
  */
 
-import logger from '../logger';
-import * as utils from '../utils';
-import * as actions from './';
-
 export const RESET_NETWORK = 'reset_network';
 export const SET_NETWORK = 'set_network';
 

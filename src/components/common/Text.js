@@ -4,15 +4,15 @@
  */
 
 import React from 'react';
-import {StyleSheet, Platform, View, Text, TouchableOpacity} from 'react-native';
+import {StyleSheet, Text} from 'react-native';
 
-import {COLOR, SCREEN_WIDTH, SCREEN_HEIGHT} from '../../config';
+import {COLOR} from '../../config';
 
 export default ({children, style, ...props}) => {
   return (
     <Text {...props} style={[styles.text, style]}>{children}</Text>
   );
-}
+};
 
 const styles = StyleSheet.create({
   text: {

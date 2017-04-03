@@ -3,9 +3,6 @@
  * zaiqiuchang.com
  */
 
-
-import logger from '../logger';
-import * as utils from '../utils';
 import * as apis from '../apis';
 import * as actions from './';
 
@@ -42,14 +39,14 @@ export function userInfo({userId, cbOk, cbFail, cbFinish}) {
   };
 }
 
-export function nearbyUsers({cbOk, cbFail, cbFinish}={}) {
+export function nearbyUsers({cbOk, cbFail, cbFinish} = {}) {
   return (dispatch, getState) => {
-    let {location: {position}, object} = getState();
+    let {location: {position}} = getState();
     if (!position) {
       if (cbFinish) {
         cbFinish();
       }
-      dispatch(actions.errorFlash("无法获取当前位置。"));
+      dispatch(actions.errorFlash('无法获取当前位置。'));
       return;
     }
 

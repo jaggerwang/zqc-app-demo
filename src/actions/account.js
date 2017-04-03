@@ -3,10 +3,8 @@
  * zaiqiuchang.com
  */
 
-import logger from '../logger';
 import {ApiResultError, ERROR_CODE_DUPLICATED, ERROR_CODE_NOT_FOUND, 
   ERROR_CODE_WRONG_PASSWORD, ERROR_CODE_INVALID_VERIFY_CODE} from '../error';
-import * as utils from '../utils';
 import * as apis from '../apis';
 import * as actions from './';
 
@@ -38,7 +36,7 @@ export function setAccountSettings(settings) {
   return {
     type: SET_ACCOUNT_SETTINGS,
     settings,
-  }
+  };
 }
 
 export function register({mobile, password, code, cbOk}) {
@@ -48,10 +46,10 @@ export function register({mobile, password, code, cbOk}) {
       .catch(error => {
         if (error instanceof ApiResultError) {
           if (error.code == ERROR_CODE_DUPLICATED) {
-            dispatch(actions.errorFlash("手机号已注册过。"));
+            dispatch(actions.errorFlash('手机号已注册过。'));
             return;
           } else if (error.code == ERROR_CODE_INVALID_VERIFY_CODE) {
-            dispatch(actions.errorFlash("验证码错误。"));
+            dispatch(actions.errorFlash('验证码错误。'));
             return;
           }
         }
@@ -60,7 +58,7 @@ export function register({mobile, password, code, cbOk}) {
   };
 }
 
-export function isLogined({cbOk, cbFail}, {timeout=5000}={}) {
+export function isLogined({cbOk, cbFail}, {timeout = 5000} = {}) {
   return dispatch => {
     apis.isLogined({timeout})
       .then(response => {
@@ -79,7 +77,7 @@ export function isLogined({cbOk, cbFail}, {timeout=5000}={}) {
         if (cbFail) {
           cbFail(error);
         } else {
-          dispatch(actions.handleError(error))
+          dispatch(actions.handleError(error));
         }
       });
   };
@@ -95,9 +93,9 @@ export function login({username, mobile, email, password, cbOk}) {
       })
       .catch(error => {
         if (error instanceof ApiResultError) {
-          if (error.code == ERROR_CODE_NOT_FOUND
-            || error.code == ERROR_CODE_WRONG_PASSWORD) {
-            dispatch(actions.errorFlash("帐号或密码错误"));
+          if (error.code == ERROR_CODE_NOT_FOUND || 
+            error.code == ERROR_CODE_WRONG_PASSWORD) {
+            dispatch(actions.errorFlash('帐号或密码错误'));
             return;
           }
         }

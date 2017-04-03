@@ -3,9 +3,6 @@
  * zaiqiuchang.com
  */
 
-import DeviceInfo from 'react-native-device-info';
-
-import logger from '../logger';
 import * as actions from '../actions';
 
 const initialState = {
@@ -36,4 +33,4 @@ export default (state = initialState, action) => {
   } else {
     return state;
   }
-}
+};

@@ -3,7 +3,6 @@
  * zaiqiuchang.com
  */
 
-import logger from '../logger';
 import * as actions from '../actions';
 
 const initialState = {
@@ -36,9 +35,10 @@ export default (state = initialState, action) => {
       ...state,
       enabled: false,
     };
-  } else if (action.type == actions.RESET || action.type == actions.RESET_LOADING) {
+  } else if (action.type == actions.RESET || 
+    action.type == actions.RESET_LOADING) {
     return initialState;
   } else {
     return state;
   }
-}
+};

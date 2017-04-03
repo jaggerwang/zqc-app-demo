@@ -3,7 +3,6 @@
  * zaiqiuchang.com
  */
 
-import logger from '../logger';
 import * as actions from '../actions';
 
 const initialState = {
@@ -46,9 +45,10 @@ export default (state = initialState, action) => {
       ...state,
       flash: error,
     };
-  } else if (action.type == actions.RESET || action.type == actions.RESET_ERROR) {
+  } else if (action.type == actions.RESET || 
+    action.type == actions.RESET_ERROR) {
     return initialState;
   } else {
     return state;
   }
-}
+};

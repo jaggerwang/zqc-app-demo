@@ -3,9 +3,7 @@
  * zaiqiuchang.com
  */
 
-import logger from '../logger';
 import * as apis from '../apis';
-import * as actions from './';
 import * as helpers from '../helpers';
 
 export const RESET_OBJECT_CACHE = 'reset_object_cache';
@@ -33,7 +31,7 @@ export function cacheObjects({users, userIds, posts, postIds, postComments,
       });
     }
     return o;
-  }
+  };
 
   let action = {
     type: CACHE_OBJECTS,
@@ -83,7 +81,7 @@ export function cacheUsers({users, userIds}) {
           delete user.avatarFile;
         }
       }
-    })
+    });
     if (avatarFiles.length > 0) {
       ps.push(dispatch(cacheFiles({files: avatarFiles, fileIds: avatarIds})));
     } else {
@@ -98,7 +96,7 @@ export function cacheUsers({users, userIds}) {
         userStats.push(user.stat);
         delete user.stat;
       }
-    })
+    });
     if (userStats.length > 0) {
       ps.push(dispatch(cacheUserStats({userStats})));
     } else {
@@ -113,7 +111,7 @@ export function cacheUsers({users, userIds}) {
   };
 }
 
-export function cacheUserByIds({userIds, update=false}) {
+export function cacheUserByIds({userIds, update = false}) {
   return (dispatch, getState) => {
     let {object} = getState();
     userIds = Array.from(new Set(userIds));
@@ -144,7 +142,7 @@ export function cachePosts({posts, postIds}) {
         creators.push(post.creator);
         delete post.creator;
       }
-    })
+    });
     if (creators.length > 0) {
       ps.push(dispatch(cacheUsers({users: creators, userIds: creatorIds})));
     } else {
@@ -159,7 +157,7 @@ export function cachePosts({posts, postIds}) {
         courts.push(post.court);
         delete post.court;
       }
-    })
+    });
     if (courts.length > 0) {
       ps.push(dispatch(cacheCourts({courts, courtIds})));
     } else {
@@ -174,7 +172,7 @@ export function cachePosts({posts, postIds}) {
         imageFiles = imageFiles.concat(post.imageFiles);
         delete post.imageFiles;
       }
-    })
+    });
     if (imageFiles.length > 0) {
       ps.push(dispatch(cacheFiles({files: imageFiles, fileIds: imageIds})));
     } else {
@@ -189,7 +187,7 @@ export function cachePosts({posts, postIds}) {
         postStats.push(post.stat);
         delete post.stat;
       }
-    })
+    });
     if (postStats.length > 0) {
       ps.push(dispatch(cachePostStats({postStats})));
     } else {
@@ -204,7 +202,7 @@ export function cachePosts({posts, postIds}) {
   };
 }
 
-export function cachePostByIds({postIds, update=false}) {
+export function cachePostByIds({postIds, update = false}) {
   return (dispatch, getState) => {
     let {object} = getState();
     postIds = Array.from(new Set(postIds));
@@ -235,7 +233,7 @@ export function cachePostLikes({postLikes}) {
         users.push(postLike.user);
         delete postLike.user;
       }
-    })
+    });
     if (users.length > 0) {
       ps.push(dispatch(cacheUsers({users, userIds})));
     } else {
@@ -250,7 +248,7 @@ export function cachePostLikes({postLikes}) {
         posts.push(postLike.post);
         delete postLike.post;
       }
-    })
+    });
     if (posts.length > 0) {
       ps.push(dispatch(cachePosts({posts, postIds})));
     } else {
@@ -263,9 +261,6 @@ export function cachePostLikes({postLikes}) {
         return postLikes.map(v => helpers.postLikeFromCache(object, v));
       });
   };
-    
-  
-  return Promise.all(ps).then(actions => mergeCacheObjectsActions(actions));
 }
 
 export function cachePostComments({postComments, postCommentIds}) {
@@ -280,7 +275,7 @@ export function cachePostComments({postComments, postCommentIds}) {
         creators.push(postComment.creator);
         delete postComment.creator;
       }
-    })
+    });
     if (creators.length > 0) {
       ps.push(dispatch(cacheUsers({users: creators, userIds: creatorIds})));
     } else {
@@ -295,7 +290,7 @@ export function cachePostComments({postComments, postCommentIds}) {
         posts.push(postComment.post);
         delete postComment.post;
       }
-    })
+    });
     if (posts.length > 0) {
       ps.push(dispatch(cachePosts({posts, postIds})));
     } else {
@@ -305,17 +300,19 @@ export function cachePostComments({postComments, postCommentIds}) {
     return Promise.all(ps)
       .then(() => {
         let {object} = getState();
-        return postComments.map(v => helpers.postCommentFromCache(object, v.id));
+        return postComments.map(
+          v => helpers.postCommentFromCache(object, v.id));
       });
   };
 }
 
-export function cachePostCommentByIds({postCommentIds, update=false}) {
+export function cachePostCommentByIds({postCommentIds, update = false}) {
   return (dispatch, getState) => {
     let {object} = getState();
     postCommentIds = Array.from(new Set(postCommentIds));
     if (!update) {
-      postCommentIds = postCommentIds.filter(v => object.postComments[v] === undefined);
+      postCommentIds = postCommentIds.filter(
+        v => object.postComments[v] === undefined);
     }
     if (postCommentIds.length > 0) {
       return apis.postCommentInfos(postCommentIds)
@@ -341,7 +338,7 @@ export function cacheCourts({courts, courtIds}) {
         courtStats.push(court.stat);
         delete court.stat;
       }
-    })
+    });
     if (courtStats.length > 0) {
       ps.push(dispatch(cacheCourtStats({courtStats})));
     } else {
@@ -356,7 +353,7 @@ export function cacheCourts({courts, courtIds}) {
   };
 }
 
-export function cacheCourtByIds({courtIds, update=false}) {
+export function cacheCourtByIds({courtIds, update = false}) {
   return (dispatch, getState) => {
     let {object} = getState();
     courtIds = Array.from(new Set(courtIds));
@@ -387,7 +384,7 @@ export function cacheFiles({files, fileIds}) {
         fileStats.push(file.stat);
         delete file.stat;
       }
-    })
+    });
     if (fileStats.length > 0) {
       ps.push(dispatch(cacheFileStats({fileStats})));
     } else {
@@ -402,7 +399,7 @@ export function cacheFiles({files, fileIds}) {
   };
 }
 
-export function cacheFileByIds({fileIds, update=false}) {
+export function cacheFileByIds({fileIds, update = false}) {
   return (dispatch, getState) => {
     let {object} = getState();
     fileIds = Array.from(new Set(fileIds));
@@ -433,7 +430,7 @@ export function cacheFileFavors({fileFavors}) {
         users.push(fileFavor.user);
         delete fileFavor.user;
       }
-    })
+    });
     if (users.length > 0) {
       ps.push(dispatch(cacheUsers({users, userIds})));
     } else {
@@ -448,7 +445,7 @@ export function cacheFileFavors({fileFavors}) {
         files.push(fileFavor.file);
         delete fileFavor.file;
       }
-    })
+    });
     if (files.length > 0) {
       ps.push(dispatch(cacheFiles({files, fileIds})));
     } else {
@@ -463,7 +460,7 @@ export function cacheFileFavors({fileFavors}) {
         posts.push(fileFavor.post);
         delete fileFavor.post;
       }
-    })
+    });
     if (posts.length > 0) {
       ps.push(dispatch(cachePosts({posts, postIds})));
     } else {
@@ -492,7 +489,7 @@ export function cacheUserStats({userStats, userStatIds}) {
   };
 }
 
-export function cacheUserStatByIds({userStatIds, update=false}) {
+export function cacheUserStatByIds({userStatIds, update = false}) {
   return (dispatch, getState) => {
     let {object} = getState();
     userStatIds = Array.from(new Set(userStatIds));
@@ -525,7 +522,7 @@ export function cachePostStats({postStats, postStatIds}) {
   };
 }
 
-export function cachePostStatByIds({postStatIds, update=false}) {
+export function cachePostStatByIds({postStatIds, update = false}) {
   return (dispatch, getState) => {
     let {object} = getState();
     postStatIds = Array.from(new Set(postStatIds));
@@ -558,12 +555,13 @@ export function cacheCourtStats({courtStats, courtStatIds}) {
   };
 }
 
-export function cacheCourtStatByIds({courtStatIds, update=false}) {
+export function cacheCourtStatByIds({courtStatIds, update = false}) {
   return (dispatch, getState) => {
     let {object} = getState();
     courtStatIds = Array.from(new Set(courtStatIds));
     if (!update) {
-      courtStatIds = courtStatIds.filter(v => object.courtStats[v] === undefined);
+      courtStatIds = courtStatIds.filter(
+        v => object.courtStats[v] === undefined);
     }
     if (courtStatIds.length > 0) {
       return apis.courtStats(courtStatIds)
@@ -591,7 +589,7 @@ export function cacheFileStats({fileStats, fileStatIds}) {
   };
 }
 
-export function cacheFileStatByIds({fileStatIds, update=false}) {
+export function cacheFileStatByIds({fileStatIds, update = false}) {
   return (dispatch, getState) => {
     let {object} = getState();
     fileStatIds = Array.from(new Set(fileStatIds));
@@ -607,11 +605,5 @@ export function cacheFileStatByIds({fileStatIds, update=false}) {
     } else {
       return [];
     }
-
-    return Promise.all(ps)
-      .then(() => {
-        let {object} = getState();
-        return fileStats.map(v => helpers.fileStatFromCache(object, v.id));
-      });
   };
 }

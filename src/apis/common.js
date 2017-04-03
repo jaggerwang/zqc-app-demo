@@ -14,11 +14,11 @@ import {store} from '../store';
 import {loadingStart, loadingEnd, resetLoading} from '../actions';
 
 let client = axios.create({
-    baseURL: API_BASE_URL,
-    timeout: 1000,
-    paramsSerializer: params => querystring.stringify(params),
-    responseType: 'json',
-    maxContentLength: Math.pow(1024, 2),
+  baseURL: API_BASE_URL,
+  timeout: 1000,
+  paramsSerializer: params => querystring.stringify(params),
+  responseType: 'json',
+  maxContentLength: Math.pow(1024, 2),
 });
 
 client.interceptors.request.use(
@@ -81,8 +81,8 @@ client.interceptors.response.use(
   },
 );
 
-export function getApi(url, params={}, {headers={}, timeout=3000, 
-  background=false, onDownloadProgress}={}) {
+export function getApi(url, params = {}, {headers = {}, timeout = 3000, 
+  background = false, onDownloadProgress} = {}) {
   return requestApi({
     url,
     method: 'GET',
@@ -94,8 +94,8 @@ export function getApi(url, params={}, {headers={}, timeout=3000,
   });
 }
 
-export function postApi(url, data={}, {headers={}, timeout=5000, 
-  background=false, onUploadProgress}={}) {
+export function postApi(url, data = {}, {headers = {}, timeout = 5000, 
+  background = false, onUploadProgress} = {}) {
   let formData = new FormData();
   for (let [k, v] of Object.entries(data)) {
     formData.append(k, v);

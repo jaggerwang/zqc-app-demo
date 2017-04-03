@@ -3,7 +3,6 @@
  * zaiqiuchang.com
  */
 
-import logger from '../logger';
 import * as actions from '../actions';
 
 const initialState = {
@@ -37,9 +36,10 @@ export default (state = initialState, action) => {
       ...state,
       byCity: Object.assign({}, state.byCity, {[cityCode]: postIds}),
     };
-  } else if (action.type == actions.RESET || action.type == actions.RESET_POST) {
+  } else if (action.type == actions.RESET || 
+    action.type == actions.RESET_POST) {
     return initialState;
   } else {
     return state;
   }
-}
+};

@@ -4,16 +4,15 @@
  */
 
 import React, {Component} from 'react';
-import {StyleSheet, View, Text, Image, ScrollView} from 'react-native';
+import {StyleSheet, View, ScrollView} from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 import dismissKeyboard from 'dismissKeyboard';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
-import {COLOR, DEFAULT_NAV_BAR_STYLE, SCREEN_WIDTH} from '../../config';
+import {DEFAULT_NAV_BAR_STYLE, SCREEN_WIDTH} from '../../config';
 import {RES_USER_BACKGROUNDS} from '../../const';
 import logger from '../../logger';
-import * as utils from '../../utils';
 import * as components from '../';
 import * as actions from '../../actions';
 import * as helpers from '../../helpers';
@@ -47,7 +46,8 @@ class EditProfileBackground extends Component {
   
   componentDidMount() {
     let {object, account, saveInput} = this.props;
-    let {backgroundType, backgroundName, backgroundFile} = helpers.userFromCache(object, account.id);
+    let {backgroundType, backgroundName, backgroundFile} = 
+      helpers.userFromCache(object, account.id);
     saveInput(this.screenId, {backgroundType, backgroundName, backgroundFile});
   }
 
@@ -65,9 +65,11 @@ class EditProfileBackground extends Component {
   submit() {
     dismissKeyboard();
 
-    let {navigator, input, validateInput, updateAccount, uploadFile} = this.props;
+    let {navigator, input, validateInput, updateAccount, uploadFile} = 
+      this.props;
     validateInput(this.screenId, input[this.screenId], () => {
-      let {backgroundType, backgroundName, backgroundImage} = input[this.screenId];
+      let {backgroundType, backgroundName, backgroundImage} = 
+        input[this.screenId];
       let cbOk = () => navigator.pop();
       if (backgroundType == 'builtin') {
         updateAccount({update: {backgroundType, backgroundName}, cbOk});
@@ -89,20 +91,32 @@ class EditProfileBackground extends Component {
   }
 
   render() {
-    let {navigator, input, errorFlash, saveInput} = this.props;
+    let {input, saveInput} = this.props;
     
     return (
       <components.Layout screenId={this.screenId}>
         <ScrollView>
-          <components.Image source={helpers.userBackgroundSource(input[this.screenId], 'large')} style={styles.background} />
+          <components.Image 
+            source={helpers.userBackgroundSource(input[this.screenId], 
+              'large')} 
+            style={styles.background} 
+          />
           <components.TextNotice>从内置里选取</components.TextNotice>
-          <View style={{flexDirection: 'row', flexWrap: 'wrap', alignItems: 'flex-start', padding: 5}}>
+          <View 
+            style={{
+              flexDirection: 'row', 
+              flexWrap: 'wrap', 
+              alignItems: 'flex-start', 
+              padding: 5,
+            }}
+          >
             {Array.from(
               RES_USER_BACKGROUNDS.entries(),
               ([k, v]) => <components.Image
                 key={k}
                 source={v}
-                onPress={() => saveInput(this.screenId, {backgroundType: 'builtin', backgroundName: k})}
+                onPress={() => saveInput(this.screenId, 
+                  {backgroundType: 'builtin', backgroundName: k})}
                 containerStyle={{margin: 5}}
                 style={styles.backgroundBuiltin}
               />
@@ -146,7 +160,7 @@ class EditProfileBackground extends Component {
               );
             }}
           >
-            <components.ButtonWithBg text='打开相册' textStyle={{fontSize: 16}} />
+            <components.ButtonWithBg text="打开相册" textStyle={{fontSize: 16}} />
           </components.ActionSheet>
         </ScrollView>
       </components.Layout>
@@ -179,4 +193,5 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators(actions, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditProfileBackground);
+export default connect(mapStateToProps, mapDispatchToProps)(
+  EditProfileBackground);

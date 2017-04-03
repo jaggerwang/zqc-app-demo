@@ -3,7 +3,6 @@
  * zaiqiuchang.com
  */
 
-import logger from '../logger';
 import * as actions from '../actions';
 
 const initialState = {
@@ -71,4 +70,4 @@ export default (state = initialState, action) => {
   } else {
     return state;
   }
-}
+};

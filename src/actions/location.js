@@ -3,12 +3,10 @@
  * zaiqiuchang.com
  */
 
-import {Alert} from 'react-native';
+import geolib from 'geolib';
 
 import logger from '../logger';
-import * as utils from '../utils';
 import * as apis from '../apis';
-import * as actions from './';
 
 export const RESET_LOCATION = 'reset_location';
 export const SET_LOCATION_POSITION = 'set_location_position';
@@ -25,8 +23,8 @@ export function resetLocation() {
 
 export function setLocationPosition(position) {
   return dispatch => {
-    if (oldPosition && position 
-      && geolib.getDistance(position.coords, oldPosition.coords) < 10) {
+    if (oldPosition && position && 
+      geolib.getDistance(position.coords, oldPosition.coords) < 10) {
       return;
     }
 
@@ -59,8 +57,9 @@ export function setLocationCity(city) {
 export function updateLocationCity() {
   return (dispatch, getState) => {
     let {network, location} = getState();
-    if (!network.isConnected || !location.position 
-      || (oldPosition && geolib.getDistance(oldPosition.coords, location.position.coords) < 1000)) {
+    if (!network.isConnected || !location.position || 
+      (oldPosition && geolib.getDistance(
+          oldPosition.coords, location.position.coords) < 1000)) {
       return;
     }
 
@@ -77,6 +76,6 @@ export function updateLocationCity() {
         }
         dispatch(setLocationCity(city));
       })
-      .catch(error => null);
+      .catch(error => logger.warn(error));
   };
 }

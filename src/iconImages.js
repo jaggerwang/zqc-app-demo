@@ -14,7 +14,7 @@ const icons = {
   'tabbar-atcourt-selected': ['add-box', 24, COLOR.theme, MaterialIcons],
   'tabbar-me': ['account-circle', 24, COLOR.textEmpha, MaterialIcons],
   'tabbar-me-selected': ['account-circle', 24, COLOR.theme, MaterialIcons],
-}
+};
 
 let iconImages = {};
 
@@ -27,7 +27,8 @@ export function loadIconImages() {
         return vendor.getImageSource(name, size, color);
       })
     ).then(sources => {
-      iconNames.forEach((iconName, index) => iconImages[iconName] = sources[index]);
+      iconNames.forEach(
+        (iconName, index) => { iconImages[iconName] = sources[index]; });
       resolve(iconImages);
     });
   });

@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import {StyleSheet, View, Text, ActivityIndicator} from 'react-native';
+import {StyleSheet, View, Text} from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
@@ -20,8 +20,12 @@ function Processing({processing, containerStyle}) {
 
   return (
     <View style={[styles.container, containerStyle]}>
-      <Animatable.Text animation="rotate" iterationCount='infinite' easing='linear'>
-        <components.Icon name='rotate-right' style={styles.text} />
+      <Animatable.Text 
+        animation="rotate" 
+        iterationCount="infinite" 
+        easing="linear"
+      >
+        <components.Icon name="rotate-right" style={styles.text} />
       </Animatable.Text>
       <Text style={styles.text}>{task}</Text>
     </View>

@@ -4,16 +4,13 @@
  */
 
 import React, {Component} from 'react';
-import {StyleSheet, View, Text, Image, ListView, ScrollView, RefreshControl, 
-  TouchableOpacity, InteractionManager, Platform, Alert, Linking} from 'react-native';
+import {StyleSheet, ListView, ScrollView, RefreshControl, InteractionManager, 
+  Platform} from 'react-native';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import compareVersions from 'compare-versions';
 
-import {COLOR, DEFAULT_NAV_BAR_STYLE, SCREEN_WIDTH, SCREEN_HEIGHT, VERSION, 
-    API_BASE_URL} from '../config';
+import {DEFAULT_NAV_BAR_STYLE} from '../config';
 import {POST_STATUS_NORMAL} from '../const';
-import logger from '../logger';
 import * as utils from '../utils';
 import * as components from './';
 import * as helpers from '../helpers';
@@ -35,20 +32,24 @@ class Nearby extends Component {
       rowHasChanged: (r1, r2) => 
         r1.id != r2.id || 
         r1.updateTime != r2.updateTime || 
-        r1.imageFiles.map(v => v.id).join() != r2.imageFiles.map(v => v.id).join() || 
-        r1.imageFiles.map(v => v.updateTime).join() != r2.imageFiles.map(v => v.updateTime).join() || 
+        r1.imageFiles.map(v => v.id)
+          .join() != r2.imageFiles.map(v => v.id).join() ||
+        r1.imageFiles.map(v => v.updateTime)
+          .join() != r2.imageFiles.map(v => v.updateTime).join() ||
         r1.court.id != r2.court.id || 
         r1.court.updateTime != r2.court.updateTime || 
         r1.creator.id != r2.creator.id || 
         r1.creator.updateTime != r2.creator.updateTime || 
         r1.stat.id != r2.stat.id || 
-        r1.stat.updateTime != r2.stat.updateTime
+        r1.stat.updateTime != r2.stat.updateTime,
     }).cloneWithRows(this.getRows());
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.account.settings.city.code != this.props.account.settings.city.code
-      || nextProps.account.settings.sport.code != this.props.account.settings.sport.code) {
+    if (nextProps.account.settings.city.code != 
+      this.props.account.settings.city.code || 
+      nextProps.account.settings.sport.code != 
+      this.props.account.settings.sport.code) {
       this.setNavBarButtons(nextProps);
 
       this.refresh({props: nextProps});
@@ -57,7 +58,7 @@ class Nearby extends Component {
 
   componentDidMount() {
     InteractionManager.runAfterInteractions(() => {
-      let {network, location, errorFlash, likedPosts, favoredFiles} = this.props;
+      let {network, location, errorFlash} = this.props;
 
       if (!location.position) {
         errorFlash('获取位置失败，请允许在球场使用定位服务。');
@@ -75,7 +76,8 @@ class Nearby extends Component {
     let {navigator, account} = props;
     let buttons = [
       {
-        title: account.settings.city.name.substring(0, 2) + ' ' + account.settings.sport.name + ' >',
+        title: account.settings.city.name.substring(0, 2) + ' ' + 
+          account.settings.sport.name + ' >',
         id: 'select_city_and_sport',
       },
     ];
@@ -105,7 +107,6 @@ class Nearby extends Component {
             screen: 'zqc.SelectCityAndSport',
           });
         }
-        
       }
     }
   }
@@ -133,7 +134,7 @@ class Nearby extends Component {
     }
   }
 
-  refresh({props, cbFinish}={}) {
+  refresh({props, cbFinish} = {}) {
     props = props || this.props;
     let {location} = props;
     let {account, nearbyPosts, postsOfCity} = props;
@@ -154,8 +155,8 @@ class Nearby extends Component {
   }
 
   render() {
-    let {navigator, location, network, screen, account, enableLoading, disableLoading, 
-      setScreenState, nearbyPosts, postsOfCity} = this.props;
+    let {navigator, location, network, screen, account, enableLoading, 
+      disableLoading, setScreenState, nearbyPosts, postsOfCity} = this.props;
     let {refreshing} = screen[this.screenId];
     
     let posts = this.getRows();
@@ -163,10 +164,10 @@ class Nearby extends Component {
 
     return (
       <components.Layout screenId={this.screenId}>
-        {posts.length > 0 ?
-        <ListView
+        {posts.length > 0 
+        ? <ListView
           dataSource={this.ds}
-          enableEmptySections={true}
+          enableEmptySections
           initialListSize={5}
           pageSize={5}
           renderRow={post => 
@@ -199,7 +200,8 @@ class Nearby extends Component {
           }
           onEndReached={() => {
             if (network.isConnected && posts.length > 0) {
-              if (location.city && account.settings.city.code == location.city.code) {
+              if (location.city && 
+                account.settings.city.code == location.city.code) {
                 nearbyPosts({offset: posts[posts.length - 1].createTime});
               } else {
                 postsOfCity({
@@ -209,9 +211,12 @@ class Nearby extends Component {
               }
             }
           }}
-        /> :
-        <components.TextNotice>
-          {location.city && account.settings.city.code == location.city.code ? '附近暂时没有数据，可以切换到其它热门城市看看。' : '当前城市暂时没有数据。'}
+        /> 
+        : <components.TextNotice>
+          {location.city && 
+            account.settings.city.code == location.city.code 
+            ? '附近暂时没有数据，可以切换到其它热门城市看看。' 
+            : '当前城市暂时没有数据。'}
         </components.TextNotice>}
       </components.Layout>
     );

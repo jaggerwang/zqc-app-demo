@@ -3,7 +3,6 @@
  * zaiqiuchang.com
  */
 
-import logger from '../logger';
 import * as actions from '../actions';
 
 const initialState = {
@@ -13,11 +12,12 @@ const initialState = {
 
 export default (state = initialState, action) => {
   if (action.type == actions.SET_NETWORK) {
-    let {type, ...newState} = action;
+    let {...newState} = action;
+    delete newState.type;
     return Object.assign({}, state, newState);
   } else if (action.type == actions.RESET_NETWORK) {
     return initialState;
   } else {
     return state;
   }
-}
+};

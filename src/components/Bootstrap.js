@@ -4,8 +4,7 @@
  */
 
 import React, {Component} from 'react';
-import {StyleSheet, View, Text, Image, Alert, TouchableOpacity, 
-  InteractionManager, Platform} from 'react-native';
+import {StyleSheet, View, Text, Alert, InteractionManager} from 'react-native';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
@@ -26,7 +25,7 @@ class Bootstrap extends Component {
   
   componentDidMount() {
     InteractionManager.runAfterInteractions(() => {
-      let {navigator, isReset=false, reset, processingTask, errorFlash, 
+      let {navigator, isReset = false, reset, processingTask, errorFlash, 
         isLogined} = this.props;
 
       if (isReset) {
@@ -74,17 +73,23 @@ class Bootstrap extends Component {
             '网络出错',
             '未检测到网络连接，请确保WIFI或移动网络正常可用。',
             [
-              {text: '重试', onPress: () => navToBootstrap()},
-              {text: '离线模式', onPress: () => {
-                let {object, account} = this.props;
-                let user = object.users[account.id];
-                if (user) {
-                  cbLogined(user);
-                } else {
-                  errorFlash('尚未登录过任何帐号。');
-                  navToBootstrap();
-                }
-              }},
+              {
+                text: '重试', 
+                onPress: () => navToBootstrap(),
+              },
+              {
+                text: '离线模式', 
+                onPress: () => {
+                  let {object, account} = this.props;
+                  let user = object.users[account.id];
+                  if (user) {
+                    cbLogined(user);
+                  } else {
+                    errorFlash('尚未登录过任何帐号。');
+                    navToBootstrap();
+                  }
+                },
+              },
             ],
           );
         },

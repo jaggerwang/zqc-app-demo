@@ -3,8 +3,6 @@
  * zaiqiuchang.com
  */
 
-import logger from '../logger';
-
 export const RESET_PLAYER_STATE = 'reset_player_state';
 export const SET_PLAYER_STATE = 'set_player_state';
 

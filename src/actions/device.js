@@ -3,10 +3,6 @@
  * zaiqiuchang.com
  */
 
-import logger from '../logger';
-import * as utils from '../utils';
-import * as actions from './';
-
 export const RESET_DEVICE = 'reset_device';
 export const SET_KEYBOARD = 'set_keyboard';
 

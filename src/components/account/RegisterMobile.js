@@ -4,12 +4,11 @@
  */
 
 import React, {Component} from 'react';
-import {StyleSheet, View, Text} from 'react-native';
 import dismissKeyboard from 'dismissKeyboard';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
-import {COLOR, DEFAULT_NAV_BAR_STYLE} from '../../config';
+import {DEFAULT_NAV_BAR_STYLE} from '../../config';
 import * as components from '../';
 import * as actions from '../../actions';
 
@@ -28,48 +27,57 @@ class RegisterMobile extends Component {
     let {navigator, input, validateInput, sendVerifyCode} = this.props;
     validateInput(this.screenId, input[this.screenId], () => {
       let {mobile, password} = input[this.screenId];
-      sendVerifyCode({by: "mobile", mobile, cbOk: () => navigator.push({
-        screen: 'zqc.RegisterVerify', 
-        title: '验证', 
-        passProps: {mobile, password},
-      })});
+      sendVerifyCode({
+        by: 'mobile', 
+        mobile, 
+        cbOk: () => navigator.push({
+          screen: 'zqc.RegisterVerify', 
+          title: '验证', 
+          passProps: {mobile, password},
+        }),
+      });
     });
   }
   
   render() {
-    let {navigator, input, saveInput} = this.props;
+    let {input, saveInput} = this.props;
     let {mobile, password} = input[this.screenId];
 
     return (
       <components.Layout screenId={this.screenId}>
         <components.Form>
-          <components.FormItem icon='account-circle' containerStyle={{borderTopWidth: 0}}>
+          <components.FormItem 
+            icon="account-circle" 
+            containerStyle={{borderTopWidth: 0}}
+          >
             <components.TextInput
-              placeholder='输入手机号'
-              keyboardType='numeric'
-              returnKeyType='next'
+              placeholder="输入手机号"
+              keyboardType="numeric"
+              returnKeyType="next"
               defaultValue={mobile}
               maxLength={11}
-              onRef={ref => this.refMobile = ref}
-              onChangeText={text => saveInput(this.screenId, {mobile: text.trim()})}
+              onRef={ref => { this.refMobile = ref; }}
+              onChangeText={text => saveInput(this.screenId, 
+                {mobile: text.trim()})}
               onSubmitEditing={() => this.refPassword.focus()}
             />
           </components.FormItem>
-          <components.FormItem icon='lock'>
+          <components.FormItem icon="lock">
             <components.TextInput
-              placeholder='设置登录密码，不少于6位'
-              returnKeyType='done'
-              secureTextEntry={true}
+              placeholder="设置登录密码，不少于6位"
+              returnKeyType="done"
+              secureTextEntry
               defaultValue={password}
               maxLength={20}
-              onRef={ref => this.refPassword = ref}
-              onChangeText={text => saveInput(this.screenId, {password: text.trim()})}
+              onRef={ref => { this.refPassword = ref; }}
+              onChangeText={text => saveInput(this.screenId, 
+                {password: text.trim()})}
               onSubmitEditing={() => this.submit()}
             />
           </components.FormItem>
         </components.Form>
         <components.ButtonWithBg
-          text='下一步'
+          text="下一步"
           onPress={() => this.submit()}
           textStyle={{fontSize: 16}}
         />
@@ -77,8 +85,6 @@ class RegisterMobile extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({});
 
 function mapStateToProps(state) {
   let {input, screen} = state;

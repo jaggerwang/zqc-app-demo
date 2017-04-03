@@ -4,17 +4,27 @@
  */
 
 import React from 'react';
-import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity} from 'react-native';
 
 import {COLOR} from '../../config';
 
-export default ({text, selected=false, disabled=false, onPress, containerStyle, textStyle}) => {
+export default ({text, selected = false, disabled = false, onPress, 
+  containerStyle, textStyle}) => {
   return (
-    <TouchableOpacity onPress={onPress} style={[styles.container, (selected ? styles.containerSelected : null), containerStyle]}>
-      <Text style={[styles.text, (disabled ? styles.textDisabled : null), (selected ? styles.textSelected : null), textStyle]}>{text}</Text>
+    <TouchableOpacity 
+      onPress={onPress} 
+      style={[styles.container, (selected ? styles.containerSelected : null), 
+        containerStyle]}
+    >
+      <Text 
+        style={[styles.text, (disabled ? styles.textDisabled : null), 
+          (selected ? styles.textSelected : null), textStyle]}
+      >
+        {text}
+      </Text>
     </TouchableOpacity>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -30,7 +40,7 @@ const styles = StyleSheet.create({
   },
   text: {
     color: COLOR.textNormal,
-    fontSize: 12
+    fontSize: 12,
   },
   textDisabled: {
     color: COLOR.textPrompt,

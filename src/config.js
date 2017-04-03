@@ -3,7 +3,7 @@
  * zaiqiuchang.com
  */
 
-import {Platform, Dimensions} from 'react-native';
+import {Dimensions} from 'react-native';
 
 export const DEBUG = __DEV__;
 export const IN_DEBUGGER = DEBUG && !!window.navigator.userAgent;

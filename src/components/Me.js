@@ -4,14 +4,12 @@
  */
 
 import React, {Component} from 'react';
-import {StyleSheet, View, Text, Image, ListView, ScrollView, RefreshControl, 
-  TouchableOpacity, InteractionManager} from 'react-native';
+import {StyleSheet, View, ScrollView, RefreshControl} from 'react-native';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
-import {COLOR, DEFAULT_NAV_BAR_STYLE, SCREEN_WIDTH, SCREEN_HEIGHT} from '../config';
-import {navToBootstrap, navToUserDetail} from '../navigation';
-import logger from '../logger';
+import {COLOR, DEFAULT_NAV_BAR_STYLE} from '../config';
+import {navToBootstrap} from '../navigation';
 import * as utils from '../utils';
 import * as components from './';
 import * as helpers from '../helpers';
@@ -67,34 +65,47 @@ class Me extends Component {
           <components.Block containerStyle={{flexDirection: 'row'}}>
             <components.Image 
               source={helpers.userAvatarSource(user, 'middle')}
-              onPress={() => navToUserDetail(navigator, user)} 
               style={styles.userAvatar}
               containerStyle={{marginRight: 5}}
             />
             <View style={{flex: 1}}>
-              <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', height: 25}}>
+              <View 
+                style={{
+                  flexDirection: 'row', 
+                  justifyContent: 'space-between', 
+                  alignItems: 'center', 
+                  height: 25,
+                }}
+              >
                 <components.TextWithIcon 
                   icon={user.gender == 'm' ? 'person' : 'person'} 
                   text={user.nickname} 
                   style={{fontSize: 14, color: COLOR.textEmpha}} 
-                  onPress={() => navToUserDetail(navigator, user)}
                 />
                 <components.Button
-                  text='编辑资料'
-                  onPress={() => navigator.push({screen: 'zqc.EditProfile', title: '编辑资料'})}
+                  text="编辑资料"
+                  onPress={() => navigator.push(
+                    {screen: 'zqc.EditProfile', title: '编辑资料'})}
                   containerStyle={{margin: 0, padding: 5}}
                   textStyle={{fontSize: 12}}
                 />
               </View>
-              <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', height: 25}}>
+              <View 
+                style={{
+                  flexDirection: 'row', 
+                  justifyContent: 'space-between', 
+                  alignItems: 'center', 
+                  height: 25,
+                }}
+              >
                 <View style={{flexDirection: 'row'}}>
                   <components.TextWithIcon 
-                    icon='thumb-up' 
+                    icon="thumb-up" 
                     text={helpers.numberText(user.stat.liked)}
                     containerStyle={{marginRight: 5}}
                   />
                   <components.TextWithIcon 
-                    icon='add-box' 
+                    icon="add-box" 
                     text={helpers.numberText(user.stat.post)}
                   />
                 </View>
@@ -105,29 +116,35 @@ class Me extends Component {
             </View>
           </components.Block>
 
-          <components.Block containerStyle={{marginTop: 10, paddingVertical: 0}}>
+          <components.Block 
+            containerStyle={{marginTop: 10, paddingVertical: 0}}
+          >
             <components.BlockItem
-              leftIcon='settings'
-              leftText='设置'
-              rightIcon='keyboard-arrow-right'
-              onPress={() => navigator.push({screen: 'zqc.Settings', title: '设置'})}
+              leftIcon="settings"
+              leftText="设置"
+              rightIcon="keyboard-arrow-right"
+              onPress={() => navigator.push(
+                {screen: 'zqc.Settings', title: '设置'})}
               leftIconStyle={{color: COLOR.theme}}
               containerStyle={{borderTopWidth: 0}}
             />
           </components.Block>
 
-          <components.Block containerStyle={{marginTop: 10, paddingVertical: 0}}>
+          <components.Block 
+            containerStyle={{marginTop: 10, paddingVertical: 0}}
+          >
             <components.BlockItem
-              leftIcon='info'
-              leftText='关于'
-              rightIcon='keyboard-arrow-right'
-              onPress={() => navigator.push({screen: 'zqc.About', title: '关于'})}
+              leftIcon="info"
+              leftText="关于"
+              rightIcon="keyboard-arrow-right"
+              onPress={() => navigator.push(
+                {screen: 'zqc.About', title: '关于'})}
               leftIconStyle={{color: COLOR.theme}}
               containerStyle={{borderTopWidth: 0}}
             />
           </components.Block>
           <components.ButtonWithBg
-            text='退出当前帐号'
+            text="退出当前帐号"
             onPress={() => logout(() => navToBootstrap({isReset: true}))}
             textStyle={{fontSize: 16}}
             containerStyle={{marginTop: 20}}

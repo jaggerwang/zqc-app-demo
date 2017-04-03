@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity} from 'react-native';
 import flattenStyle from 'flattenStyle';
 
 import {COLOR} from '../../config';
@@ -12,11 +12,15 @@ import {COLOR} from '../../config';
 export default ({text, onPress, containerStyle, textStyle}) => {
   let {fontSize} = flattenStyle(textStyle || styles.text);
   return (
-    <TouchableOpacity onPress={onPress} style={[styles.container, {padding: Math.round(fontSize / 2)}, containerStyle]}>
+    <TouchableOpacity 
+      onPress={onPress} 
+      style={[styles.container, {padding: Math.round(fontSize / 2)}, 
+        containerStyle]}
+    >
       <Text style={[styles.text, textStyle]}>{text}</Text>
     </TouchableOpacity>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -26,10 +30,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderWidth: 1,
     borderColor: COLOR.theme,
-    borderRadius: 5
+    borderRadius: 5,
   },
   text: {
     color: COLOR.theme,
-    fontSize: 14
-  }
+    fontSize: 14,
+  },
 });

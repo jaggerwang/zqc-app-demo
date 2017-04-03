@@ -4,16 +4,15 @@
  */
 
 import React, {Component} from 'react';
-import {StyleSheet, View, Text, Image, ScrollView} from 'react-native';
+import {StyleSheet, View, ScrollView} from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 import dismissKeyboard from 'dismissKeyboard';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
-import {COLOR, DEFAULT_NAV_BAR_STYLE} from '../../config';
+import {DEFAULT_NAV_BAR_STYLE} from '../../config';
 import {RES_USER_AVATARS} from '../../const';
 import logger from '../../logger';
-import * as utils from '../../utils';
 import * as components from '../';
 import * as actions from '../../actions';
 import * as helpers from '../../helpers';
@@ -47,7 +46,8 @@ class EditProfileAvatar extends Component {
   
   componentDidMount() {
     let {object, account, saveInput} = this.props;
-    let {avatarType, avatarName, avatarFile} = helpers.userFromCache(object, account.id);
+    let {avatarType, avatarName, avatarFile} = helpers.userFromCache(
+      object, account.id);
     saveInput(this.screenId, {avatarType, avatarName, avatarFile});
   }
 
@@ -65,7 +65,8 @@ class EditProfileAvatar extends Component {
   submit() {
     dismissKeyboard();
 
-    let {navigator, input, validateInput, updateAccount, uploadFile} = this.props;
+    let {navigator, input, validateInput, updateAccount, uploadFile} = 
+      this.props;
     validateInput(this.screenId, input[this.screenId], () => {
       let {avatarType, avatarName, avatarImage} = input[this.screenId];
       let cbOk = () => navigator.pop();
@@ -92,20 +93,30 @@ class EditProfileAvatar extends Component {
   }
 
   render() {
-    let {navigator, input, errorFlash, saveInput} = this.props;
+    let {input, saveInput} = this.props;
     
     return (
       <components.Layout screenId={this.screenId}>
         <ScrollView>
-          <components.Image source={helpers.userAvatarSource(input[this.screenId], 'middle')} style={styles.avatar} />
+          <components.Image 
+            source={helpers.userAvatarSource(input[this.screenId], 'middle')} 
+            style={styles.avatar} />
           <components.TextNotice>从内置里选取</components.TextNotice>
-          <View style={{flexDirection: 'row', flexWrap: 'wrap', alignItems: 'flex-start', padding: 5}}>
+          <View 
+            style={{
+              flexDirection: 'row', 
+              flexWrap: 'wrap', 
+              alignItems: 'flex-start', 
+              padding: 5,
+            }}
+          >
             {Array.from(
               RES_USER_AVATARS.entries(),
               ([k, v]) => <components.Image
                 key={k}
                 source={v}
-                onPress={() => saveInput(this.screenId, {avatarType: 'builtin', avatarName: k})}
+                onPress={() => saveInput(this.screenId, 
+                  {avatarType: 'builtin', avatarName: k})}
                 containerStyle={{margin: 5}}
                 style={styles.avatarBuiltin}
               />
@@ -149,7 +160,7 @@ class EditProfileAvatar extends Component {
               );
             }}
           >
-            <components.ButtonWithBg text='打开相册' textStyle={{fontSize: 16}} />
+            <components.ButtonWithBg text="打开相册" textStyle={{fontSize: 16}} />
           </components.ActionSheet>
             
         </ScrollView>

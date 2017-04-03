@@ -4,14 +4,17 @@
  */
 
 import React from 'react';
-import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
+import {StyleSheet, View, TouchableOpacity} from 'react-native';
 
 import {COLOR} from '../../config';
 
 export default ({children, containerStyle, onPress}) => {
   if (onPress) {
     return (
-      <TouchableOpacity onPress={onPress} style={[styles.container, containerStyle]}>
+      <TouchableOpacity 
+        onPress={onPress} 
+        style={[styles.container, containerStyle]}
+      >
         {children}
       </TouchableOpacity>
     );
@@ -22,11 +25,11 @@ export default ({children, containerStyle, onPress}) => {
       </View>
     );
   }
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     padding: 10,
     backgroundColor: COLOR.backgroundLighter,
-  }
+  },
 });

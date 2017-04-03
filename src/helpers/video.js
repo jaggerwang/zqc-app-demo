@@ -8,7 +8,7 @@ import {parse as parsePath, format as formatPath, normalize} from 'path';
 
 import {VIDEO_RATES} from '../const';
 
-export function videoUri(uri, rate='ld') {
+export function videoUri(uri, rate = 'ld') {
   if (uri.startsWith('http')) {
     let urlParsed = parse(uri);
     let pathParsed = parsePath(urlParsed.pathname);
@@ -19,11 +19,11 @@ export function videoUri(uri, rate='ld') {
   return uri;
 }
 
-export function videoSource(uri, rate='ld') {
+export function videoSource(uri, rate = 'ld') {
   return {uri: videoUri(uri, rate)};
 }
 
-export function fileVideoSource(file, rate='ld') {
+export function fileVideoSource(file, rate = 'ld') {
   let uri = '';
   if (file) {
     if (file.path) {

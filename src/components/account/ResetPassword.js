@@ -4,12 +4,12 @@
  */
 
 import React, {Component} from 'react';
-import {StyleSheet, View, Text} from 'react-native';
+import {View} from 'react-native';
 import dismissKeyboard from 'dismissKeyboard';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
-import {COLOR, DEFAULT_NAV_BAR_STYLE} from '../../config';
+import {DEFAULT_NAV_BAR_STYLE} from '../../config';
 import * as components from '../';
 import * as actions from '../../actions';
 
@@ -42,7 +42,8 @@ class ResetPassword extends Component {
   submit() {
     dismissKeyboard();
 
-    let {navigator, input, handleError, errorFlash, validateInput, resetPassword} = this.props;
+    let {navigator, input, errorFlash, validateInput, resetPassword} = 
+      this.props;
     validateInput(this.screenId, input[this.screenId], () => {
       let {account, password, code} = input[this.screenId];
       let mobile, email;
@@ -51,16 +52,22 @@ class ResetPassword extends Component {
       } else {
         email = account;
       }
-      resetPassword({mobile, email, password, code, cbOk: () => {
-        errorFlash("重设成功，请使用新密码登录。");
-        navigator.pop();
-      }});
+      resetPassword({
+        mobile, 
+        email, 
+        password, 
+        code, 
+        cbOk: () => {
+          errorFlash('重设成功，请使用新密码登录。');
+          navigator.pop();
+        },
+      });
     });
   }
 
   render() {
-    let {navigator, input, screen, errorFlash, saveInput, setScreenState, 
-      sendVerifyCode, submit} = this.props;
+    let {input, screen, errorFlash, saveInput, setScreenState, 
+      sendVerifyCode} = this.props;
     let {account, password, code} = input[this.screenId];
     let {secondsToSend} = screen[this.screenId];
 
@@ -68,66 +75,74 @@ class ResetPassword extends Component {
       <components.Layout screenId={this.screenId}>
         <components.TextNotice>通过发送验证码来重设密码。</components.TextNotice>
         <components.Form>
-          <components.FormItem icon='account-circle' containerStyle={{borderTopWidth: 0}}>
+          <components.FormItem 
+            icon="account-circle" 
+            containerStyle={{borderTopWidth: 0}}
+          >
             <components.TextInput
-              placeholder='输入手机号或绑定邮箱'
-              returnKeyType='next'
+              placeholder="输入手机号或绑定邮箱"
+              returnKeyType="next"
               defaultValue={account}
               maxLength={50}
-              onChangeText={text => saveInput(this.screenId, {account: text.trim()})}
+              onChangeText={text => saveInput(this.screenId, 
+                {account: text.trim()})}
               onSubmitEditing={() => this.refPassword.focus()}
             />
           </components.FormItem>
-          <components.FormItem icon='lock'>
+          <components.FormItem icon="lock">
             <components.TextInput
-              placeholder='输入新密码'
-              returnKeyType='next'
-              secureTextEntry={true}
+              placeholder="输入新密码"
+              returnKeyType="next"
+              secureTextEntry
               defaultValue={password}
               maxLength={20}
-              onRef={ref => this.refPassword = ref}
-              onChangeText={text => saveInput(this.screenId, {password: text.trim()})}
+              onRef={ref => { this.refPassword = ref; }}
+              onChangeText={text => saveInput(this.screenId, 
+                {password: text.trim()})}
               onSubmitEditing={() => this.refVerifyCode.focus()}
             />
           </components.FormItem>
-          <components.FormItem icon='vpn-key'>
+          <components.FormItem icon="vpn-key">
             <components.TextInput
-              placeholder='输入验证码'
+              placeholder="输入验证码"
               maxLength={4}
-              keyboardType='numeric'
-              returnKeyType='done'
+              keyboardType="numeric"
+              returnKeyType="done"
               defaultValue={code}
-              onRef={ref => this.refVerifyCode = ref}
-              onChangeText={text => saveInput(this.screenId, {code: text.trim()})}
+              onRef={ref => { this.refVerifyCode = ref; }}
+              onChangeText={text => saveInput(this.screenId, 
+                {code: text.trim()})}
               onSubmitEditing={() => this.submit()}
             />
           </components.FormItem>
         </components.Form>
         <View style={{flexDirection: 'row'}}>
           <components.ButtonWithBg
-            text={'发送验证码'+(secondsToSend > 0 ? ' ('+secondsToSend+')' : '')}
+            text={'发送验证码' + (secondsToSend > 0 
+              ? ' (' + secondsToSend + ')' 
+              : '')}
             textStyle={{fontSize: 16}}
             containerStyle={{flex: 1}}
             disable={secondsToSend > 0 || account == ''}
             onPress={
-              secondsToSend == 0 ? 
-              () => {
+              secondsToSend == 0 
+              ? () => {
                 dismissKeyboard();
                 let cbOk = () => {
                   errorFlash('发送成功。');
                   setScreenState(this.screenId, {secondsToSend: 30});
                 };
                 if (account.match(/^\d+$/) !== null) {
-                  sendVerifyCode({by: "mobile", mobile: account, cbOk});
+                  sendVerifyCode({by: 'mobile', mobile: account, cbOk});
                 } else {
-                  sendVerifyCode({by: "email", email: account, cbOk});
+                  sendVerifyCode({by: 'email', email: account, cbOk});
                 }
-              } : 
-              null
+              } 
+              : null
             }
           />
           <components.ButtonWithBg
-            text='重设密码'
+            text="重设密码"
             textStyle={{fontSize: 16}}
             containerStyle={{flex: 1}}
             onPress={() => this.submit()}
@@ -137,8 +152,6 @@ class ResetPassword extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({});
 
 function mapStateToProps(state) {
   let {input, screen} = state;

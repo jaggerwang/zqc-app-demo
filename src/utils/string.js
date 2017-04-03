@@ -3,7 +3,7 @@
  * zaiqiuchang.com
  */
 
-export function lpad(str, len, pad=' ') {
+export function lpad(str, len, pad = ' ') {
   str = str + '';
   while (str.length < len) {
     str = pad + str;

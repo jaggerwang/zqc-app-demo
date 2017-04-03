@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import {StyleSheet, View, Text} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 
 import {COLOR} from '../../config';
 
@@ -14,7 +14,7 @@ export default ({children, containerStyle}) => {
       {children}
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -23,5 +23,5 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: COLOR.lineNormal,
     borderRadius: 5,
-  }
+  },
 });

@@ -11,13 +11,13 @@ export function dateText(date) {
   if (typeof date == 'string') {
     date = new Date(date);
   }
-  now = new Date();
-  interval = (now - date) / 1000 / 60;
+  let now = new Date();
+  let interval = (now - date) / 1000 / 60;
   if (interval < 1) {
     return '刚刚';
-  } else if (1 <= interval && interval < 60) {
+  } else if (interval >= 1 && interval < 60) {
     return Math.round(interval) + '分钟前';
-  } else if (60 <= interval && interval < 1440) {
+  } else if (interval >= 60 && interval < 1440) {
     return Math.round(interval / 60) + '小时前';
   } else {
     return date.toISOString().substring(0, 10);
@@ -46,7 +46,9 @@ export function durationText(seconds) {
   return utils.lpad(minutes, 2, '0') + ':' + utils.lpad(seconds, 2, '0');
 }
 
-export function isNeedRefresh(lastRefreshTime, objectId='', minInterval=600) {
+export function isNeedRefresh(lastRefreshTime, objectId = '', 
+  minInterval = 600) {
   lastRefreshTime = lastRefreshTime || {};
-  return (!lastRefreshTime[objectId] || (new Date() - new Date(lastRefreshTime[objectId]) > minInterval * 1000));
+  return !lastRefreshTime[objectId] || 
+    (new Date() - new Date(lastRefreshTime[objectId]) > minInterval * 1000);
 }

@@ -3,7 +3,6 @@
  * zaiqiuchang.com
  */
 
-import logger from '../logger';
 import * as actions from '../actions';
 
 const initialState = {
@@ -47,10 +46,12 @@ export default (state = initialState, action) => {
   } else if (action.type == actions.SET_SCREEN_LAST_REFRESH_TIME) {
     let {screenId, lastRefreshTime, objectId} = action;
     let screenLastRefreshTime = state.lastRefreshTime[screenId] || {};
-    screenLastRefreshTime = Object.assign({}, screenLastRefreshTime, {[objectId]: lastRefreshTime})
+    screenLastRefreshTime = Object.assign({}, screenLastRefreshTime, 
+      {[objectId]: lastRefreshTime});
     return {
       ...state,
-      lastRefreshTime: Object.assign({}, state.lastRefreshTime, {[screenId]: screenLastRefreshTime}),
+      lastRefreshTime: Object.assign({}, state.lastRefreshTime, 
+        {[screenId]: screenLastRefreshTime}),
     };
   } else if (action.type == actions.RESET_SCREEN_STATE) {
     let {screenId} = action;
@@ -72,4 +73,4 @@ export default (state = initialState, action) => {
   } else {
     return state;
   }
-}
+};

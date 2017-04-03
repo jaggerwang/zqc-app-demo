@@ -4,12 +4,11 @@
  */
 
 import React, {Component} from 'react';
-import {StyleSheet, View, Text} from 'react-native';
 import dismissKeyboard from 'dismissKeyboard';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
-import {COLOR, DEFAULT_NAV_BAR_STYLE} from '../../config';
+import {DEFAULT_NAV_BAR_STYLE} from '../../config';
 import {navToTab} from '../../navigation';
 import * as components from '../';
 import * as actions from '../../actions';
@@ -36,7 +35,7 @@ class Login extends Component {
   }
 
   onNavigatorEvent(event) {
-    let {navigator, createPost} = this.props;
+    let {navigator} = this.props;
     if (event.type == 'NavBarButtonPress') {
       if (event.id == 'reset_password') {
         navigator.push({screen: 'zqc.ResetPassword', title: '重设密码'});
@@ -56,42 +55,53 @@ class Login extends Component {
       } else {
         username = account;
       }
-      login({username, mobile, email, password, cbOk: user => {
-        if (user.nickname && user.avatarType && user.gender) {
-          navToTab();
-        } else {
-          navigator.push({screen: 'zqc.RegisterProfile', title: '完善资料'});
-        }
-      }});
+      login({
+        username, 
+        mobile, 
+        email, 
+        password, 
+        cbOk: user => {
+          if (user.nickname && user.avatarType && user.gender) {
+            navToTab();
+          } else {
+            navigator.push({screen: 'zqc.RegisterProfile', title: '完善资料'});
+          }
+        },
+      });
     });
   }
   
   render() {
-    let {navigator, input, saveInput} = this.props;
+    let {input, saveInput} = this.props;
     let {account, password} = input[this.screenId];
 
     return (
       <components.Layout screenId={this.screenId}>
         <components.Form>
-          <components.FormItem icon='account-circle' containerStyle={{borderTopWidth: 0}}>
+          <components.FormItem 
+            icon="account-circle" 
+            containerStyle={{borderTopWidth: 0}}
+          >
             <components.TextInput
-              placeholder='输入手机号或绑定邮箱'
-              returnKeyType='next'
+              placeholder="输入手机号或绑定邮箱"
+              returnKeyType="next"
               defaultValue={account}
               maxLength={50}
-              onChangeText={text => saveInput(this.screenId, {account: text.trim()})}
+              onChangeText={text => saveInput(this.screenId, 
+                {account: text.trim()})}
               onSubmitEditing={() => this.refPassword.focus()}
             />
           </components.FormItem>
-          <components.FormItem icon='lock'>
+          <components.FormItem icon="lock">
             <components.TextInput
-              placeholder='输入密码'
-              returnKeyType='done'
-              secureTextEntry={true}
+              placeholder="输入密码"
+              returnKeyType="done"
+              secureTextEntry
               defaultValue={password}
               maxLength={20}
-              onRef={ref => this.refPassword = ref}
-              onChangeText={text => saveInput(this.screenId, {password: text.trim()})}
+              onRef={ref => { this.refPassword = ref; }}
+              onChangeText={text => saveInput(this.screenId, 
+                {password: text.trim()})}
               onSubmitEditing={() => {
                 dismissKeyboard(); 
                 this.submit();
@@ -100,7 +110,7 @@ class Login extends Component {
           </components.FormItem>
         </components.Form>
         <components.ButtonWithBg
-          text='登录'
+          text="登录"
           onPress={() => {
             dismissKeyboard(); 
             this.submit();
@@ -111,8 +121,6 @@ class Login extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({});
 
 function mapStateToProps(state) {
   let {input} = state;

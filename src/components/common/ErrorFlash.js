@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import {StyleSheet, View, Text} from 'react-native';
+import {StyleSheet, Text} from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
@@ -18,7 +18,10 @@ function ErrorFlash({error, containerStyle}) {
   }
 
   return (
-    <Animatable.View animation='fadeIn' style={[styles.container, containerStyle]}>
+    <Animatable.View 
+      animation="fadeIn" 
+      style={[styles.container, containerStyle]}
+    >
       <Text style={styles.error}>{error}</Text>
     </Animatable.View>
   );
@@ -38,7 +41,7 @@ const styles = StyleSheet.create({
   error: {
     fontSize: 12,
     color: COLOR.textEmpha,
-  }
+  },
 });
 
 function mapStateToProps(state) {

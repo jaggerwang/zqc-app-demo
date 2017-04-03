@@ -3,7 +3,7 @@
  * zaiqiuchang.com
  */
 
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {ActionSheetProvider} from '@exponent/react-native-action-sheet';
 
@@ -12,7 +12,8 @@ import * as components from '../';
 
 export default class Layout extends Component {
   render() {
-    let {screenId, drawUnderNavBar=false, children, onLayout, containerStyle} = this.props;
+    let {screenId, drawUnderNavBar = false, children, onLayout, 
+      containerStyle} = this.props;
     return (
       <ActionSheetProvider>
         <View onLayout={onLayout} style={[styles.container, containerStyle]}>

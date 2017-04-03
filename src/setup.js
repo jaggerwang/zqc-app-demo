@@ -3,9 +3,8 @@
  * zaiqiuchang.com
  */
 
-import {Alert, Keyboard, NetInfo, Platform} from 'react-native';
+import {Keyboard, NetInfo, Platform} from 'react-native';
 import {Provider} from 'react-redux';
-import {Navigation} from 'react-native-navigation';
 import compareVersions from 'compare-versions';
 import AMapLocation from 'react-native-amap-location';
 import coordtransform from 'coordtransform';
@@ -36,7 +35,8 @@ export default function setup() {
           dispatch(actions.setNetwork({isConnected}))
         );
         NetInfo.fetch().then(reach => {
-          reach = (reach == 'cell' || reach.startsWith('MOBILE')) ? 'mobile' : 'wifi';
+          reach = (reach == 'cell' || 
+            reach.startsWith('MOBILE')) ? 'mobile' : 'wifi';
           dispatch(actions.setNetwork({reach}));
         });
       }
@@ -46,23 +46,27 @@ export default function setup() {
           let {network} = getState();
           dispatch(actions.setNetwork({isConnected}));
           if (network.isConnected !== undefined) {
-            dispatch(actions.errorFlash(isConnected === true ? '网络已恢复。' : '网络不可用。'));
+            dispatch(actions.errorFlash(
+              isConnected === true ? '网络已恢复。' : '网络不可用。'));
           }
         },
       );
       NetInfo.addEventListener(
         'change',
         reach => {
-          reach = (reach == 'cell' || reach.startsWith('MOBILE')) ? 'mobile' : 'wifi';
+          reach = (reach == 'cell' || 
+            reach.startsWith('MOBILE')) ? 'mobile' : 'wifi';
           let {network} = getState();
           dispatch(actions.setNetwork({reach}));
           if (network.reach !== undefined) {
-            actions.errorFlash(reach == 'mobile' ? '当前为移动网络。' : '当前为WIFI网络。')
+            actions.errorFlash(
+              reach == 'mobile' ? '当前为移动网络。' : '当前为WIFI网络。');
           }
         },
       );
 
-      let getPositionSuccess = position => dispatch(actions.setLocationPosition(position));
+      let getPositionSuccess = position => 
+        dispatch(actions.setLocationPosition(position));
       let getPositionError = error => logger.warn(error);
       let getPositionOptions = {
         enableHighAccuracy: Platform.OS == 'ios',
@@ -91,22 +95,23 @@ export default function setup() {
       } else {
         let cbSuccess = position => {
           if (position) {
-            let gcj02 = coordtransform.wgs84togcj02(position.coords.longitude, position.coords.latitude);
+            let gcj02 = coordtransform.wgs84togcj02(
+              position.coords.longitude, position.coords.latitude);
             position.coords.longitude = gcj02[0];
             position.coords.latitude = gcj02[1];
           }
           getPositionSuccess(position);
         };
-        navigator.geolocation.getCurrentPosition(cbSuccess, getPositionError, getPositionOptions);
-        navigator.geolocation.watchPosition(cbSuccess, getPositionError, getPositionOptions);
+        navigator.geolocation.getCurrentPosition(
+          cbSuccess, getPositionError, getPositionOptions);
+        navigator.geolocation.watchPosition(
+          cbSuccess, getPositionError, getPositionOptions);
       }
 
-      let keyboardShowListener = Keyboard.addListener('keyboardDidShow', event => {
-        dispatch(actions.setKeyboard({coords: event.endCoordinates}));
-      });
-      let keyboardHideListener = Keyboard.addListener('keyboardDidHide', event => {
-        dispatch(actions.setKeyboard({coords: null}));
-      });
+      Keyboard.addListener('keyboardDidShow',
+        event => dispatch(actions.setKeyboard({coords: event.endCoordinates})));
+      Keyboard.addListener('keyboardDidHide', 
+        event => dispatch(actions.setKeyboard({coords: null})));
 
       WeChat.registerApp(WECHAT.app.id);
 

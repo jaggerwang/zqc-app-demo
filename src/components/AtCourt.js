@@ -4,12 +4,13 @@
  */
 
 import React, {Component} from 'react';
-import {StyleSheet, View, Text, Image, TouchableOpacity, InteractionManager,
-  ScrollView, RefreshControl, Alert} from 'react-native';
+import {StyleSheet, View, InteractionManager, ScrollView, RefreshControl, 
+  Alert} from 'react-native';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
-import {COLOR, DEFAULT_NAV_BAR_STYLE, SCREEN_WIDTH, SCREEN_HEIGHT} from '../config';
+import {COLOR, DEFAULT_NAV_BAR_STYLE, SCREEN_WIDTH, 
+  SCREEN_HEIGHT} from '../config';
 import * as components from './';
 import * as helpers from '../helpers';
 import * as utils from '../utils';
@@ -73,7 +74,7 @@ class AtCourt extends Component {
           contentContainerStyle={{alignItems: 'center', padding: 10}}
         >
           <components.Icon
-            name='add-box' 
+            name="add-box" 
             onPress={() => Alert.alert(
               '发动态失败',
               'Lite版暂不支持该功能，请到官网(zaiqiuchang.com)下载完整版体验。',
@@ -84,15 +85,27 @@ class AtCourt extends Component {
             style={styles.postIcon} 
           />
 
-          <components.TextNotice containerStyle={styles.postTextContainer} style={styles.postText}>
+          <components.TextNotice 
+            containerStyle={styles.postTextContainer} 
+            style={styles.postText}
+          >
             正在球场上挥洒汗水？上传运动照片或视频，让附近的球友发现你。
           </components.TextNotice>
 
-          <components.TextNotice containerStyle={styles.nearbyUserTextContainer} style={styles.nearbyUserText}>
+          <components.TextNotice 
+            containerStyle={styles.nearbyUserTextContainer} 
+            style={styles.nearbyUserText}
+          >
             {nearbyUsers.length > 0 ? 'Ta们也在球场，赶紧去认识一下。' : '附近暂无球友。'}
           </components.TextNotice>
 
-          <View style={{flexDirection: 'row', flexWrap: 'wrap', alignItems: 'flex-start'}}>
+          <View 
+            style={{
+              flexDirection: 'row', 
+              flexWrap: 'wrap', 
+              alignItems: 'flex-start',
+            }}
+          >
             {nearbyUsers.map(user => 
               <components.Image 
                 key={user.id} 

@@ -4,12 +4,11 @@
  */
 
 import React, {Component} from 'react';
-import {StyleSheet, View, Text} from 'react-native';
 import dismissKeyboard from 'dismissKeyboard';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
-import {COLOR, DEFAULT_NAV_BAR_STYLE} from '../../config';
+import {DEFAULT_NAV_BAR_STYLE} from '../../config';
 import * as components from '../';
 import * as actions from '../../actions';
 
@@ -70,21 +69,25 @@ class EditProfileIntro extends Component {
 
     let {navigator, input, validateInput, updateAccount} = this.props;
     validateInput(this.screenId, input[this.screenId], () => {
-      updateAccount({update: input[this.screenId], cbOk: () => navigator.pop()});
+      updateAccount({
+        update: input[this.screenId], 
+        cbOk: () => navigator.pop(),
+      });
     });
   }
 
   render() {
-    let {navigator, input, saveInput} = this.props;
+    let {input, saveInput} = this.props;
     return (
       <components.Layout screenId={this.screenId}>
         <components.Block>
           <components.TextInput
-            placeholder='输入个性签名，50字以内'
+            placeholder="输入个性签名，50字以内"
             defaultValue={input[this.screenId].intro}
-            autoFocus={true}
+            autoFocus
             maxLength={50}
-            onChangeText={text => saveInput(this.screenId, {intro: text.trim().replace(/\n/, '')})}
+            onChangeText={text => saveInput(this.screenId, 
+              {intro: text.trim().replace(/\n/, '')})}
             onSubmitEditing={() => this.submit()}
             style={{fontSize: 12}}
           />
@@ -93,8 +96,6 @@ class EditProfileIntro extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({});
 
 function mapStateToProps(state) {
   let {input, object, account} = state;

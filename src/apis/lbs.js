@@ -3,11 +3,11 @@
  * zaiqiuchang.com
  */
 
-import {getApi, postApi} from './';
+import {getApi} from './';
 
 export function lbsRegeo(location) {
   let {longitude, latitude} = location;
   return getApi('/lbs/regeo', {
     location: `${longitude},${latitude}`,
   });
-}
+};

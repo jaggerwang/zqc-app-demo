@@ -3,22 +3,21 @@
  * zaiqiuchang.com
  */
 
-import React, {Component, PropTypes} from 'react';
-import {StyleSheet, View, Text, Image, ListView, ScrollView, RefreshControl, 
-  TouchableOpacity, InteractionManager} from 'react-native';
+import React, {Component} from 'react';
+import {StyleSheet, View} from 'react-native';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
-import {COLOR, SCREEN_WIDTH, SCREEN_HEIGHT} from '../../config';
+import {COLOR, SCREEN_WIDTH} from '../../config';
 import {navToAlbum, navToPlayer} from '../../navigation';
-import logger from '../../logger';
 import * as components from '../';
 import * as helpers from '../../helpers';
 import * as actions from '../../actions';
 
 class Post extends Component {
   showMoreOps(showActionSheetWithOptions) {
-    let {post, sharePostToWeChatSession, sharePostToWeChatTimeline} = this.props;
+    let {post, sharePostToWeChatSession, sharePostToWeChatTimeline} = 
+      this.props;
     let options = ['朋友圈', '好友', '取消'];
     showActionSheetWithOptions(
       {
@@ -37,8 +36,8 @@ class Post extends Component {
   }
 
   render() {
-    let {navigator, screenId, location, post, containerStyle, onPress, likePost, 
-      unlikePost, onComment} = this.props;
+    let {navigator, screenId, location, post, containerStyle, onPress} = 
+      this.props;
     return (
       <components.Block onPress={onPress} containerStyle={containerStyle}>
         <View style={{flexDirection: 'row', paddingBottom: 2.5}}>
@@ -48,7 +47,14 @@ class Post extends Component {
             containerStyle={{marginRight: 5}}
           />
           <View style={{flex: 1}}>
-            <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', height: 25}}>
+            <View 
+              style={{
+                flexDirection: 'row', 
+                justifyContent: 'space-between', 
+                alignItems: 'center', 
+                height: 25,
+              }}
+            >
               <components.TextWithIcon 
                 icon={post.creator.gender == 'm' ? 'person' : 'person'} 
                 text={post.creator.nickname}
@@ -56,10 +62,19 @@ class Post extends Component {
                 containerStyle={{paddingVertical: 5}} 
               />
 
-              <components.Text>{helpers.dateText(post.createTime)}</components.Text>
+              <components.Text>
+                {helpers.dateText(post.createTime)}
+              </components.Text>
             </View>
 
-            <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', height: 25}}>
+            <View 
+              style={{
+                flexDirection: 'row', 
+                justifyContent: 'space-between', 
+                alignItems: 'center', 
+                height: 25,
+              }}
+            >
               <components.TextWithIcon 
                 icon='location-on' 
                 text={post.court.name} 
@@ -67,81 +82,102 @@ class Post extends Component {
                 containerStyle={{paddingVertical: 5}} 
               />
 
-              <components.Text>{helpers.distanceText(location, post.court.location)}</components.Text>
+              <components.Text>
+                {helpers.distanceText(location, post.court.location)}
+              </components.Text>
             </View>
           </View>
         </View>
 
-        {
-          post.text ? 
-          <components.Text style={styles.postText}>{post.text}</components.Text> : 
-          null
-        }
+        {post.text
+          ? <components.Text style={styles.postText}>
+            {post.text}
+          </components.Text> 
+          : null}
 
         <View style={styles.postImages}>
           {post.imageFiles.slice(0, 3).map((file, index, array) => 
-            file.mime.startsWith('image/') ?
-            <components.Image
+            file.mime.startsWith('image/') 
+            ? <components.Image
               key={file.id}
-              source={helpers.fileImageSource(file, (array.length == 1 ? 'large' : 'middle'))}
+              source={helpers.fileImageSource(file, 
+                (array.length == 1 ? 'large' : 'middle'))}
               onPress={() => {
-                let imageFiles = post.imageFiles.filter(v => v.mime.startsWith('image/'));
+                let imageFiles = post.imageFiles.filter(
+                  v => v.mime.startsWith('image/'));
                 let currentIndex = imageFiles.findIndex(v => v.id == file.id);
                 navToAlbum(navigator, imageFiles, {currentIndex});
               }}
-              style={array.length == 1 ? styles.largeImage : (array.length == 2 ? styles.middleImage : styles.smallImage)}
-            /> :
-            <components.Image
+              style={array.length == 1 
+                ? styles.largeImage 
+                : (array.length == 2 ? styles.middleImage : styles.smallImage)}
+            /> 
+            : <components.Image
               key={file.id}
-              source={helpers.fileImageSource(file, (array.length == 1 ? 'large' : 'middle'))}
-              playIconVisible={true}
-              onPress={() => navToPlayer(navigator, file, {prevScreen: screenId})}
-              style={array.length == 1 ? styles.largeImage : (array.length == 2 ? styles.middleImage : styles.smallImage)}
+              source={helpers.fileImageSource(file, 
+                (array.length == 1 ? 'large' : 'middle'))}
+              playIconVisible
+              onPress={() => navToPlayer(navigator, file, 
+                {prevScreen: screenId})}
+              style={array.length == 1 
+                ? styles.largeImage 
+                : (array.length == 2 ? styles.middleImage : styles.smallImage)}
             />
           )}
         </View>
-        {post.imageFiles.length > 3 ?
-        <View style={[styles.postImages, (post.imageFiles.length < 6 ? {justifyContent: 'flex-start'} : null)]}>
-          {post.imageFiles.slice(3, 6).map((file, index, array) => 
-            file.mime.startsWith('image/') ?
-            <components.Image
-              key={file.id}
-              source={helpers.fileImageSource(file, 'middle')}
-              onPress={() => {
-                let imageFiles = post.imageFiles.filter(v => v.mime.startsWith('image/'));
-                let currentIndex = imageFiles.findIndex(v => v.id == file.id);
-                navToAlbum(navigator, imageFiles, {currentIndex});
-              }}
-              style={[styles.smallImage, (post.imageFiles.length < 6 ? {marginRight: 5} : null)]}
-            /> :
-            <components.Image
-              key={file.id}
-              source={helpers.fileImageSource(file, 'middle')}
-              playIconVisible={true}
-              onPress={() => navToPlayer(navigator, file, {prevScreen: screenId})}
-              style={[styles.smallImage, (post.imageFiles.length < 6 ? {marginRight: 5} : null)]}
-            />
-          )}
-        </View> :
-        null}
+        {post.imageFiles.length > 3 
+          ? <View 
+            style={[styles.postImages, 
+              (post.imageFiles.length < 6 
+                ? {justifyContent: 'flex-start'} 
+                : null)]}
+          >
+            {post.imageFiles.slice(3, 6).map((file, index, array) => 
+              file.mime.startsWith('image/') 
+              ? <components.Image
+                key={file.id}
+                source={helpers.fileImageSource(file, 'middle')}
+                onPress={() => {
+                  let imageFiles = post.imageFiles.filter(
+                    v => v.mime.startsWith('image/'));
+                  let currentIndex = imageFiles.findIndex(v => v.id == file.id);
+                  navToAlbum(navigator, imageFiles, {currentIndex});
+                }}
+                style={[styles.smallImage, 
+                  (post.imageFiles.length < 6 ? {marginRight: 5} : null)]}
+              /> 
+              : <components.Image
+                key={file.id}
+                source={helpers.fileImageSource(file, 'middle')}
+                playIconVisible
+                onPress={() => navToPlayer(navigator, file, 
+                  {prevScreen: screenId})}
+                style={[styles.smallImage, 
+                  (post.imageFiles.length < 6 ? {marginRight: 5} : null)]}
+              />
+            )}
+          </View> 
+        : null}
 
         <View style={styles.opBar}>
           <View style={{flexDirection: 'row'}}>
             <components.TextWithIcon 
-              icon='thumb-up' 
+              icon="thumb-up" 
               text={helpers.numberText(post.stat.liked)}
               containerStyle={{marginHorizontal: 5}}
             />
             <components.TextWithIcon 
-              icon='comment' 
+              icon="comment" 
               text={helpers.numberText(post.stat.commented)}
               containerStyle={{marginHorizontal: 5}}
             />
           </View>
 
           <View style={{flexDirection: 'row'}}>
-            <components.ActionSheet onPress={showActionSheetWithOptions => this.showMoreOps(showActionSheetWithOptions)}>
-              <components.Icon name='share' style={styles.postOp} />
+            <components.ActionSheet 
+              onPress={showActionSheetWithOptions => 
+                this.showMoreOps(showActionSheetWithOptions)}>
+              <components.Icon name="share" style={styles.postOp} />
             </components.ActionSheet>
           </View>
         </View>
@@ -160,7 +196,7 @@ const styles = StyleSheet.create({
     height: 50,
     borderRadius: 5,
   },
-  postText:{
+  postText: {
     marginTop: 5,
     lineHeight: 16,
   },

@@ -3,15 +3,9 @@
  * zaiqiuchang.com
  */
 
-import {Alert} from 'react-native';
-import axios from 'axios';
-
 import {POST_STATUS_NORMAL} from '../const';
-import logger from '../logger';
-import * as utils from '../utils';
 import * as apis from '../apis';
 import * as actions from './';
-import * as helpers from '../helpers';
 
 export const RESET_POST = 'reset_post';
 export const SET_NEARBY_POSTS = 'set_nearby_posts';
@@ -49,7 +43,7 @@ export function postInfo({postId, cbOk, cbFail, cbFinish}) {
   };
 }
 
-export function nearbyPosts({offset='', cbOk, cbFail, cbFinish}={}) {
+export function nearbyPosts({offset = '', cbOk, cbFail, cbFinish} = {}) {
   return (dispatch, getState) => {
     let {location: {position}} = getState();
     let {account} = getState();
@@ -58,7 +52,7 @@ export function nearbyPosts({offset='', cbOk, cbFail, cbFinish}={}) {
       if (cbFinish) {
         cbFinish();
       }
-      dispatch(actions.errorFlash("无法获取当前位置。"));
+      dispatch(actions.errorFlash('无法获取当前位置。'));
       return;
     }
 
@@ -68,7 +62,8 @@ export function nearbyPosts({offset='', cbOk, cbFail, cbFinish}={}) {
       sportCode: account.settings.sport.code, 
       status: POST_STATUS_NORMAL, 
       offset, 
-    }).then(response => {
+    })
+      .then(response => {
         let {data: {posts}} = response;
         return dispatch(actions.cachePosts({posts}));
       })
@@ -100,7 +95,8 @@ export function nearbyPosts({offset='', cbOk, cbFail, cbFinish}={}) {
   };
 }
 
-export function postsOfCity({cityCode='', offset='', cbOk, cbFail, cbFinish}) {
+export function postsOfCity({cityCode = '', offset = '', cbOk, cbFail, 
+  cbFinish}) {
   return (dispatch, getState) => {
     let {account} = getState();
 
@@ -109,7 +105,8 @@ export function postsOfCity({cityCode='', offset='', cbOk, cbFail, cbFinish}) {
       sportCode: account.settings.sport.code, 
       status: POST_STATUS_NORMAL,
       offset,
-    }).then(response => {
+    })
+      .then(response => {
         let {data: {posts}} = response;
         return dispatch(actions.cachePosts({posts}));
       })

@@ -9,10 +9,15 @@ import flattenStyle from 'flattenStyle';
 
 import {COLOR} from '../../config';
 
-export default ({text, disable=false, onPress, containerStyle, textStyle}) => {
+export default ({text, disable = false, onPress, containerStyle, 
+  textStyle}) => {
   let {fontSize} = flattenStyle(textStyle || styles.text);
-  containerStyle = [styles.container, (disable ? styles.containerDisable : null), {padding: Math.round(fontSize / 2)}, containerStyle];
-  let children = <Text style={[styles.text, (disable ? styles.textDisable : null), textStyle]}>{text}</Text>;
+  containerStyle = [styles.container, 
+    (disable ? styles.containerDisable : null), 
+    {padding: Math.round(fontSize / 2)}, containerStyle];
+  let children = <Text 
+    style={[styles.text, (disable ? styles.textDisable : null), textStyle]}
+  >{text}</Text>;
   if (onPress) {
     return (
       <TouchableOpacity onPress={onPress} style={containerStyle}>
@@ -22,11 +27,11 @@ export default ({text, disable=false, onPress, containerStyle, textStyle}) => {
   } else {
     return (
       <View style={containerStyle}>
-       {children}
+        {children}
       </View>
     );
   }
-}
+};
 
 const styles = StyleSheet.create({
   container: {

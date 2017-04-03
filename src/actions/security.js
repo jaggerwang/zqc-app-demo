@@ -3,8 +3,6 @@
  * zaiqiuchang.com
  */
 
-
-import logger from '../logger';
 import * as apis from '../apis';
 import * as actions from './';
 
@@ -17,5 +15,5 @@ export function sendVerifyCode({by, mobile, email, cbOk}) {
         }
       })
       .catch(error => dispatch(actions.handleError(error)));
-  }
-}
+  };
+};

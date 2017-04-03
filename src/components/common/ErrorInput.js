@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import {StyleSheet, View, Text} from 'react-native';
+import {StyleSheet, Text} from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
@@ -18,7 +18,10 @@ function ErrorInput({error, screenId, containerStyle}) {
   }
   
   return (
-    <Animatable.View animation='fadeIn' style={[styles.container, containerStyle]}>
+    <Animatable.View 
+      animation="fadeIn" 
+      style={[styles.container, containerStyle]}
+    >
       {Object.entries(error)
         .filter(([k, v]) => v.length > 0)
         .map(([k, v]) => <Text key={k} style={styles.text}>{v.join('')}</Text>)}
@@ -36,7 +39,7 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     fontSize: 12,
     color: COLOR.textEmpha,
-  }
+  },
 });
 
 function mapStateToProps(state) {

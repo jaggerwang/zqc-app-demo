@@ -3,9 +3,6 @@
  * zaiqiuchang.com
  */
 
-import logger from '../logger';
-import * as actions from './';
-
 export const RESET = 'reset';
 export const RESET_STORE = 'reset_store';
 export const SET_STORE_VERSION = 'set_store_version';

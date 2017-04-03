@@ -6,19 +6,21 @@
 import {RES_USER_AVATARS, RES_USER_BACKGROUNDS} from '../const';
 import * as helpers from './';
 
-export function imageUri(uri, size='small') {
+export function imageUri(uri, size = 'small') {
   if (uri) {
-    return uri.startsWith('http') ? (uri + '?x-oss-process=style/' + size) : uri;
+    return uri.startsWith('http') 
+      ? (uri + '?x-oss-process=style/' + size) 
+      : uri;
   } else {
     return '';
   }
 }
 
-export function imageSource(uri, size='small') {
+export function imageSource(uri, size = 'small') {
   return {uri: imageUri(uri, size)};
 }
 
-export function fileImageSource(file, size='small') {
+export function fileImageSource(file, size = 'small') {
   let uri = '';
   if (file) {
     if (file.path) {
@@ -32,8 +34,8 @@ export function fileImageSource(file, size='small') {
   return imageSource(uri, size);
 }
 
-export function userAvatarSource({avatarType, avatarName, avatarImage, avatarFile}, 
-  size='small') {
+export function userAvatarSource({avatarType, avatarName, avatarImage, 
+  avatarFile}, size = 'small') {
   if (avatarType == 'builtin') {
     return RES_USER_AVATARS.get(avatarName);
   } else if (avatarType == 'custom') {
@@ -50,7 +52,7 @@ export function userAvatarSource({avatarType, avatarName, avatarImage, avatarFil
 }
 
 export function userBackgroundSource({backgroundType, backgroundName, 
-  backgroundImage, backgroundFile}, size='small') {
+  backgroundImage, backgroundFile}, size = 'small') {
   if (backgroundType == 'builtin') {
     return RES_USER_BACKGROUNDS.get(backgroundName);
   } else if (backgroundType == 'custom') {

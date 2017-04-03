@@ -4,14 +4,12 @@
  */
 
 import React, {Component} from 'react';
-import {StyleSheet, View, Text, Image, ListView, ScrollView, RefreshControl, 
-  TouchableOpacity, InteractionManager, Platform} from 'react-native';
+import {StyleSheet, ScrollView, Platform} from 'react-native';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
-import {COLOR, DEFAULT_NAV_BAR_STYLE, VERSION} from '../../config';
+import {DEFAULT_NAV_BAR_STYLE, VERSION} from '../../config';
 import * as components from '../';
-import * as helpers from '../../helpers';
 import * as actions from '../../actions';
 
 class About extends Component {
@@ -36,21 +34,23 @@ class About extends Component {
           />
           <components.Block containerStyle={{paddingVertical: 0}}>
             <components.BlockItem
-              leftText='当前版本'
+              leftText="当前版本"
               rightText={VERSION}
               containerStyle={{borderTopWidth: 0}}
             />
-            {Platform.OS == 'android' ?
-            <components.BlockItem
-              leftText='版本更新'
-              rightText='立即检查'
-              rightIcon='keyboard-arrow-right'
+            {Platform.OS == 'android' 
+            ? <components.BlockItem
+              leftText="版本更新"
+              rightText="立即检查"
+              rightIcon="keyboard-arrow-right"
               onPress={() => checkAppUpdate({betaUser, silent: false})}
-            /> :
-            null
+            /> 
+            : null
             }
           </components.Block>
-          <components.TextNotice>Copyright © 在球场 zaiqiuchang.com All Rights Reserved.</components.TextNotice>
+          <components.TextNotice>
+            Copyright © 在球场 zaiqiuchang.com All Rights Reserved.
+          </components.TextNotice>
         </ScrollView>
       </components.Layout>
     );

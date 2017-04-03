@@ -6,7 +6,6 @@
 import logger from '../logger';
 import {navToBootstrap} from '../navigation';
 import {InputError, ApiHttpError} from '../error';
-import * as apis from '../apis';
 
 export const RESET_ERROR = 'reset_error';
 export const RESET_ERROR_INPUT = 'reset_error_input';
@@ -34,7 +33,7 @@ export function errorInput(screenId, error) {
   };
 }
 
-export function errorFlash(error, duration=3000) {
+export function errorFlash(error, duration = 3000) {
   return dispatch => {
     dispatch({
       type: ERROR_FLASH,

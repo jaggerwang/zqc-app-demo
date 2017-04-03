@@ -4,15 +4,15 @@
  */
 
 import React from 'react';
-import {StyleSheet, View, Text, Image, TouchableOpacity} from 'react-native';
+import {StyleSheet, View, Image, TouchableOpacity} from 'react-native';
 import flattenStyle from 'flattenStyle';
 
 import {COLOR} from '../../config';
 import * as helpers from '../../helpers';
 import * as components from '../';
 
-export default ({playIconVisible=false, duration, onPress, containerStyle, style, 
-  playIconStyle, ...props}) => {
+export default ({playIconVisible = false, duration, onPress, containerStyle, 
+  style, playIconStyle, ...props}) => {
   let child = <Image style={style} {...props} />;
   if (onPress) {
     let {width, height} = flattenStyle(style);
@@ -23,15 +23,17 @@ export default ({playIconVisible=false, duration, onPress, containerStyle, style
       <TouchableOpacity onPress={onPress} style={containerStyle}>
         {child}
         
-        {playIconVisible ?
-        <components.Icon name='play-circle-outline' style={[styles.playIcon, playIconStyle, {top, left}]} /> :
-        null
-        }
+        {playIconVisible 
+          ? <components.Icon 
+            name="play-circle-outline" 
+            style={[styles.playIcon, playIconStyle, {top, left}]} /> 
+          : null}
 
-        {duration ?
-        <components.Text style={styles.durationText}>{helpers.durationText(duration)}</components.Text> :
-        null
-        }
+        {duration 
+          ? <components.Text style={styles.durationText}>
+            {helpers.durationText(duration)}
+          </components.Text>
+          : null}
       </TouchableOpacity>
     );
   } else {
@@ -41,7 +43,7 @@ export default ({playIconVisible=false, duration, onPress, containerStyle, style
       </View>
     );
   } 
-}
+};
 
 const styles = StyleSheet.create({
   playIcon: {

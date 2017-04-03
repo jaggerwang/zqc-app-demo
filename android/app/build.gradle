@@ -137,13 +137,10 @@ android {
 
 dependencies {
     compile project(':react-native-code-push')
-    compile project(':react-native-orientation')
-    compile project(':react-native-fs')
     compile project(':react-native-wechat')
     compile project(':react-native-vector-icons')
     compile project(':react-native-video-exoplayer')
     compile project(':react-native-image-crop-picker')
-    compile project(':react-native-device-info')
     compile project(':reactamaplocation')
     compile project(':react-native-navigation')
     compile fileTree(dir: "libs", include: ["*.jar"])

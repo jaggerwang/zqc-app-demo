@@ -4,13 +4,12 @@
  */
 
 import React, {Component} from 'react';
-import {StyleSheet, View, Text, Picker, Modal, TouchableOpacity} from 'react-native';
+import {StyleSheet, Picker, TouchableOpacity} from 'react-native';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
 import {COLOR, HIDDEN_NAV_BAR_STYLE} from '../../config';
 import {GENDERS} from '../../const';
-import * as components from '../';
 import * as helpers from '../../helpers';
 import * as actions from '../../actions';
 
@@ -26,7 +25,7 @@ class EditProfileGender extends Component {
   submit(gender) {
     let {navigator, updateAccount} = this.props;
 
-    navigator.dismissModal()
+    navigator.dismissModal();
 
     updateAccount({update: {gender}});
   }
@@ -36,7 +35,10 @@ class EditProfileGender extends Component {
     let user = helpers.userFromCache(object, account.id);
     
     return (
-      <TouchableOpacity onPress={() => navigator.dismissModal()} style={styles.container}>
+      <TouchableOpacity 
+        onPress={() => navigator.dismissModal()} 
+        style={styles.container}
+      >
         <Picker
           selectedValue={user.gender}
           onValueChange={value => this.submit(value)}

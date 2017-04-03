@@ -4,7 +4,6 @@
  */
 
 import React, {Component} from 'react';
-import {StyleSheet, View, Text, Image} from 'react-native';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
@@ -34,14 +33,15 @@ class PreLogin extends Component {
           style={{alignSelf: 'center', borderRadius: 15}}
         />
         <components.Button
-          text='登录'
+          text="登录"
           onPress={() => navigator.push({screen: 'zqc.Login', title: '登录'})}
           containerStyle={{marginTop: 100}}
           textStyle={{fontSize: 16}}
         />
         <components.Button
-          text='注册'
-          onPress={() => navigator.push({screen: 'zqc.RegisterMobile', title: '注册'})}
+          text="注册"
+          onPress={() => navigator.push(
+            {screen: 'zqc.RegisterMobile', title: '注册'})}
           containerStyle={{marginTop: 30}}
           textStyle={{fontSize: 16}}
         />
@@ -49,8 +49,6 @@ class PreLogin extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({});
 
 function mapStateToProps(state) {
   return {};

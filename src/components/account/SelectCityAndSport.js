@@ -4,7 +4,7 @@
  */
 
 import React, {Component} from 'react';
-import {StyleSheet, View, Text, Modal, TouchableOpacity, Platform} from 'react-native';
+import {StyleSheet, View, Platform} from 'react-native';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
@@ -28,11 +28,18 @@ class SelectCityAndSport extends Component {
     let children = (
       <View style={styles.container}>
         <View style={{flexDirection: 'row'}}>
-          <View style={{flex: 2, marginRight: 5, borderRightWidth: 1, borderColor: COLOR.lineNormal}}>
+          <View 
+            style={{
+              flex: 2, 
+              marginRight: 5, 
+              borderRightWidth: 1, 
+              borderColor: COLOR.lineNormal,
+            }}
+          >
             <components.Text style={styles.title}>定位城市</components.Text>
             <View style={{alignItems: 'flex-start'}}>
-              {location.city ?
-                <components.Tag 
+              {location.city 
+                ? <components.Tag
                   text={location.city.name} 
                   selected={location.city.code == account.settings.city.code}
                   onPress={() => {
@@ -43,14 +50,21 @@ class SelectCityAndSport extends Component {
                     }
                     updateAccountSettings({city: location.city});
                   }}
-                /> :
-                <components.Tag text='未知' />
+                /> 
+                : <components.Tag text="未知" />
               }
             </View>
             <components.Text style={styles.title}>热门城市</components.Text>
-            <View style={{flexDirection: 'row', flexWrap: 'wrap', alignItems: 'flex-start'}}>
-              {HOT_CITIES.filter(v => !(location.city && v.code == location.city.code)).map(v => 
-                <components.Tag
+            <View 
+              style={{
+                flexDirection: 'row', 
+                flexWrap: 'wrap', 
+                alignItems: 'flex-start',
+              }}
+            >
+              {HOT_CITIES
+                .filter(v => !(location.city && v.code == location.city.code))
+                .map(v => <components.Tag
                   key={v.code}
                   text={v.name}
                   selected={v.code == account.settings.city.code}

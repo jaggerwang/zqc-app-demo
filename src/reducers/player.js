@@ -3,7 +3,6 @@
  * zaiqiuchang.com
  */
 
-import logger from '../logger';
 import * as actions from '../actions';
 
 const initialState = {
@@ -24,13 +23,15 @@ const initialState = {
 
 export default (state = initialState, action) => {
   if (action.type == actions.SET_PLAYER_STATE) {
-    let {type, ...newState} = action;
+    let {...newState} = action;
+    delete newState.type;
     newState = Object.assign({}, state, newState);
     newState.currentTime = Math.min(newState.currentTime, newState.duration);
     return newState;
-  } else if (action.type == actions.RESET || action.type == actions.RESET_PLAYER_STATE) {
+  } else if (action.type == actions.RESET || 
+    action.type == actions.RESET_PLAYER_STATE) {
     return initialState;
   } else {
     return state;
   }
-}
+};

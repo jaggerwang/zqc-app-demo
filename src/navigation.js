@@ -5,7 +5,7 @@
 
 import {Navigation} from 'react-native-navigation';
 
-import {COLOR, TAB_BAR_STYLE} from './config';
+import {TAB_BAR_STYLE} from './config';
 import iconImages from './iconImages';
 import * as components from './components';
 
@@ -17,23 +17,23 @@ export function registerScreens(store, Provider) {
     Provider,
   );
 
-	reg('zqc.Bootstrap', components.Bootstrap);
+  reg('zqc.Bootstrap', components.Bootstrap);
 
-	reg('zqc.PreLogin', components.PreLogin);
-	reg('zqc.Login', components.Login);
+  reg('zqc.PreLogin', components.PreLogin);
+  reg('zqc.Login', components.Login);
   reg('zqc.ResetPassword', components.ResetPassword);
-	reg('zqc.RegisterMobile', components.RegisterMobile);
-	reg('zqc.RegisterVerify', components.RegisterVerify);
-	reg('zqc.RegisterProfile', components.RegisterProfile);
+  reg('zqc.RegisterMobile', components.RegisterMobile);
+  reg('zqc.RegisterVerify', components.RegisterVerify);
+  reg('zqc.RegisterProfile', components.RegisterProfile);
 
-	reg('zqc.Nearby', components.Nearby);
-	reg('zqc.AtCourt', components.AtCourt);
-	reg('zqc.Me', components.Me);
+  reg('zqc.Nearby', components.Nearby);
+  reg('zqc.AtCourt', components.AtCourt);
+  reg('zqc.Me', components.Me);
 
   reg('zqc.EditProfileGender', components.EditProfileGender);
-	reg('zqc.EditProfile', components.EditProfile);
-	reg('zqc.EditProfileNickname', components.EditProfileNickname);
-	reg('zqc.EditProfileAvatar', components.EditProfileAvatar);
+  reg('zqc.EditProfile', components.EditProfile);
+  reg('zqc.EditProfileNickname', components.EditProfileNickname);
+  reg('zqc.EditProfileAvatar', components.EditProfileAvatar);
   reg('zqc.EditProfileEmail', components.EditProfileEmail);
   reg('zqc.EditProfileIntro', components.EditProfileIntro);
   reg('zqc.EditProfileBackground', components.EditProfileBackground);
@@ -48,7 +48,7 @@ export function registerScreens(store, Provider) {
   reg('zqc.About', components.About);
 }
 
-export function navToBootstrap({isReset=false}={}) {
+export function navToBootstrap({isReset = false} = {}) {
   Navigation.startSingleScreenApp({
     screen: {
       screen: 'zqc.Bootstrap',
@@ -92,7 +92,8 @@ export function navToTab() {
   });
 }
 
-export function navToAlbum(navigator, files, {currentIndex=0, cbRemove}={}) {
+export function navToAlbum(navigator, files, 
+  {currentIndex = 0, cbRemove} = {}) {
   navigator.push({
     screen: 'zqc.Album', 
     title: '相册', 
@@ -104,7 +105,8 @@ export function navToAlbum(navigator, files, {currentIndex=0, cbRemove}={}) {
   });
 }
 
-export function navToPlayer(navigator, file, {autoPlay, cbRemove, prevScreen}={}) {
+export function navToPlayer(navigator, file, 
+  {autoPlay, cbRemove, prevScreen} = {}) {
   navigator.push({
     screen: 'zqc.Player', 
     title: '播放', 

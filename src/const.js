@@ -9,16 +9,21 @@ export const GENDERS = [
 ];
 
 export const RES_USER_AVATARS = new Map([
-  ['american-football-player-1', require('zaiqiuchang/res/img/avatar/american-football-player-1.png')],
-  ['american-football-player', require('zaiqiuchang/res/img/avatar/american-football-player.png')],
-  ['baseball-player', require('zaiqiuchang/res/img/avatar/baseball-player.png')],
-  ['basketball-player', require('zaiqiuchang/res/img/avatar/basketball-player.png')],
+  ['american-football-player-1', 
+    require('zaiqiuchang/res/img/avatar/american-football-player-1.png')],
+  ['american-football-player', 
+    require('zaiqiuchang/res/img/avatar/american-football-player.png')],
+  ['baseball-player', 
+    require('zaiqiuchang/res/img/avatar/baseball-player.png')],
+  ['basketball-player', 
+    require('zaiqiuchang/res/img/avatar/basketball-player.png')],
   ['bodybuilder', require('zaiqiuchang/res/img/avatar/bodybuilder.png')],
   ['cricket-player', require('zaiqiuchang/res/img/avatar/cricket-player.png')],
   ['cyclist-1', require('zaiqiuchang/res/img/avatar/cyclist-1.png')],
   ['cyclist', require('zaiqiuchang/res/img/avatar/cyclist.png')],
   ['fencer', require('zaiqiuchang/res/img/avatar/fencer.png')],
-  ['football-player', require('zaiqiuchang/res/img/avatar/football-player.png')],
+  ['football-player', 
+    require('zaiqiuchang/res/img/avatar/football-player.png')],
   ['formula-1', require('zaiqiuchang/res/img/avatar/formula-1.png')],
   ['golfer', require('zaiqiuchang/res/img/avatar/golfer.png')],
   ['gymnast', require('zaiqiuchang/res/img/avatar/gymnast.png')],
@@ -37,12 +42,14 @@ export const RES_USER_AVATARS = new Map([
   ['swimmer', require('zaiqiuchang/res/img/avatar/swimmer.png')],
   ['taekwondo', require('zaiqiuchang/res/img/avatar/taekwondo.png')],
   ['tennis-player', require('zaiqiuchang/res/img/avatar/tennis-player.png')],
-  ['volleyball-player', require('zaiqiuchang/res/img/avatar/volleyball-player.png')],
+  ['volleyball-player', 
+    require('zaiqiuchang/res/img/avatar/volleyball-player.png')],
   ['weightlifter', require('zaiqiuchang/res/img/avatar/weightlifter.png')],
 ]);
 
 export const RES_USER_BACKGROUNDS = new Map([
-  ['light-circle', require('zaiqiuchang/res/img/user-background/light-circle.png')],
+  ['light-circle', 
+    require('zaiqiuchang/res/img/user-background/light-circle.png')],
   ['juhua', require('zaiqiuchang/res/img/user-background/juhua.png')],
   ['pugongying', require('zaiqiuchang/res/img/user-background/pugongying.png')],
 ]);

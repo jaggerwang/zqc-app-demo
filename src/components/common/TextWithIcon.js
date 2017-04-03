@@ -4,26 +4,30 @@
  */
 
 import React from 'react';
-import {StyleSheet, Platform, View, Text, TouchableOpacity} from 'react-native';
+import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
 
-import {COLOR, SCREEN_WIDTH, SCREEN_HEIGHT} from '../../config';
+import {COLOR} from '../../config';
 import * as components from '../';
 
 export default ({text, icon, style, iconStyle, containerStyle, onPress}) => {
-  let leftChild = (
-    <components.Icon name={icon} style={[styles.text, styles.icon, style, iconStyle]} />
-  );
+  let leftChild = <components.Icon 
+    name={icon} 
+    style={[styles.text, styles.icon, style, iconStyle]} 
+  />;
   let rightChild = (
     <Text style={[styles.text, style]}>{text}</Text>
   );
   if (onPress) {
     return (
-      <TouchableOpacity onPress={onPress} style={[styles.container, containerStyle]}>
+      <TouchableOpacity 
+        onPress={onPress} 
+        style={[styles.container, containerStyle]}
+      >
         {leftChild}
         {rightChild}
       </TouchableOpacity>
     );
-  } else{
+  } else {
     return (
       <View style={[styles.container, containerStyle]}>
         {leftChild}
@@ -31,7 +35,7 @@ export default ({text, icon, style, iconStyle, containerStyle, onPress}) => {
       </View>
     );
   } 
-}
+};
 
 const styles = StyleSheet.create({
   container: {

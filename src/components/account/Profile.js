@@ -3,14 +3,11 @@
  * zaiqiuchang.com
  */
 
-import React, {Component} from 'react';
-import {StyleSheet, Platform, View, Text} from 'react-native';
+import React from 'react';
+import {View} from 'react-native';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
-import {COLOR} from '../../config';
-import {RES_USER_AVATARS} from '../../const';
-import logger from '../../logger';
 import * as components from '../';
 import * as helpers from '../../helpers';
 import * as actions from '../../actions';
@@ -23,56 +20,60 @@ function Profile({navigator, object, account}) {
       <components.TextNotice>基本资料</components.TextNotice>
       <components.Block containerStyle={{paddingVertical: 0}}>
         <components.BlockItem
-          leftText='昵称'
+          leftText="昵称"
           rightText={user.nickname || '未填写'}
-          rightIcon='keyboard-arrow-right'
-          onPress={() => navigator.push({screen: 'zqc.EditProfileNickname', title: '修改昵称'})}
+          rightIcon="keyboard-arrow-right"
+          onPress={() => navigator.push(
+            {screen: 'zqc.EditProfileNickname', title: '修改昵称'})}
           containerStyle={{borderTopWidth: 0}}
         />
         <components.BlockItem
-          leftText='头像'
+          leftText="头像"
           rightImage={helpers.userAvatarSource(user)}
-          rightIcon='keyboard-arrow-right'
-          onPress={() => navigator.push({screen: 'zqc.EditProfileAvatar', title: '设置头像'})}
+          rightIcon="keyboard-arrow-right"
+          onPress={() => navigator.push(
+            {screen: 'zqc.EditProfileAvatar', title: '设置头像'})}
           imageStyle={{borderRadius: 5}}
           containerStyle={{height: 60}}
         />
         <components.BlockItem
-          leftText='性别'
+          leftText="性别"
           rightText={user.gender ? (user.gender == 'm' ? '男' : '女') : '未选择'}
-          rightIcon='keyboard-arrow-right'
-          onPress={() => navigator.showModal({screen: 'zqc.EditProfileGender'})}
+          rightIcon="keyboard-arrow-right"
+          onPress={() => navigator.showModal(
+            {screen: 'zqc.EditProfileGender'})}
         />
       </components.Block>
       
       <components.TextNotice>可选资料</components.TextNotice>
       <components.Block containerStyle={{paddingVertical: 0}}>
         <components.BlockItem
-          leftText='邮箱'
+          leftText="邮箱"
           rightText={user.email || '可用于登录和找回密码'}
-          rightIcon='keyboard-arrow-right'
-          onPress={() => navigator.push({screen: 'zqc.EditProfileEmail', title: '修改邮箱'})}
+          rightIcon="keyboard-arrow-right"
+          onPress={() => navigator.push(
+            {screen: 'zqc.EditProfileEmail', title: '修改邮箱'})}
           containerStyle={{borderTopWidth: 0}}
         />
         <components.BlockItem
-          leftText='个性签名'
+          leftText="个性签名"
           rightText={user.intro ? user.intro.substring(0, 20) : '未填写'}
-          rightIcon='keyboard-arrow-right'
-          onPress={() => navigator.push({screen: 'zqc.EditProfileIntro', title: '修改签名'})}
+          rightIcon="keyboard-arrow-right"
+          onPress={() => navigator.push(
+            {screen: 'zqc.EditProfileIntro', title: '修改签名'})}
         />
         <components.BlockItem
-          leftText='主页背景'
+          leftText="主页背景"
           rightImage={helpers.userBackgroundSource(user)}
-          rightIcon='keyboard-arrow-right'
-          onPress={() => navigator.push({screen: 'zqc.EditProfileBackground', title: '设置主页背景'})}
+          rightIcon="keyboard-arrow-right"
+          onPress={() => navigator.push(
+            {screen: 'zqc.EditProfileBackground', title: '设置主页背景'})}
           containerStyle={{height: 60}}
         />
       </components.Block>
     </View>
   );
 }
-
-const styles = StyleSheet.create({});
 
 function mapStateToProps(state) {
   let {object, account} = state;

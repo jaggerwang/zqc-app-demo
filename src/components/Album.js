@@ -4,13 +4,12 @@
  */
 
 import React, {Component} from 'react';
-import {StyleSheet, View, Text, InteractionManager, CameraRoll} from 'react-native';
-import Image from 'react-native-transformable-image';
+import {CameraRoll} from 'react-native';
 import Gallery from 'react-native-gallery';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
-import {COLOR, DEFAULT_NAV_BAR_STYLE, SCREEN_WIDTH, SCREEN_HEIGHT} from '../config';
+import {COLOR, DEFAULT_NAV_BAR_STYLE} from '../config';
 import * as components from './';
 import * as helpers from '../helpers';
 import * as actions from '../actions';
@@ -102,14 +101,15 @@ class Album extends Component {
     let uri = (currentFile.id ? currentFile.url : currentFile.path);
     CameraRoll.saveToCameraRoll(uri)
       .then(result => errorFlash('保存成功'))
-      .catch(error => errorFlash('保存失败'));
+      .catch(() => errorFlash('保存失败'));
   }
 
   shareImageToWeChat() {
-    let {screen, shareImageToWeChatTimeline, shareImageToWeChatSession} = this.props;
+    let {screen, shareImageToWeChatTimeline, shareImageToWeChatSession} = 
+      this.props;
     let {files, currentIndex} = screen[this.screenId];
     let file = files[currentIndex];
-    let options = ['朋友圈', '好友', '取消']
+    let options = ['朋友圈', '好友', '取消'];
     this.actionSheet.showActionSheetWithOptions(
       {
         options,
@@ -135,26 +135,24 @@ class Album extends Component {
     navigator.toggleNavBar({'to': (navBarHidden ? 'hidden' : 'shown')});
 
     return (
-      <components.Layout screenId={this.screenId} containerStyle={{backgroundColor: 'black'}}>
-        <components.ActionSheet ref={ref => this.actionSheet = ref} />
+      <components.Layout 
+        screenId={this.screenId} 
+        containerStyle={{backgroundColor: 'black'}}
+      >
+        <components.ActionSheet ref={ref => { this.actionSheet = ref; }} />
         <Gallery
           images={files.map(v => helpers.fileImageSource(v, 'huge').uri)}
           initialPage={currentIndex}
           pageMargin={5}
-          onPageSelected={index => setScreenState(this.screenId, {currentIndex: index})}
-          onSingleTapConfirmed={() => setScreenState(this.screenId, {navBarHidden: !navBarHidden})}
+          onPageSelected={index => setScreenState(this.screenId, 
+            {currentIndex: index})}
+          onSingleTapConfirmed={() => setScreenState(this.screenId, 
+            {navBarHidden: !navBarHidden})}
         />
       </components.Layout>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  image: {
-    width: SCREEN_WIDTH,
-    height: SCREEN_HEIGHT,
-  }
-});
 
 function mapStateToProps(state) {
   let {screen} = state;

@@ -6,11 +6,11 @@
 import * as WeChat from 'react-native-wechat';
 
 import logger from '../logger';
-import * as apis from '../apis';
 import * as helpers from '../helpers';
 import * as actions from './';
 
-export function shareImageToWeChatSession({url, thumbUrl, title='', description=''}) {
+export function shareImageToWeChatSession({url, thumbUrl, title = '', 
+  description = ''}) {
   return dispatch => {
     WeChat.isWXAppInstalled()
       .then(isInstalled => {
@@ -27,10 +27,11 @@ export function shareImageToWeChatSession({url, thumbUrl, title='', description=
       })
       .then(result => logger.debug(result))
       .catch(error => dispatch(actions.handleError(error)));
-  }
+  };
 }
 
-export function shareImageToWeChatTimeline({url, thumbUrl, title='', description=''}) {
+export function shareImageToWeChatTimeline({url, thumbUrl, title = '', 
+  description = ''}) {
   return dispatch => {
     WeChat.isWXAppInstalled()
       .then(isInstalled => {
@@ -47,10 +48,11 @@ export function shareImageToWeChatTimeline({url, thumbUrl, title='', description
       })
       .then(result => logger.debug(result))
       .catch(error => dispatch(actions.handleError(error)));
-  }
+  };
 }
 
-export function shareVideoToWeChatSession({url, thumbUrl, title='', description=''}) {
+export function shareVideoToWeChatSession({url, thumbUrl, title = '', 
+  description = ''}) {
   return dispatch => {
     WeChat.isWXAppInstalled()
       .then(isInstalled => {
@@ -67,10 +69,11 @@ export function shareVideoToWeChatSession({url, thumbUrl, title='', description=
       })
       .then(result => logger.debug(result))
       .catch(error => dispatch(actions.handleError(error)));
-  }
+  };
 }
 
-export function shareVideoToWeChatTimeline({url, thumbUrl, title='', description=''}) {
+export function shareVideoToWeChatTimeline({url, thumbUrl, title = '', 
+  description = ''}) {
   return dispatch => {
     WeChat.isWXAppInstalled()
       .then(isInstalled => {
@@ -87,7 +90,7 @@ export function shareVideoToWeChatTimeline({url, thumbUrl, title='', description
       })
       .then(result => logger.debug(result))
       .catch(error => dispatch(actions.handleError(error)));
-  }
+  };
 }
 
 export function sharePostToWeChatSession({post}) {

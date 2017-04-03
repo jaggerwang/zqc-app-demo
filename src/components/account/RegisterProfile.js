@@ -4,11 +4,11 @@
  */
 
 import React, {Component} from 'react';
-import {StyleSheet, View, Text, ScrollView} from 'react-native';
+import {ScrollView} from 'react-native';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
-import {COLOR, DEFAULT_NAV_BAR_STYLE} from '../../config';
+import {DEFAULT_NAV_BAR_STYLE} from '../../config';
 import {navToTab} from '../../navigation';
 import * as components from '../';
 import * as actions from '../../actions';
@@ -32,12 +32,12 @@ class RegisterProfile extends Component {
           <components.TextNotice>帐号注册成功，请完善资料。</components.TextNotice>
           <components.Profile navigator={navigator} />
           <components.ButtonWithBg
-            text='完成'
+            text="完成"
             onPress={() => {
               if (user.nickname && user.avatarType && user.gender) {
                 navToTab();
               } else {
-                errorFlash("请填写完基本资料。");
+                errorFlash('请填写完基本资料。');
               }
             }}
             textStyle={{fontSize: 16}}
@@ -47,8 +47,6 @@ class RegisterProfile extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({});
 
 function mapStateToProps(state) {
   let {object, account} = state;

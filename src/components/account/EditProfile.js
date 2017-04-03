@@ -4,9 +4,9 @@
  */
 
 import React, {Component} from 'react';
-import {StyleSheet, View, Text, ScrollView} from 'react-native';
+import {ScrollView} from 'react-native';
 
-import {COLOR, DEFAULT_NAV_BAR_STYLE} from '../../config';
+import {DEFAULT_NAV_BAR_STYLE} from '../../config';
 import * as components from '../';
 
 export default class EditProfile extends Component {
@@ -31,5 +31,3 @@ export default class EditProfile extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({});

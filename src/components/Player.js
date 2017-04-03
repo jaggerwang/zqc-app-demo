@@ -4,17 +4,16 @@
  */
 
 import React, {Component} from 'react';
-import {StyleSheet, View, Text, CameraRoll, TouchableWithoutFeedback, 
+import {StyleSheet, View, TouchableWithoutFeedback, 
   Alert, Platform, ActivityIndicator} from 'react-native';
 import flattenStyle from 'flattenStyle';
 import Video from 'react-native-video';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import Orientation from 'react-native-orientation';
 
-import {COLOR, DEFAULT_NAV_BAR_STYLE, SCREEN_WIDTH, SCREEN_HEIGHT} from '../config';
+import {COLOR, DEFAULT_NAV_BAR_STYLE, SCREEN_WIDTH, 
+  SCREEN_HEIGHT} from '../config';
 import logger from '../logger';
-import {navToPostDetail} from '../navigation';
 import {VIDEO_RATES} from '../const';
 import * as components from './';
 import * as helpers from '../helpers';
@@ -85,19 +84,12 @@ class Player extends Component {
           setPlayerState({orientation: 'PORTRAIT'});
         }
       };
-      Orientation.addSpecificOrientationListener(this.orientationListener);
-      Orientation.unlockAllOrientations();
     }
   }
 
   componentWillUnmount() {
     let {resetPlayerState} = this.props;
     resetPlayerState();
-
-    if (Platform.OS == 'ios') {
-      Orientation.removeOrientationListener(this.orientationListener);
-      Orientation.lockToPortrait();
-    }
   }
 
   onNavigatorEvent(event) {
@@ -110,7 +102,7 @@ class Player extends Component {
     }
   }
 
-  autoHideNavBar(seconds=3000) {
+  autoHideNavBar(seconds = 3000) {
     clearTimeout(this.navBarHiddenTimeout);
     this.navBarHiddenTimeout = setTimeout(() => {
       let {player, setPlayerState} = this.props;
@@ -128,8 +120,9 @@ class Player extends Component {
   }
 
   shareVideoToWeChat() {
-    let {file, shareVideoToWeChatTimeline, shareVideoToWeChatSession} = this.props;
-    let options = ['朋友圈', '好友', '取消']
+    let {file, shareVideoToWeChatTimeline, shareVideoToWeChatSession} = 
+      this.props;
+    let options = ['朋友圈', '好友', '取消'];
     this.actionSheet.showActionSheetWithOptions(
       {
         options,
@@ -149,15 +142,15 @@ class Player extends Component {
   }
 
   render() {
-    let {navigator, network, object, file, prevScreen, account, player, 
-      errorFlash, setPlayerState} = this.props;
+    let {navigator, network, file, account, player, setPlayerState} = 
+      this.props;
 
     if (!network.isConnected || !network.reach) {
       return null;
     }
 
-    let {navBarHidden, orientation, isBuffering, loaded, paused, ended, rate, 
-      rateSelectorVisible, naturalSize, currentTime, duration} = player;
+    let {navBarHidden, orientation, isBuffering, paused, ended, rate, 
+      rateSelectorVisible, currentTime, duration} = player;
     let pixelSize = helpers.filePixelSize(file);
 
     let maxRate = 'fhd';
@@ -184,14 +177,20 @@ class Player extends Component {
 
     return (
       <components.Layout screenId={this.screenId}>
-        <components.ActionSheet ref={ref => this.actionSheet = ref} />
+        <components.ActionSheet ref={ref => { this.actionSheet = ref; }} />
         <TouchableWithoutFeedback
           onPress={() => {
             this.autoHideNavBar();
             setPlayerState({navBarHidden: !navBarHidden});
           }}
         >
-          <View style={{flex: 1, justifyContent: 'center', backgroundColor: 'black'}}>
+          <View 
+            style={{
+              flex: 1, 
+              justifyContent: 'center', 
+              backgroundColor: 'black',
+            }}
+          >
             <Video 
               source={helpers.fileVideoSource(file, rate)}
               repeat={false}
@@ -223,41 +222,51 @@ class Player extends Component {
                 setPlayerState({isBuffering});
               }}
               onError={error => logger.warn(error)}
-              ref={ref => this.player = ref}
-              style={[styles.video, {width, height: Math.round(width * pixelSize[1] / pixelSize[0])}]}
+              ref={ref => { this.player = ref; }}
+              style={[styles.video, 
+                {
+                  width, 
+                  height: Math.round(width * pixelSize[1] / pixelSize[0]),
+                },
+              ]}
             />
 
             <View style={[styles.opBar, {top: opBarTop, left: opBarLeft}]}>
-              {isBuffering ? 
-              <ActivityIndicator color={COLOR.textNormal} size='small' /> : 
-              (!navBarHidden ? 
-              <View style={styles.opContainer}>
-                {ended ? 
-                <components.Icon 
-                  name='replay' 
-                  onPress={() => {
-                    this.autoHideNavBar();
-                    this.player.seek(0);
-                    setPlayerState({ended: false, paused: false});
-                  }}
-                  style={styles.opText}
-                /> : 
-                <components.Icon 
-                  name={paused ? 'play-circle-outline' : 'pause-circle-outline'} 
-                  onPress={() => {
-                    this.autoHideNavBar();
-                    setPlayerState({paused: !paused});
-                  }}
-                  style={styles.opText}
-                />}
-              </View> : 
-              null)}
+              {isBuffering 
+                ? <ActivityIndicator color={COLOR.textNormal} size="small" /> 
+                : (!navBarHidden 
+                  ? <View style={styles.opContainer}>
+                    {ended 
+                      ? <components.Icon
+                        name="replay" 
+                        onPress={() => {
+                          this.autoHideNavBar();
+                          this.player.seek(0);
+                          setPlayerState({ended: false, paused: false});
+                        }}
+                        style={styles.opText}
+                      /> 
+                      : <components.Icon
+                        name={paused 
+                          ? 'play-circle-outline' 
+                          : 'pause-circle-outline'} 
+                        onPress={() => {
+                          this.autoHideNavBar();
+                          setPlayerState({paused: !paused});
+                        }}
+                        style={styles.opText}
+                      />}
+                  </View> 
+                  : null)}
             </View>
             
-            {!navBarHidden ? 
-            <View style={styles.ctlBar}>
+            {!navBarHidden 
+            ? <View style={styles.ctlBar}>
               <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <components.Text style={styles.ctlBarText}>{helpers.durationText(currentTime)} / {helpers.durationText(duration)}</components.Text>
+                <components.Text style={styles.ctlBarText}>
+                  {helpers.durationText(currentTime)} / 
+                    {helpers.durationText(duration)}
+                </components.Text>
               </View>
               <View style={{flexDirection: 'row', alignItems: 'center'}}>
                 <components.Text style={styles.ctlBarText}
@@ -266,31 +275,30 @@ class Player extends Component {
                     setPlayerState({rateSelectorVisible: !rateSelectorVisible});
                   }}
                 >
-                {helpers.videoRateText(rate)}
+                  {helpers.videoRateText(rate)}
                 </components.Text>
 
-                {Platform.OS == 'ios' ? 
-                <components.Icon 
-                  name={orientation == 'PORTRAIT' ? 'fullscreen' : 'fullscreen-exit'}
+                {Platform.OS == 'ios' 
+                ? <components.Icon
+                  name={orientation == 
+                    'PORTRAIT' ? 'fullscreen' : 'fullscreen-exit'}
                   onPress={() => {
                     this.autoHideNavBar();
                     if (orientation == 'PORTRAIT') {
                       setPlayerState({orientation: 'LANDSCAPE-LEFT'});
-                      Orientation.lockToLandscapeLeft();
                     } else {
                       setPlayerState({orientation: 'PORTRAIT'});
-                      Orientation.lockToPortrait();
                     }
                   }}
                   style={[styles.ctlBarText, {padding: 5, fontSize: 22}]}
-                /> : 
-                null}
+                /> 
+                : null}
               </View>
-            </View> :
-            null}
+            </View> 
+            : null}
 
-            {!navBarHidden && rateSelectorVisible ?
-            <View style={styles.rateSelector}>
+            {!navBarHidden && rateSelectorVisible 
+            ? <View style={styles.rateSelector}>
               {VIDEO_RATES.filter(v => {
                 if (v.value == rate) {
                   return false;
@@ -321,8 +329,8 @@ class Player extends Component {
                   </components.Text>
                 )
             }
-            </View> :
-            null}
+            </View> 
+            : null}
           </View>
         </TouchableWithoutFeedback>
       </components.Layout>
