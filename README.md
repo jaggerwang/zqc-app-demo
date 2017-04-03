@@ -1,10 +1,10 @@
 # Zaiqiuchang app demo
 
-Zaiqiuchang is a mobile app developed using React Native(RN for short), both iOS and Android are supported. For business reasons, this open source project is just the lite version of the business one. Full feature app can be downloaded at [在球场](https://www.zaiqiuchang.com) , and you can see the full power of RN.
+[Zaiqiuchang(在球场)](https://www.zaiqiuchang.com) is a mobile app developed using react native, both iOS and Android are supported. This open source project is just the lite version of the app. You can install the full version to see the power of react native.
 
 ### Screenshots
 
-<img src="https://zqc.cdn.zaiqiuchang.com/screenshot/ios/screenshot-nearby-360p.jpg" />
+<img src="https://zqc.cdn.zaiqiuchang.com/screenshot/ios/screenshot-nearby.jpg?x-oss-process=style/w-360" width="240" />
 
 * [功能演示视频](http://v.youku.com/v_show/id_XMjQ5MDQ0NzMwMA==.html)
 * [Features show video](https://www.youtube.com/watch?v=Ni3a6cnu8h0)
@@ -27,27 +27,35 @@ Zaiqiuchang is a mobile app developed using React Native(RN for short), both iOS
 
 ### How to run
 
-**iOS**
+First you sholud make sure [React Native](http://facebook.github.io/react-native/releases/0.40/docs/getting-started.html) is already installed.
+
 ```
+> git clone git@github.com:jaggerwang/zqc-app-demo.git && cd zqc-app-demo
 > npm install
-> react-native link
-> react-native run-ios
+> react-native run-ios # or run-android
 ```
 
-**Android**
-```
-> npm install
-> react-native link
-> react-native run-android
-```
+As we already did `react-native link` for native code, so there is no need to do this again.
 
-> Change all `react-native-video` to `react-native-video-exoplayer` in file 'android/settings.gradle' and 'android/app/build.gradle' for better video playing performance.
+> Notice! After installed dependent packages, you should fix some known issues manually, otherwise you will encounter compile errors. Do as section [Known issues](#known-issues).
 
-### FAQ
+### Generating Android APK
 
-**Fix android compile error: getUseDeveloperSupport should be public**
+Please follow the official doc [Generating Signed APK](https://facebook.github.io/react-native/docs/signed-apk-android.html).
 
-> It's a bug for react-native-navigation. If you encounter this, modify line `protected boolean getUseDeveloperSupport() {` to `public boolean getUseDeveloperSupport() {` in file "NavigationReactGateway.java".
+### Known issues
+
+**react-native-navigation**
+
+Open file 'node_modules/react-native-navigation/android/app/src/main/java/com/reactnativenavigation/react/NavigationReactGateway.java', find line `protected boolean getUseDeveloperSupport() {` and modify it to `public boolean getUseDeveloperSupport() {`.
+
+**react-native-wechat**
+
+Open file 'node_modules/react-native-wechat/ios/RCTWeChat.m', remove or comment line `#import <RCTImage/RCTImageUtils.h>`.
+
+**generating android apk failed**
+
+If you see error like "Cannot merge new index ...", you can refer to issue [Issue #5](https://github.com/jaggerwang/zqc-app-demo/issues/5)
 
 ### Other resources
 
