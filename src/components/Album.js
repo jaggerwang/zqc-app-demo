@@ -27,22 +27,6 @@ class Album extends Component {
     super(props);
 
     this.screenId = props.screenId || 'Album';
-
-    let {navigator, cbRemove} = props;
-    let rightButtons = [];
-    if (cbRemove) {
-      rightButtons.push({
-        title: '删除',
-        id: 'delete',
-      });
-    } else {
-      rightButtons.push({
-        title: '分享',
-        id: 'share',
-      });
-    }
-    navigator.setButtons({rightButtons});
-    navigator.setOnNavigatorEvent(event => this.onNavigatorEvent(event));
   }
 
   componentDidMount() {
@@ -53,18 +37,6 @@ class Album extends Component {
   componentWillUnmount() {
     let {resetScreenState} = this.props;
     resetScreenState(this.screenId);
-  }
-
-  onNavigatorEvent(event) {
-    if (event.type == 'NavBarButtonPress') {
-      if (event.id == 'delete') {
-        this.removeImage();
-      } else if (event.id == 'save') {
-        this.saveImage();
-      } else if (event.id == 'share') {
-        this.shareImageToWeChat();
-      }
-    }
   }
 
   removeImage() {
@@ -102,30 +74,6 @@ class Album extends Component {
     CameraRoll.saveToCameraRoll(uri)
       .then(result => errorFlash('保存成功'))
       .catch(() => errorFlash('保存失败'));
-  }
-
-  shareImageToWeChat() {
-    let {screen, shareImageToWeChatTimeline, shareImageToWeChatSession} = 
-      this.props;
-    let {files, currentIndex} = screen[this.screenId];
-    let file = files[currentIndex];
-    let options = ['朋友圈', '好友', '取消'];
-    this.actionSheet.showActionSheetWithOptions(
-      {
-        options,
-        cancelButtonIndex: options.findIndex(v => v == '取消'),
-        title: '分享到微信',
-      },
-      buttonIndex => {
-        let url = helpers.fileImageSource(file, 'huge').uri;
-        let thumbUrl = helpers.fileImageSource(file, 'middle').uri;
-        if (buttonIndex == options.findIndex(v => v == '朋友圈')) {
-          shareImageToWeChatTimeline({url, thumbUrl});
-        } else if (buttonIndex == options.findIndex(v => v == '好友')) {
-          shareImageToWeChatSession({url, thumbUrl});
-        }
-      }
-    );
   }
 
   render() {

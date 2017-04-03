@@ -62,9 +62,3 @@ export const TAB_BAR_STYLE = {
   tabBarButtonColor: COLOR.textEmpha,
   tabBarSelectedButtonColor: COLOR.theme,
 };
-
-export const WECHAT = {
-  app: {
-    id: 'wxe1a7f5b2cf4d029b',
-  },
-};

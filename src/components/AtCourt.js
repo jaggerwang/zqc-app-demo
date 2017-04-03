@@ -46,7 +46,7 @@ class AtCourt extends Component {
   }
 
   render() {
-    let {navigator, screen, object, account, user, disableLoading, 
+    let {screen, object, account, user, disableLoading, 
         enableLoading, setScreenState} = this.props;
     let {refreshing} = screen[this.screenId];
 
@@ -79,7 +79,7 @@ class AtCourt extends Component {
               '发动态失败',
               'Lite版暂不支持该功能，请到官网(zaiqiuchang.com)下载完整版体验。',
               [
-                {text: '确认', onPress: () => navigator.pop()},
+                {text: '确认'},
               ],
             )} 
             style={styles.postIcon} 

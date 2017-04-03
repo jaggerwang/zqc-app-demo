@@ -4,7 +4,7 @@
  */
 
 import React, {Component} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, View, Alert} from 'react-native';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
@@ -16,20 +16,52 @@ import * as actions from '../../actions';
 
 class Post extends Component {
   showMoreOps(showActionSheetWithOptions) {
-    let {post, sharePostToWeChatSession, sharePostToWeChatTimeline} = 
-      this.props;
-    let options = ['朋友圈', '好友', '取消'];
+    let {account, post} = this.props;
+    let options = ['分享到微信朋友圈', '分享给微信好友', '举报'];
+    if (account.id == post.creatorId) {
+      options.push('删除');
+    }
+    options.push('取消');
     showActionSheetWithOptions(
       {
         options,
         cancelButtonIndex: options.findIndex(v => v == '取消'),
-        title: '分享到微信',
+        destructiveButtonIndex: options.findIndex(v => v == '删除'),
+        title: '动态操作',
       },
       buttonIndex => {
-        if (buttonIndex == options.findIndex(v => v == '朋友圈')) {
-          sharePostToWeChatTimeline({post});
-        } else if (buttonIndex == options.findIndex(v => v == '好友')) {
-          sharePostToWeChatSession({post});
+        if (buttonIndex == options.findIndex(v => v == '举报')) {
+          Alert.alert(
+            '举报失败',
+            'Lite版暂不支持该功能，请到官网(zaiqiuchang.com)下载完整版体验。',
+            [
+              {text: '确认'},
+            ],
+          );
+        } else if (buttonIndex == options.findIndex(v => v == '分享到微信朋友圈')) {
+          Alert.alert(
+            '分享到微信朋友圈失败',
+            'Lite版暂不支持该功能，请到官网(zaiqiuchang.com)下载完整版体验。',
+            [
+              {text: '确认'},
+            ],
+          );
+        } else if (buttonIndex == options.findIndex(v => v == '分享给微信好友')) {
+          Alert.alert(
+            '分享给微信好友失败',
+            'Lite版暂不支持该功能，请到官网(zaiqiuchang.com)下载完整版体验。',
+            [
+              {text: '确认'},
+            ],
+          );
+        } else if (buttonIndex == options.findIndex(v => v == '删除')) {
+          Alert.alert(
+            '删除失败',
+            'Lite版暂不支持该功能，请到官网(zaiqiuchang.com)下载完整版体验。',
+            [
+              {text: '确认'},
+            ],
+          );
         }
       }
     );
@@ -76,7 +108,7 @@ class Post extends Component {
               }}
             >
               <components.TextWithIcon 
-                icon='location-on' 
+                icon="location-on" 
                 text={post.court.name} 
                 style={{color: COLOR.textEmpha}} 
                 containerStyle={{paddingVertical: 5}} 
@@ -177,7 +209,7 @@ class Post extends Component {
             <components.ActionSheet 
               onPress={showActionSheetWithOptions => 
                 this.showMoreOps(showActionSheetWithOptions)}>
-              <components.Icon name="share" style={styles.postOp} />
+              <components.Icon name="more-vert" style={styles.postOp} />
             </components.ActionSheet>
           </View>
         </View>

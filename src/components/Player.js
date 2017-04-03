@@ -32,23 +32,6 @@ class Player extends Component {
     super(props);
 
     this.screenId = props.screenId || 'Player';
-
-    let {navigator} = props;
-    navigator.setButtons({
-      rightButtons: [
-        {
-          title: '分享',
-          id: 'share',
-        },
-      ], 
-      leftButtons: [
-        {
-          title: '返回',
-          id: 'back',
-        },
-      ],
-    });
-    navigator.setOnNavigatorEvent(event => this.onNavigatorEvent(event));
   }
 
   componentDidMount() {
@@ -92,16 +75,6 @@ class Player extends Component {
     resetPlayerState();
   }
 
-  onNavigatorEvent(event) {
-    if (event.type == 'NavBarButtonPress') {
-      if (event.id == 'share') {
-        this.shareVideoToWeChat();
-      } else if (event.id == 'back') {
-        this.back();
-      }
-    }
-  }
-
   autoHideNavBar(seconds = 3000) {
     clearTimeout(this.navBarHiddenTimeout);
     this.navBarHiddenTimeout = setTimeout(() => {
@@ -111,34 +84,6 @@ class Player extends Component {
         setPlayerState({navBarHidden: true, rateSelectorVisible: false});
       }
     }, seconds);
-  }
-
-  back() {
-    let {navigator} = this.props;
-    clearTimeout(this.navBarHiddenTimeout);
-    navigator.pop();
-  }
-
-  shareVideoToWeChat() {
-    let {file, shareVideoToWeChatTimeline, shareVideoToWeChatSession} = 
-      this.props;
-    let options = ['朋友圈', '好友', '取消'];
-    this.actionSheet.showActionSheetWithOptions(
-      {
-        options,
-        cancelButtonIndex: options.findIndex(v => v == '取消'),
-        title: '分享到微信',
-      },
-      buttonIndex => {
-        let url = helpers.fileVideoSource(file, 'hd').uri;
-        let thumbUrl = helpers.fileImageSource(file, 'middle').uri;
-        if (buttonIndex == options.findIndex(v => v == '朋友圈')) {
-          shareVideoToWeChatTimeline({url, thumbUrl});
-        } else if (buttonIndex == options.findIndex(v => v == '好友')) {
-          shareVideoToWeChatSession({url, thumbUrl});
-        }
-      }
-    );
   }
 
   render() {
