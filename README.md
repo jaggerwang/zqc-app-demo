@@ -2,6 +2,10 @@
 
 本应用可作为开发React Native应用的参考，其中包含了页面导航、定位、图片浏览和视频播放等功能。
 
+## 编码规范
+
+编码规范遵循 [StandardJS](https://standardjs.com/readme-zhcn.html) 。
+
 ## 第三方库
 
 |库名|用途|
@@ -33,7 +37,7 @@ Clone代码到本地，然后执行下面的命令。
 
 ### Android
 
-macOS和Windows平台均支持，需要先安装Android Studio，并确保在Android Studio里编译通过（主要是根据提示更新“buildToolsVersion”）。如果要使用模拟器来运行，在Android Studio里打开AVD Manager，创建一个模拟器并启动。如果要使用真实设备来运行，确保真实设备已通过数据线连接到电脑，并且设备已打开开发模式。  
+macOS和Windows平台均支持，需要先安装Android Studio，并确保在Android Studio里编译通过（主要是根据提示“Update Build Tools version and sync project”）。如果要使用模拟器来运行，在Android Studio里打开AVD Manager，创建一个模拟器并启动。如果要使用真实设备来运行，确保真实设备已通过数据线连接到电脑，并且设备已打开开发模式。  
 
 Clone代码到本地，然后执行下面的命令。
 ```
