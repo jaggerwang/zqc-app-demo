@@ -1,0 +1,47 @@
+{
+  "name": "zqcdemo",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "clean": "rm -rf $TMPDIR/react-* && watchman watch-del-all && npm cache clean",
+    "newclear": "rm -rf $TMPDIR/react-* && watchman watch-del-all && rm -rf ios/build/ModuleCache/* && rm -rf node_modules/ && npm cache clean && npm i",
+    "test": "standard"
+  },
+  "dependencies": {
+    "@expo/react-native-action-sheet": "^0.3.1",
+    "axios": "^0.16.2",
+    "compare-versions": "^3.0.1",
+    "coordtransform": "^2.1.2",
+    "geolib": "^2.0.22",
+    "path": "^0.12.7",
+    "react": "^16.0.0-alpha.6",
+    "react-native": "^0.44.3",
+    "react-native-animatable": "^1.2.2",
+    "react-native-gallery": "0.0.17",
+    "react-native-image-picker": "^0.26.3",
+    "react-native-vector-icons": "^4.2.0",
+    "react-native-video": "^1.0.0",
+    "react-navigation": "^1.0.0-beta.11",
+    "react-redux": "^5.0.5",
+    "redux": "^3.5.2",
+    "redux-logger": "^3.0.6",
+    "redux-persist": "^4.8.0",
+    "redux-thunk": "^2.1.0",
+    "url": "^0.11.0",
+    "validate.js": "^0.11.1"
+  },
+  "devDependencies": {
+    "babel-eslint": "^7.2.3",
+    "standard": "^10.0.2"
+  },
+  "standard": {
+    "ignore": [
+      "android",
+      "ios",
+      "res"
+    ],
+    "parser": "babel-eslint",
+    "globals": []
+  }
+}
