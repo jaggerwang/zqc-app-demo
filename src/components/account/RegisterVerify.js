@@ -24,7 +24,8 @@ class RegisterVerify extends Component {
   }
 
   componentDidMount () {
-    let {mobile, password, saveInput, setScreenState} = this.props
+    let {navigation, saveInput, setScreenState} = this.props
+    let {mobile, password} = navigation.state.params
     saveInput(this.screenId, {mobile, password})
     setScreenState(this.screenId, {secondsToSend: 30})
 
