@@ -30,7 +30,7 @@
 
 Clone代码到本地，然后执行下面的命令。
 ```
-> cd react-native-demo
+> cd zqc-app-demo
 > npm i
 > react-native run-ios
 ```
@@ -41,7 +41,7 @@ macOS和Windows平台均支持，需要先安装Android Studio，并确保在And
 
 Clone代码到本地，然后执行下面的命令。
 ```
-> cd react-native-demo
+> cd zqc-app-demo
 > npm i
 > react-native run-android
 ```
@@ -68,7 +68,3 @@ Clone代码到本地，然后执行下面的命令。
 > cd android
 > ./gradlew assembleRelease
 ```
-
-## 更多资料
-
-1. 网易云课堂 [React Native跨平台移动应用开发](http://study.163.com/course/courseMain.htm?courseId=1003433016) 。
