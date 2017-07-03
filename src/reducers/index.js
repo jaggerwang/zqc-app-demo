@@ -4,6 +4,7 @@
  */
 
 import {combineReducers} from 'redux'
+import app from './app'
 import store from './store'
 import persist from './persist'
 import loading from './loading'
@@ -20,6 +21,7 @@ import post from './post'
 import player from './player'
 
 export default combineReducers({
+  app,
   store,
   persist,
   loading,

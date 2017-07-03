@@ -16,10 +16,12 @@ export default class ActionSheet extends Component {
   }
 
   render () {
-    let {children, onPress} = this.props
+    let {children, onPress, onLongPress, delayLongPress = 0} = this.props
     return (
       <TouchableOpacity
         onPress={() => onPress(this.context.showActionSheetWithOptions)}
+        onLongPress={() => onLongPress(this.context.showActionSheetWithOptions)}
+        delayLongPress={delayLongPress}
       >
         {children}
       </TouchableOpacity>

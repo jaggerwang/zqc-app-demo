@@ -17,9 +17,17 @@ export const STATUS_BAR_HEIGHT = 20
 export const NAV_BAR_HEIGHT = 64
 export const TAB_BAR_HEIGHT = 50
 
-export let SCHEME = 'https'
-export let DOMAIN_API = 'api.zaiqiuchang.com'
-export let API_BASE_URL = `${SCHEME}://${DOMAIN_API}`
+export const ENVS = {
+  production: {
+    api_base_url: 'https://api.zaiqiuchang.com'
+  },
+  testing: {
+    api_base_url: 'http://api.test.zaiqiuchang.com'
+  },
+  development: {
+    api_base_url: 'http://api.dev.zaiqiuchang.com'
+  }
+}
 
 export const COLOR = {
   theme: '#006633',

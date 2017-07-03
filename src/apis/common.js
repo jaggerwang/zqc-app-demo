@@ -7,14 +7,13 @@ import axios from 'axios'
 import querystring from 'querystring'
 import {parse} from 'url'
 
-import {API_BASE_URL} from '../config'
+import {ENVS} from '../config'
 import logger from '../logger'
 import {ApiHttpError, ApiResultError} from '../error'
 import store from '../store'
 import {loadingStart, loadingEnd, resetLoading} from '../actions'
 
 let client = axios.create({
-  baseURL: API_BASE_URL,
   timeout: 1000,
   paramsSerializer: params => querystring.stringify(params),
   responseType: 'json',
@@ -112,6 +111,8 @@ export function postApi (url, data = {}, {headers = {}, timeout = 5000,
 }
 
 export function requestApi (config) {
+  let {app} = store.getState()
+  config.baseURL = ENVS[app.env].api_base_url
   return client.request(config)
     .then(response => {
       if (response.data.code === 0) {

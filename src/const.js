@@ -3,6 +3,12 @@
  * zaiqiuchang.com
  */
 
+export const ENV_NAMES = {
+  production: '生产',
+  testing: '测试',
+  development: '开发'
+}
+
 export const GENDERS = [
   {label: '男', value: 'm'},
   {label: '女', value: 'f'}
