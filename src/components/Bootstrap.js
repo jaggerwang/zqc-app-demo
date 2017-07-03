@@ -47,8 +47,8 @@ class Bootstrap extends Component {
       processingTask('正在检测网络和获取位置')
       utils.waitingFor({
         condition: () => {
-          let {network} = this.props
-          return network.isConnected
+          let {persist, network} = this.props
+          return network.isConnected && persist.rehydrated
         },
         cbOk: () => {
           processingTask('')
@@ -132,8 +132,9 @@ const styles = StyleSheet.create({
 })
 
 function mapStateToProps (state) {
-  let {network, object, account} = state
+  let {persist, network, object, account} = state
   return {
+    persist,
     network,
     object,
     account

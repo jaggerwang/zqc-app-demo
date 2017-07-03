@@ -10,7 +10,6 @@ import {createLogger} from 'redux-logger'
 import {autoRehydrate, persistStore as reduxPersistStore} from 'redux-persist'
 
 import {IN_DEBUGGER} from './config'
-import logger from './logger'
 import reducers from './reducers'
 
 const middlewares = [thunk]
@@ -25,17 +24,16 @@ const store = createStore(reducers, undefined, compose(
   autoRehydrate()
 ))
 
-export function persistStore (store, cbOk) {
+export function persistStore (store, cbOk, cbFail) {
   reduxPersistStore(
     store,
     {
       storage: AsyncStorage,
-      blacklist: ['loading', 'processing', 'error', 'network', 'location',
-        'device']
+      blacklist: ['persist', 'loading', 'processing', 'error', 'network', 'location']
     },
     (error, state) => {
       if (error) {
-        logger.warn(error)
+        cbFail(error)
       } else {
         cbOk(state)
       }
