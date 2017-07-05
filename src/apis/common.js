@@ -14,7 +14,7 @@ import store from '../store'
 import {loadingStart, loadingEnd, resetLoading} from '../actions'
 
 let client = axios.create({
-  timeout: 1000,
+  timeout: 5000,
   paramsSerializer: params => querystring.stringify(params),
   responseType: 'json',
   maxContentLength: Math.pow(1024, 2)
