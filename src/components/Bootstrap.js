@@ -16,10 +16,6 @@ import * as components from './'
 import * as actions from '../actions'
 
 class Bootstrap extends Component {
-  static navigationOptions = {
-    header: null
-  }
-
   constructor (props) {
     super(props)
 
