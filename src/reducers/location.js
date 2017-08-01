@@ -9,7 +9,7 @@ const initialState = {
 }
 
 export default (state = initialState, action) => {
-  if (action.type === 'set_location_position') {
+  if (action.type === 'SET_LOCATION_POSITION') {
     let {position} = action
     if (position) {
       position.coords.longitude = Number(position.coords.longitude.toFixed(6))
@@ -20,13 +20,13 @@ export default (state = initialState, action) => {
       ...state,
       position
     }
-  } else if (action.type === 'set_location_city') {
+  } else if (action.type === 'SET_LOCATION_CITY') {
     let {city} = action
     return {
       ...state,
       city
     }
-  } else if (action.type === 'reset_location') {
+  } else if (action.type === 'RESET_LOCATION') {
     return initialState
   } else {
     return state

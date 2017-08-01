@@ -8,7 +8,7 @@ import * as helpers from '../helpers'
 
 export function resetObjectCache () {
   return {
-    type: 'reset_object_cache'
+    type: 'RESET_OBJECT_CACHE'
   }
 }
 
@@ -31,7 +31,7 @@ export function cacheObjects ({users, userIds, posts, postIds, postComments,
   }
 
   let action = {
-    type: 'cache_objects'
+    type: 'CACHE_OBJECTS'
   }
   if (users !== undefined) {
     action.users = aToO(users, userIds)

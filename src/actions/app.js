@@ -5,13 +5,13 @@
 
 export function resetApp () {
   return {
-    type: 'reset_app'
+    type: 'RESET_APP'
   }
 }
 
 export function setAppEnv (env) {
   return {
-    type: 'set_app_env',
+    type: 'SET_APP_ENV',
     env
   }
 }

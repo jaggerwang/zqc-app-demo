@@ -8,7 +8,7 @@ import * as actions from './'
 
 export function resetUser () {
   return {
-    type: 'reset_user'
+    type: 'RESET_USER'
   }
 }
 
@@ -58,7 +58,7 @@ export function nearbyUsers ({cbOk, cbFail, cbFinish} = {}) {
           cbFinish()
         }
         let userIds = users.map(v => v.id)
-        dispatch({type: 'set_nearby_users', userIds})
+        dispatch({type: 'SET_NEARBY_USERS', userIds})
         if (cbOk) {
           cbOk(users)
         }

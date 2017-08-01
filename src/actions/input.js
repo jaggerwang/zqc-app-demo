@@ -10,7 +10,7 @@ import * as actions from './'
 export function resetInput (screenId) {
   return dispatch => {
     dispatch({
-      type: 'reset_input',
+      type: 'RESET_INPUT',
       screenId
     })
 
@@ -21,7 +21,7 @@ export function resetInput (screenId) {
 export function saveInput (screenId, input) {
   return dispatch => {
     dispatch({
-      type: 'input',
+      type: 'INPUT',
       screenId,
       input
     })

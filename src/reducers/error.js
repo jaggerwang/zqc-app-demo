@@ -9,7 +9,7 @@ const initialState = {
 }
 
 export default (state = initialState, action) => {
-  if (action.type === 'error_input') {
+  if (action.type === 'ERROR_INPUT') {
     let {screenId, error} = action
     return {
       ...state,
@@ -21,7 +21,7 @@ export default (state = initialState, action) => {
         }
       }
     }
-  } else if (action.type === 'reset_error_input') {
+  } else if (action.type === 'RESET_ERROR_INPUT') {
     let {screenId} = action
     if (screenId === undefined) {
       return {
@@ -37,13 +37,13 @@ export default (state = initialState, action) => {
         }
       }
     }
-  } else if (action.type === 'error_flash') {
+  } else if (action.type === 'ERROR_FLASH') {
     let {error} = action
     return {
       ...state,
       flash: error
     }
-  } else if (action.type === 'reset' || action.type === 'reset_error') {
+  } else if (action.type === 'RESET' || action.type === 'RESET_ERROR') {
     return initialState
   } else {
     return state

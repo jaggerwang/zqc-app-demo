@@ -17,15 +17,15 @@ persistStore(
   store,
   state => {
     store.dispatch(actions.setPersistRehydrated(true))
-    logger.debug('load state ok')
+    logger.info('load state ok')
 
-    let version = state.store ? state.store.version : undefined
+    let {store: {version}} = state || {store: {version: undefined}}
     if (version === undefined || compareVersions(version, VERSION) < 0) {
       store.dispatch(actions.reset())
       store.dispatch(actions.setStoreVersion(VERSION))
     }
     store.dispatch(actions.resetScreenLastRefreshTime())
-    logger.debug('check store version ok')
+    logger.info('check store version ok')
 
     if (Platform.OS !== 'ios') {
       NetInfo.isConnected.fetch().then(isConnected =>
@@ -61,7 +61,7 @@ persistStore(
         }
       }
     )
-    logger.debug('listen network ok')
+    logger.info('listen network ok')
 
     let getPositionSuccess = position => {
       if (position) {
@@ -82,10 +82,10 @@ persistStore(
       getPositionSuccess, getPositionError, getPositionOptions)
     navigator.geolocation.watchPosition(
       getPositionSuccess, getPositionError, getPositionOptions)
-    logger.debug('listen location ok')
+    logger.info('listen location ok')
   },
   error => {
-    logger.warn('load state fail', error)
+    logger.error('load state fail', error)
     store.dispatch(actions.setPersistRehydrated(true))
   }
 )

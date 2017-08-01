@@ -5,31 +5,31 @@
 
 export function resetLoading () {
   return {
-    type: 'reset_loading'
+    type: 'RESET_LOADING'
   }
 }
 
 export function loadingStart (prompt) {
   return {
-    type: 'loading_start',
+    type: 'LOADING_START',
     prompt
   }
 }
 
 export function loadingEnd () {
   return {
-    type: 'loading_end'
+    type: 'LOADING_END'
   }
 }
 
 export function enableLoading () {
   return {
-    type: 'enable_loading'
+    type: 'ENABLE_LOADING'
   }
 }
 
 export function disableLoading () {
   return {
-    type: 'disable_loading'
+    type: 'DISABLE_LOADING'
   }
 }

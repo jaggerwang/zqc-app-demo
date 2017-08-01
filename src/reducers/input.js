@@ -47,13 +47,13 @@ const initialState = {
 }
 
 export default (state = initialState, action) => {
-  if (action.type === 'input') {
+  if (action.type === 'INPUT') {
     let {screenId, input} = action
     return {
       ...state,
       [screenId]: Object.assign({}, state[screenId], input)
     }
-  } else if (action.type === 'reset_input') {
+  } else if (action.type === 'RESET_INPUT') {
     let {screenId} = action
     if (screenId === undefined) {
       return initialState
@@ -63,7 +63,7 @@ export default (state = initialState, action) => {
         [screenId]: initialState[screenId]
       }
     }
-  } else if (action.type === 'reset') {
+  } else if (action.type === 'RESET') {
     return initialState
   } else {
     return state

@@ -8,13 +8,13 @@ const initialState = {
 }
 
 export default (state = initialState, action) => {
-  if (action.type === 'set_persist_rehydrated') {
+  if (action.type === 'SET_PERSIST_REHYDRATED') {
     let {rehydrated} = action
     return {
       ...state,
       rehydrated
     }
-  } else if (action.type === 'reset_persist') {
+  } else if (action.type === 'RESET_PERSIST') {
     return initialState
   } else {
     return state

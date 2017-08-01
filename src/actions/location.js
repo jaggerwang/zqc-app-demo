@@ -13,7 +13,7 @@ let oldCity
 
 export function resetLocation () {
   return {
-    type: 'reset_location'
+    type: 'RESET_LOCATION'
   }
 }
 
@@ -25,7 +25,7 @@ export function setLocationPosition (position) {
     }
 
     dispatch({
-      type: 'set_location_position',
+      type: 'SET_LOCATION_POSITION',
       position
     })
 
@@ -42,7 +42,7 @@ export function setLocationCity (city) {
     }
 
     dispatch({
-      type: 'set_location_city',
+      type: 'SET_LOCATION_CITY',
       city
     })
 

@@ -8,20 +8,20 @@ import {InputError, ApiHttpError} from '../error'
 
 export function resetError () {
   return {
-    type: 'reset_error'
+    type: 'RESET_ERROR'
   }
 }
 
 export function resetErrorInput (screenId) {
   return {
-    type: 'reset_error_input',
+    type: 'RESET_ERROR_INPUT',
     screenId
   }
 }
 
 export function errorInput (screenId, error) {
   return {
-    type: 'error_input',
+    type: 'ERROR_INPUT',
     screenId,
     error
   }
@@ -30,12 +30,12 @@ export function errorInput (screenId, error) {
 export function errorFlash (error, duration = 3000) {
   return dispatch => {
     dispatch({
-      type: 'error_flash',
+      type: 'ERROR_FLASH',
       error
     })
     setTimeout(() => {
       dispatch({
-        type: 'error_flash',
+        type: 'ERROR_FLASH',
         error: ''
       })
     }, duration)

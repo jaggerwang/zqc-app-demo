@@ -16,7 +16,7 @@ const initialState = {
 }
 
 export default (state = initialState, action) => {
-  if (action.type === 'cache_objects') {
+  if (action.type === 'CACHE_OBJECTS') {
     let newState = Object.assign({}, state)
     for (let [k, v] of Object.entries(action)) {
       if (newState[k] === undefined) {
@@ -25,7 +25,7 @@ export default (state = initialState, action) => {
       newState[k] = Object.assign({}, newState[k], v)
     }
     return newState
-  } else if (action.type === 'reset' || action.type === 'reset_object_cache') {
+  } else if (action.type === 'RESET' || action.type === 'RESET_OBJECT_CACHE') {
     return initialState
   } else {
     return state

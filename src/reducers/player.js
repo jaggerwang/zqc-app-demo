@@ -20,13 +20,13 @@ const initialState = {
 }
 
 export default (state = initialState, action) => {
-  if (action.type === 'set_player_state') {
+  if (action.type === 'SET_PLAYER_STATE') {
     let {...newState} = action
     delete newState.type
     newState = Object.assign({}, state, newState)
     newState.currentTime = Math.min(newState.currentTime, newState.duration)
     return newState
-  } else if (action.type === 'reset' || action.type === 'reset_player_state') {
+  } else if (action.type === 'RESET' || action.type === 'RESET_PLAYER_STATE') {
     return initialState
   } else {
     return state

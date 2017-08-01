@@ -8,13 +8,13 @@ const initialState = {
 }
 
 export default (state = initialState, action) => {
-  if (action.type === 'processing_task') {
+  if (action.type === 'PROCESSING_TASK') {
     let {task} = action
     return {
       ...state,
       task
     }
-  } else if (action.type === 'reset' || action.type === 'reset_processing') {
+  } else if (action.type === 'RESET' || action.type === 'RESET_PROCESSING') {
     return initialState
   } else {
     return state

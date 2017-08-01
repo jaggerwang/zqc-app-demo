@@ -5,20 +5,20 @@
 
 export function resetScreenState (screenId) {
   return {
-    type: 'reset_screen_state',
+    type: 'RESET_SCREEN_STATE',
     screenId
   }
 }
 
 export function resetScreenLastRefreshTime () {
   return {
-    type: 'reset_screen_last_refresh_time'
+    type: 'RESET_SCREEN_LAST_REFRESH_TIME'
   }
 }
 
 export function setScreenState (screenId, screenState) {
   return {
-    type: 'set_screen_state',
+    type: 'SET_SCREEN_STATE',
     screenId,
     screenState
   }
@@ -28,7 +28,7 @@ export function setScreenLastRefreshTime ({screenId, lastRefreshTime,
   objectId = ''}) {
   lastRefreshTime = lastRefreshTime || new Date()
   return {
-    type: 'set_screen_last_refresh_time',
+    type: 'SET_SCREEN_LAST_REFRESH_TIME',
     screenId,
     lastRefreshTime,
     objectId

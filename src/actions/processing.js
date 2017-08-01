@@ -5,13 +5,13 @@
 
 export function resetProcessing () {
   return {
-    type: 'reset_processing'
+    type: 'RESET_PROCESSING'
   }
 }
 
 export function processingTask (task) {
   return {
-    type: 'processing_task',
+    type: 'PROCESSING_TASK',
     task
   }
 }

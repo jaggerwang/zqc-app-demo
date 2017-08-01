@@ -8,13 +8,13 @@ const initialState = {
 }
 
 export default (state = initialState, action) => {
-  if (action.type === 'set_store_version') {
+  if (action.type === 'SET_STORE_VERSION') {
     let {version} = action
     return {
       ...state,
       version
     }
-  } else if (action.type === 'reset' || action.type === 'reset_store') {
+  } else if (action.type === 'RESET' || action.type === 'RESET_STORE') {
     return initialState
   } else {
     return state

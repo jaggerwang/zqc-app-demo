@@ -5,19 +5,19 @@
 
 export function reset () {
   return {
-    type: 'reset'
+    type: 'RESET'
   }
 }
 
 export function resetStore () {
   return {
-    type: 'reset_store'
+    type: 'RESET_STORE'
   }
 }
 
 export function setStoreVersion (version) {
   return {
-    type: 'set_store_version',
+    type: 'SET_STORE_VERSION',
     version
   }
 }

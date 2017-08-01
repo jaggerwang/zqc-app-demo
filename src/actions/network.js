@@ -5,13 +5,13 @@
 
 export function resetNetwork () {
   return {
-    type: 'reset_network'
+    type: 'RESET_NETWORK'
   }
 }
 
 export function setNetwork (state) {
   return {
-    type: 'set_network',
+    type: 'SET_NETWORK',
     ...state
   }
 }

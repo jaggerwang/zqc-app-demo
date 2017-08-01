@@ -5,13 +5,13 @@
 
 export function resetPersist () {
   return {
-    type: 'reset_persist'
+    type: 'RESET_PERSIST'
   }
 }
 
 export function setPersistRehydrated (rehydrated) {
   return {
-    type: 'set_persist_rehydrated',
+    type: 'SET_PERSIST_REHYDRATED',
     rehydrated
   }
 }
