@@ -19,7 +19,8 @@ persistStore(
     store.dispatch(actions.setPersistRehydrated(true))
     logger.info('load state ok')
 
-    let {store: {version}} = state || {store: {version: undefined}}
+    //首次打开时state.store为undefined，因此需要指定默认值，否则在release版本会因state.store为undefined而闪退，无法启动
+    let {store: {version} = {store: {version: undefined}}} = state
     if (version === undefined || compareVersions(version, VERSION) < 0) {
       store.dispatch(actions.reset())
       store.dispatch(actions.setStoreVersion(VERSION))
