@@ -1,4 +1,6 @@
-# 在球场移动应用Demo
+# 在球场移动应用 Demo
+
+> 由于 React Native 发展缓慢且问题较多，本应用拟切换到 Google [Flutter](https://flutter.io/) 跨平台移动应用开发框架，敬请期待。有关 React Native 技术问题将不再提供解答，抱歉！
 
 本应用可作为开发React Native移动应用的参考，其中包含了页面导航、定位、图片浏览和视频播放等功能。
 
